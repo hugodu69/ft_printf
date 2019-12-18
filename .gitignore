@@ -53,6 +53,7 @@ dkms.conf
 
 # OS generated files #
 *.swp
+*.swo
 .DS_Store
 .DS_Store?
 ._*
