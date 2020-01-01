@@ -40,42 +40,106 @@ int		main(void)
 	c = 'c';
 	i = 6;
 	ft_printf(s, str, c, i);
+	printf("\n");
 
-	//	ft_printf("[simple str sans newline]");
-	       printf(" simple str sans newline ");
-	//	ft_printf("[simple str avec newline]\n");
-	       printf(" simple str avec newline \n");
-	//	ft_printf("[impression d'un %%]\n");
-	       printf(" impression d'un %% \n");
-	//	ft_printf("[%%c      : %c]\n", 'c');
-	       printf(" %%c      : %c \n", 'c');
-	//	ft_printf("[%%s      : %s]\n", "string");
-	       printf(" %%s      : %s \n", "string");
-	//	ft_printf("[%%p      : %p]\n", str);
-	       printf(" %%p      : %p \n", str);
-	//	ft_printf("[%%d      : %d]\n", 456);
-	       printf(" %%d      : %d \n", 456);
-	//	ft_printf("[%%i      : %i]\n", 846);
-		   printf(" %%i      : %i \n", 846);
-	//	ft_printf("[%%u      : %u]\n", 87);
-		   printf(" %%u      : %u \n", 87);
-	//	ft_printf("[%%u (neg): %u]\n", -87);
-		   printf(" %%u (neg): %u \n", -87);
-	//	ft_printf("[%%x (78) : %x]\n", 78);
-		   printf(" %%x (78) : %x \n", 78);
-	//	ft_printf("[%%X (78) : %X]\n", 78);
-		   printf(" %%X (78) : %X \n", 78);
+		printf("-----------------------------------------------\n");
+		printf("-                   BASICS                    -\n");
+		printf("-                                             -\n");
+		printf("- %%[flag][width][.precision][length]specifier -\n");
+		printf("-                                             -\n");
+		printf("- conversions : cspdiuxX%%                     -\n");
+		printf("-       flags : -0.*                          -\n");
+		printf("- taille de champ minimale                    -\n");
+		printf("-                                             -\n");
+		printf("- char  *str = \"bravo\";                       -\n");
+		printf("- char  c = 'c';                              -\n");
+		printf("- int   i = 6;                                -\n");
+		printf("-----------------------------------------------\n");
+		printf("-----------------------------------------------\n");
+		printf("- conversions : cspdiuxX%%                     -\n");
+		printf("-----------------------------------------------\n\n");
+
+		printf("(\"no newline\") ft : ");	   printf("no newline"); printf("-->ligne suivante\n"); printf("\n");
+
+		printf("(\"newline\\n\")  ft : ");	   printf("newline\n"); printf("-->ligne suivante\n"); printf("\n");
+
+		printf("(\"%%%%\")         ft : ");	    printf("%%\n"); printf("\n");
+
+		printf("(\"\\\"\")         ft : ");	   printf("\"\n"); printf("\n");
+
+		printf("(\"%%c\",'c')     ft : ");	   printf("%c\n", 'c'); printf("\n");
+
+		printf("(\"%%s\",\"str\")   ft : ");	   printf("%s\n", "str"); printf("\n");
+
+		printf("(\"%%s\",str)     ft : ");	   printf("%s\n", str); printf("\n");
+
+		printf("(\"%%p\",str)     ft : ");	   printf("%p\n", str); printf("\n");
+
+		printf("(\"%%d\",456)     ft : ");	   printf("%d\n", 456); printf("\n");
+
+		printf("(\"%%i\",846)     ft : ");	   printf("%i\n", 846); printf("\n");
+
+		printf("(\"%%u\",87)      ft : ");	   printf("%u\n", 87); printf("\n");
+
+		printf("(\"%%u\",-87)     ft : ");	   printf("%u\n", -87); printf("\n");
+
+		printf("(\"%%x\",78)      ft : ");	   printf("%x\n", 78); printf("\n");
+
+		printf("(\"%%X\",78)      ft : ");	   printf("%X\n", 78); printf("\n");
+
+		printf("-----------------------------------------------\n");
+		printf("- flags : -0.*                                -\n");
+		printf("-----------------------------------------------\n\n");
+
+	//	printf("(\"%%3s\",\"a\")     ft : ");	ft_printf("'%3s'\n", "a");
+		printf("(\"%%3s\",\"a\")        : ");	   printf("'%3s'\n", "a"); printf("\n");
+
+	//	printf("(\"%%-3s\",\"a\")    ft : ");	ft_printf("'%-3s'\n]", "a");
+		printf("(\"%%-3s\",\"a\")       : ");	   printf("'%-3s'\n ", "a"); printf("\n");
+
+	//	printf("(\"%%-9s\",\"a\")    ft : ");	ft_printf("'%-9s'\n]", "a");
+		printf("(\"%%-9s\",\"a\")       : ");	   printf("'%-9s'\n ", "a"); printf("\n");
+
+	//	printf("(\"%%-1s\",\"ab\")   ft : ");	ft_printf("'%-1s'\n]", "ab");
+		printf("(\"%%-1s\",\"ab\")      : ");	   printf("'%-1s'\n ", "ab"); printf("\n");
+
+	//	printf("(\"%%-2s\",\"ab\")   ft : ");	ft_printf("'%-2s'\n]", "ab");
+		printf("(\"%%-2s\",\"ab\")      : ");	   printf("'%-2s'\n ", "ab"); printf("\n");
+
+	//	printf("(\"%%-3s\",\"ab\")   ft : ");	ft_printf("'%-3s'\n]", "ab");
+		printf("(\"%%-3s\",\"ab\")      : ");	   printf("'%-3s'\n ", "ab"); printf("\n");
+
+	//	printf("(\"%%-3i\",3)      ft : ");	ft_printf("'%-3i'\n", 3);printf("");
+		printf("(\"%%-3i\",3)         : ");	   printf("'%-3i'\n", 3); printf("\n");
+
+	//	printf("(\"%%-3i\",123456) ft : ");	ft_printf("'%-3i'\n", 123456);
+		printf("(\"%%-3i\",123456)    : ");	   printf("'%-3i'\n", 123456); printf("\n");
+
+	//	printf("(\"%%03i\",1)      ft : ");	ft_printf("'%03i'\n", 1);
+		printf("(\"%%03i\",1)         : ");	   printf("'%03i'\n", 1); printf("\n");
+
+	//	printf("(\"%%*i\",3,1)     ft : ");	ft_printf("'%*i'\n", 3, 1);
+		printf("(\"%%*i\",3,1)        : ");	   printf("'%*i'\n", 3, 1); printf("\n");
+
+	//	printf("(\"%%-*i\",3,1)    ft : ");	ft_printf("'%-*i'\n", 3, 1);printf("");
+		printf("(\"%%-*i\",3,1)       : ");	   printf("'%-*i'\n", 2, 1); printf("\n");
+
+		printf("-----------------------------------------------\n");
+		printf("-                    BONUS                    -\n");
+		printf("- conversions : nfge                          -\n");
+		printf("-       flags : l ll h hh # ' +               -\n");
+		printf("-----------------------------------------------\n\n");
 
 //		printf("\nBONUS:\n");
 //	//	ft_printf("%n\n", );
-//		   printf("%n\n", );
+//		   printf("%n\n");
 //	//	ft_printf("%f\n", );
 //		   printf("%f\n", );
 //	//	ft_printf("%g\n", );
 //		   printf("%g\n", );
 //	//	ft_printf("%e\n", );
 //		   printf("%e\n", );
-
+//
 //		printf("\nADD:\n");
 //	//	ft_printf("%E\n", );
 //		   printf("%E\n", );
@@ -127,7 +191,7 @@ int		main(void)
 	//			blank spaces. The value is not truncated even if the result is
 	//			larger
 	//	*		the width is not specified in the format string, but as an
-	//			additional integer value arguement preceding the argument that
+	//			additional integer value argument preceding the argument that
 	//			has to be formatted
 	//
 	//	[.precision]
