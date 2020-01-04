@@ -1,4 +1,5 @@
-#include <libc.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdarg.h>
 
 int		ft_printf(char *fmt, ...)
@@ -95,57 +96,93 @@ int		main(void)
 	//	printf("(\"%%u\",-87)     ft : ");	ft_printf("%u\n", -87);
 		printf("(\"%%u\",-87)        : ");	   printf("%u\n", -87); printf("\n");
 
-	//	printf("(\"%%x\",78)      ft : ");	ft_printf("%x\n", 78);
-		printf("(\"%%x\",78)         : ");	   printf("%x\n", 78); printf("\n");
+	//	printf("(\"%%x\",124)     ft : ");	ft_printf("%x\n", 124);
+		printf("(\"%%x\",124)        : ");	   printf("%x\n", 124); printf("\n");
 
-	//	printf("(\"%%X\",78)      ft : ");	ft_printf("%X\n", 78);
-		printf("(\"%%X\",78)         : ");	   printf("%X\n", 78); printf("\n");
+	//	printf("(\"%%X\",124)     ft : ");	ft_printf("%X\n", 124);
+		printf("(\"%%X\",124)        : ");	   printf("%X\n", 124); printf("\n");
 
 		printf("-----------------------------------------------\n");
 		printf("- flags : -0.*                                -\n");
+		printf("- taille de champ minimale                    -\n");
 		printf("-----------------------------------------------\n\n");
+
+		printf("- taille de champ minimale --------------------\n\n");
 
 	//	printf("(\"%%3s\",\"a\")     ft : ");	ft_printf("'%3s'\n", "a");
 		printf("(\"%%3s\",\"a\")        : ");	   printf("'%3s'\n", "a"); printf("\n");
 
-	//	printf("(\"%%-3s\",\"a\")    ft : ");	ft_printf("'%-3s'\n]", "a");
-		printf("(\"%%-3s\",\"a\")       : ");	   printf("'%-3s'\n ", "a"); printf("\n");
+	//	printf("(\"%%3s\",\"abcd\")  ft : ");	ft_printf("'%3s'\n", "abcd");
+		printf("(\"%%3s\",\"abcd\")     : ");	   printf("'%3s'\n", "abcd"); printf("\n");
 
-	//	printf("(\"%%-9s\",\"a\")    ft : ");	ft_printf("'%-9s'\n]", "a");
-		printf("(\"%%-9s\",\"a\")       : ");	   printf("'%-9s'\n ", "a"); printf("\n");
+	//	printf("(\"%%3i\",12)      ft : ");	ft_printf("'%3i'\n", 12);
+		printf("(\"%%3i\",12)         : ");	   printf("'%3i'\n", 12); printf("\n");
 
-	//	printf("(\"%%-1s\",\"ab\")   ft : ");	ft_printf("'%-1s'\n]", "ab");
-		printf("(\"%%-1s\",\"ab\")      : ");	   printf("'%-1s'\n ", "ab"); printf("\n");
+	//	printf("(\"%%2i\",12)      ft : ");	ft_printf("'%2i'\n", 12);
+		printf("(\"%%2i\",12)         : ");	   printf("'%2i'\n", 12); printf("\n");
 
-	//	printf("(\"%%-2s\",\"ab\")   ft : ");	ft_printf("'%-2s'\n]", "ab");
-		printf("(\"%%-2s\",\"ab\")      : ");	   printf("'%-2s'\n ", "ab"); printf("\n");
+	//	printf("(\"%%1i\",12)      ft : ");	ft_printf("'%1i'\n", 12);
+		printf("(\"%%1i\",12)         : ");	   printf("'%1i'\n", 12); printf("\n");
 
-	//	printf("(\"%%-3s\",\"ab\")   ft : ");	ft_printf("'%-3s'\n]", "ab");
-		printf("(\"%%-3s\",\"ab\")      : ");	   printf("'%-3s'\n ", "ab"); printf("\n");
+		printf("- flag - --------------------------------------\n\n");
 
-	//	printf("(\"%%-3i\",3)      ft : ");	ft_printf("'%-3i'\n", 3);printf("");
+	//	printf("(\"%%-3s\",\"a\")    ft : ");	ft_printf("'%-3s'\n", "a");
+		printf("(\"%%-3s\",\"a\")       : ");	   printf("'%-3s'\n", "a"); printf("\n");
+
+	//	printf("(\"%%-9s\",\"a\")    ft : ");	ft_printf("'%-9s'\n", "a");
+		printf("(\"%%-9s\",\"a\")       : ");	   printf("'%-9s'\n", "a"); printf("\n");
+
+	//	printf("(\"%%-1s\",\"ab\")   ft : ");	ft_printf("'%-1s'\n", "ab");
+		printf("(\"%%-1s\",\"ab\")      : ");	   printf("'%-1s'\n", "ab"); printf("\n");
+
+	//	printf("(\"%%-2s\",\"ab\")   ft : ");	ft_printf("'%-2s'\n", "ab");
+		printf("(\"%%-2s\",\"ab\")      : ");	   printf("'%-2s'\n", "ab"); printf("\n");
+
+	//	printf("(\"%%-3s\",\"ab\")   ft : ");	ft_printf("'%-3s'\n", "ab");
+		printf("(\"%%-3s\",\"ab\")      : ");	   printf("'%-3s'\n", "ab"); printf("\n");
+
+	//	printf("(\"%%-3i\",3)      ft : ");	ft_printf("'%-3i'\n", 3);
 		printf("(\"%%-3i\",3)         : ");	   printf("'%-3i'\n", 3); printf("\n");
 
 	//	printf("(\"%%-3i\",123456) ft : ");	ft_printf("'%-3i'\n", 123456);
 		printf("(\"%%-3i\",123456)    : ");	   printf("'%-3i'\n", 123456); printf("\n");
 
+		printf("- flag 0 --------------------------------------\n\n");
+
 	//	printf("(\"%%03i\",1)      ft : ");	ft_printf("'%03i'\n", 1);
 		printf("(\"%%03i\",1)         : ");	   printf("'%03i'\n", 1); printf("\n");
 
-	//	printf("(\"%%-03i\",1)     ft : ");	ft_printf("'%-03i'\n", 1);
-		printf("(\"%%-03i\",1)        : ");	   printf("'%-03i'\n", 1); printf("\n");
-
-	//	printf("(\"%%010s\",str)   ft : ");	ft_printf("'%010s'\n", str);
-		printf("(\"%%010s\",str)      : ");	   printf("'%010s'\n", str); printf("\n");
-
-	//	printf("(\"%%-010s\",str)  ft : ");	ft_printf("'%-010s'\n", str);
-		printf("(\"%%-010s\",str)     : ");	   printf("'%-010s'\n", str); printf("\n");
+		printf("- flag * --------------------------------------\n\n");
 
 	//	printf("(\"%%*i\",3,1)     ft : ");	ft_printf("'%*i'\n", 3, 1);
 		printf("(\"%%*i\",3,1)        : ");	   printf("'%*i'\n", 3, 1); printf("\n");
 
-	//	printf("(\"%%-*i\",3,1)    ft : ");	ft_printf("'%-*i'\n", 3, 1);printf("");
+	//	printf("(\"%%-*i\",3,1)    ft : ");	ft_printf("'%-*i'\n", 3, 1);
 		printf("(\"%%-*i\",3,1)       : ");	   printf("'%-*i'\n", 3, 1); printf("\n");
+
+		printf("- flag * --------------------------------------\n\n");
+
+		printf("(\"%%.5i\",12)        : ");	   printf("'%.5i'\n", 12); printf("\n");
+
+		printf("-----------------------------------------------\n");
+		printf("- errors                                      -\n");
+		printf("-----------------------------------------------\n\n");
+
+	//	printf("(\"%%i\",3,2)        ft : ");	ft_printf("'%i'", 3, 2);
+	//	printf("(\"%%i\",3,2)           : ");	   printf("'%i'", 3, 2); printf(" [ERROR]\n\n");
+
+	//	printf("(\"%%i-%%i\",3)        ft : ");	ft_printf("'%i-%i'", 3);
+	//	printf("(\"%%i-%%i\",3)           : ");	   printf("'%i-%i'", 3); printf(" [ERROR]\n\n");
+
+	//	printf("(\"%%-03i\",1)     ft : ");	ft_printf("'%-03i'\n", 1);
+	//	printf("(\"%%-03i\",1)        : ");	   printf("'%-03i'\n", 1); printf("\n");
+
+	//	printf("(\"%%010s\",str)   ft : ");	ft_printf("'%010s'\n", str);
+	//	printf("(\"%%010s\",str)      : ");	   printf("'%010s'\n", str); printf("\n");
+
+	//	printf("(\"%%-010s\",str)  ft : ");	ft_printf("'%-010s'\n", str);
+	//	printf("(\"%%-010s\",str)     : ");	   printf("'%-010s'\n", str); printf("\n");
+
 
 		printf("-----------------------------------------------\n");
 		printf("-                    BONUS                    -\n");
@@ -153,23 +190,17 @@ int		main(void)
 		printf("-       flags : l ll h hh # ' +               -\n");
 		printf("-----------------------------------------------\n\n");
 
-//		printf("\nBONUS:\n");
-//	//	ft_printf("%n\n", );
-//		   printf("%n\n");
-//	//	ft_printf("%f\n", );
-//		   printf("%f\n", );
-//	//	ft_printf("%g\n", );
-//		   printf("%g\n", );
-//	//	ft_printf("%e\n", );
-//		   printf("%e\n", );
-//
-//		printf("\nADD:\n");
-//	//	ft_printf("%E\n", );
-//		   printf("%E\n", );
-//	//	ft_printf("%G\n", );
-//		   printf("%G\n", );
-//	//	ft_printf("%o\n", );
-//		   printf("%o\n", );
+	//	printf("-----------------------------------------------\n");
+	//	printf("-                     ADD                     -\n");
+	//	printf("-       flags : $                             -\n");
+	//	printf("-----------------------------------------------\n\n");
+
+	//	printf("(\"%%1$*2$i\",3,2) ft : ");	ft_printf("'%1$*2$i'\n", 3, 2);
+	//	printf("(\"%%1$*2$i\",3,2)    : ");	   printf("'%1$*2$i'\n", 3, 2); printf("\n");
+
+	//	printf("(\"%%2$*1$i\",3,2) ft : ");	ft_printf("'%2$*1$i'\n", 3, 2);
+	//	printf("(\"%%2$*1$i\",3,2)    : ");	   printf("'%2$*1$i'\n", 3, 2); printf("\n");
+
 	return (0);
 }
 
