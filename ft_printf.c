@@ -204,25 +204,16 @@ int		main(void)
 	return (0);
 }
 
-	//	usage :
-	//	%[flags][width][.precision][length]specifier
+	//	conversions : cspdiuxX%%
+	//	      flags : -0.*
+	//	conversions : nfge
+	//	      flags : l ll h hh # ' +
 	//
-	//	[specifiers]
-	//	c		character
-	//	s		string of characters
-	//	p		pointer adress
-	//	d		(or i) signed decimal integer
-	//	i		(or d) signed decimal integer
-	//	u		unsigned decimal integer
-	//	x		unsigned hexadecimal integer
-	//	X		unsigned hexadecimal integer (capital letters)
-	//(	n		nothing printed
-	//(	f		decimal floating point
-	//(	g		uses the shorter of %e or %f
-	//(	e		scientific notation (mantissa/exponent) using e
-	//((E		scientific notation (mantissa/exponent) using E
-	//((G		uses the shorter of %E or %f
-	//((o		signed octal
+	//	usage :
+	//	%[arg_nbr$][flags][][width][.precision][length]specifier
+	//
+	//	[arg_nbr]
+	//(	nbr$	specify the argument to access, they are numbered starting at 1
 	//
 	//	[flags]
 	//	-		left-justify within the given field width
@@ -232,12 +223,38 @@ int		main(void)
 	//			positive numbers)
 	//(	(space)	if no sign is going to be written, a blank space is inserted
 	//			before the value)
-	//(	#		used with o, x or X specifiers the value is preceded with 0, 0x
-	//			or 0X respectively for values different than zero. Used with e,
-	//			E and f, it forces the written output to contain a decimal point
-	//			even if no digits would follow. By default, if no digits follow,
-	//			no decimal point is written. Used with g or G the reult is the
-	//			same as with e or E but trailing zeros are not removed)
+	//(	#		(o, x, X, a, A, e, E, f, F, g, G) used with (o, x or X) the
+	//			value is preceded with 0, 0x or 0X for values different than
+	//			zero. used with (e, E or f), it forces the written output to
+	//			contain a decimal point even if no digits would follow. by
+	//			default, if no digits follow, no decimal point is written. used
+	//			with (g or G) the result is the same as with e or E but trailing
+	//			zeros are not removed
+	//(	'		(d, u, i, f, F) used with d, u or i, or the integral portion of
+	//			a float f or F, the decimal conversions are printed by groups of
+	//			thousands separated by the non-monetary separator returned by
+	//			localeconv(3) (ex 123456789 -> 123,456,789)
+	//			
+	//
+	//	[specifiers]
+	//	c	char	character
+	//	s	*char	string of characters
+	//	p	*		pointer adress
+	//	d	int		(or i) signed decimal integer
+	//	i	int		(or d) signed decimal integer
+	//	u	int		unsigned decimal integer
+	//	x	int		unsigned hexadecimal integer
+	//	X	int		unsigned hexadecimal integer (capital letters)
+	//(	n	*int	nothing printed
+	//(	f	float	decimal floating point
+	//(	e	float	scientific notation (mantissa/exponent) using e
+	//(	g	float	uses the shorter of %e or %f
+	//((E	float	scientific notation (mantissa/exponent) using E
+	//((G	float	uses the shorter of %E or %f
+	//((o	int		signed octal
+	//((C	char	wide character
+	//((a	float	
+	//((S	*char	string of wide characters
 	//
 	//	[width]
 	//	(nbr)	minimum number of characters to be printed. if the value to be
