@@ -102,6 +102,15 @@ int		main(void)
 	//	printf("(\"%%X\",124)     ft : ");	ft_printf("%X\n", 124);
 		printf("(\"%%X\",124)        : ");	   printf("%X\n", 124); printf("\n");
 
+	//	printf("(\"%%X\",123456)  ft : ");	ft_printf("%X\n", 123456);
+		printf("(\"%%X\",123456)     : ");	   printf("%X\n", 123456); printf("\n");
+
+	//	printf("(\"%%X\",0x1E240) ft : ");	ft_printf("%X\n", 0x1E240);
+		printf("(\"%%X\",0x1E240)    : ");	   printf("%X\n", 0x1E240); printf("\n");
+
+	//	printf("(\"%%i\",0x1E240) ft : ");	ft_printf("%i\n", 0x1E240);
+		printf("(\"%%i\",0x1E240)    : ");	   printf("%i\n", 0x1E240); printf("\n");
+
 		printf("-----------------------------------------------\n");
 		printf("- flags : -0.*                                -\n");
 		printf("- taille de champ minimale                    -\n");
@@ -123,6 +132,9 @@ int		main(void)
 
 	//	printf("(\"%%1i\",12)      ft : ");	ft_printf("'%1i'\n", 12);
 		printf("(\"%%1i\",12)         : ");	   printf("'%1i'\n", 12); printf("\n");
+
+	//	printf("(\"%%0i\",0)       ft : ");	ft_printf("'%0i'\n", 0);
+		printf("(\"%%0i\",0)          : ");	   printf("'%0i'\n", 0); printf("\n");
 
 		printf("- flag - --------------------------------------\n\n");
 
@@ -160,9 +172,31 @@ int		main(void)
 	//	printf("(\"%%-*i\",3,1)    ft : ");	ft_printf("'%-*i'\n", 3, 1);
 		printf("(\"%%-*i\",3,1)       : ");	   printf("'%-*i'\n", 3, 1); printf("\n");
 
-		printf("- flag * --------------------------------------\n\n");
+		printf("- flag . --------------------------------------\n\n");
 
+	//	printf("(\"%%.5s\",\"12\")   ft : ");	ft_printf("'%.5s'\n", "12");
+		printf("(\"%%.5s\",\"12\")      : ");	   printf("'%.5s'\n", "12"); printf("\n");
+
+	//	printf("(\"%%.5i\",12)     ft : ");	ft_printf("'%.5i'\n", 12);
 		printf("(\"%%.5i\",12)        : ");	   printf("'%.5i'\n", 12); printf("\n");
+
+	//	printf("(\"%%.7X\",8645)   ft : ");	ft_printf("'%.7X'\n", 8645);
+		printf("(\"%%.7X\",8645)      : ");	   printf("'%.7X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%7.7X\",8645)  ft : ");	ft_printf("'%7.7X'\n", 8645);
+		printf("(\"%%7.7X\",8645)     : ");	   printf("'%7.7X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%10.7X\",8645) ft : ");	ft_printf("'%10.7X'\n", 8645);
+		printf("(\"%%10.7X\",8645)    : ");	   printf("'%10.7X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%7.10X\",8645) ft : ");	ft_printf("'%7.10X'\n", 8645);
+		printf("(\"%%7.10X\",8645)    : ");	   printf("'%7.10X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%.0i\",0)      ft : ");	ft_printf("'%.0i'\n", 0);
+		printf("(\"%%.0i\",0)         : ");	   printf("'%.0i'\n", 0); printf("\n");
+
+	//	printf("(\"%%.0X\",0)      ft : ");	ft_printf("'%.0X'\n", 0);
+		printf("(\"%%.0X\",0)         : ");	   printf("'%.0X'\n", 0); printf("\n");
 
 		printf("-----------------------------------------------\n");
 		printf("- errors                                      -\n");
@@ -183,12 +217,41 @@ int		main(void)
 	//	printf("(\"%%-010s\",str)  ft : ");	ft_printf("'%-010s'\n", str);
 	//	printf("(\"%%-010s\",str)     : ");	   printf("'%-010s'\n", str); printf("\n");
 
+	//	printf("(\"%%X\",124)     ft : ");	ft_printf("%X\n", 124);
+	//	printf("(\"%%X\",1E240)        : ");	   printf("%X\n", 1E240); printf("\n");
+
+	//	printf("(\"%%010.7X\",8645)  : ");	   printf("'%010.7X'\n", 8645); printf("\n");
+	
 
 		printf("-----------------------------------------------\n");
 		printf("-                    BONUS                    -\n");
 		printf("- conversions : nfge                          -\n");
 		printf("-       flags : l ll h hh # ' +               -\n");
 		printf("-----------------------------------------------\n\n");
+
+	//	printf("(\"%%#X\",8645)      : ");
+	//	printf("'%#X' \n", 8645);
+	//
+	//	printf("(\"%%#.7X\",8645)    : ");
+	//	printf("'%#.7X' \n", 8645);
+	//
+	//	printf("(\"%%#010.7X\",8645) : ");
+	//	printf("'%#010.7X' \n", 8645);
+	//
+	//	printf("(\"%%#10.7X\",8645)  : ");
+	//	printf("'%#10.7X' \n", 8645);
+	//
+	//	printf("(\"%%#10X\",8645)    : ");
+	//	printf("'%#10X' \n", 8645);
+	//
+	//	printf("(\"%%#.10X\",8645)   : ");
+	//	printf("'%#.10X' \n", 8645);
+	//
+	//	printf("(\"%%#10.10X\",8645) : ");
+	//	printf("'%#10.10X' \n", 8645);
+	//
+	//	printf("(\"%%#010X\",8645)   : ");
+	//	printf("'%#010X' \n", 8645);
 
 	//	printf("-----------------------------------------------\n");
 	//	printf("-                     ADD                     -\n");
