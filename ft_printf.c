@@ -1,34 +1,83 @@
-#include "ft_printf.h"
 
-	//	%[arg_nbr$][flags][][width][.precision][length]specifier
+//#include "ft_printf.h"
+#include <libc.h>
 
-int		ft_printf(char *fmt, ...)
+typedef unsigned char *ta_list;
+#define ta_start(list, param) (list = (((ta_list)&param) + sizeof(param)))
+#define ta_arg(list, type)    (*(type *)((list += sizeof(type)) - sizeof(type)))
+
+//int		ft_printf(char *string, ...)
+int		ft_printf(int num, ...)
 {
-	va_list	ap;
-	int		d;
-	char	c, *s;
+//	ta_list	ap;
+	char	*arg;
+//	int		d;
+//	char	c;
+//	char	*s;
 
-	va_start(ap, fmt);
-	while (*fmt != '\0')
+	arg = (char *)&num;
+	arg++;
+	printf("%s\n", arg);
+/*	while (*arg != '\0')
+		arg++;
+	arg += 1;
+	//arg = (((char*)&string) + sizeof(string));
+	//ta_start(ap, string);
+	while (*string != '\0')
 	{
-		if (*fmt == 's')
+		if (*string == 's')
 		{
-			s = va_arg(ap, char *);
-			printf("string %s\n", s);
+			//s = ta_arg(ap, char *);
+			s = (char *)arg;
+			printf("string '%s'\n", s);
+		//	while (*arg != '\0')
+		//	{
+			//	printf(" '%1$i%1$c' ", *arg);
+		//		arg++;
+		//	}
+		//	printf(" '%1$i%1$c' ", *arg);
+			arg += sizeof(char *);
+		//	printf(" '%1$i%1$c' \n", *arg);
+			//arg += sizeof(char *);
 		}
-		if (*fmt == 'd')
+		if (*string == 'd')
 		{
-			d = va_arg(ap, int);
+			//d = ta_arg(ap, int);
+			d = (int)(*arg);
 			printf("int %d\n", d);
 		}
-		if (*fmt == 'c')
+		if (*string == 'c')
 		{
-			c = va_arg(ap, int);
-			printf("char %c\n", c);
+			//c = ta_arg(ap, int);
+			//c = (char)(*arg);
+			printf("char %s\n", arg);
 		}
-		fmt++;
-	}
-	va_end(ap);
+		string++;
+	}*/
+
+//	va_list	ap;
+//
+//	va_start(ap, string);
+//	while (*string != '\0')
+//	{
+//		if (*string == 's')
+//		{
+//			s = va_arg(ap, char *);
+//			printf("string %s\n", s);
+//		}
+//		if (*string == 'd')
+//		{
+//			d = va_arg(ap, int);
+//			printf("int %d\n", d);
+//		}
+//		if (*string == 'c')
+//		{
+//			c = va_arg(ap, int);
+//			printf("char %c\n", c);
+//		}
+//		string++;
+//	}
+//	va_end(ap);
 	return (0);
 }
 
@@ -39,20 +88,21 @@ int		main(void)
 	char	c;
 	int		i;
 
-	s = "scd";
+	s = "csd";
+	c = 'p';
 	str = "bravo";
-	c = 'c';
 	i = 6;
-	ft_printf(s, str, c, i);
+	printf("%s-%s-%c-%i\n\n", s, str, c, i);
+	ft_printf(4, s, c, str, i);
 	return (0);
 }
 
 /*
 
 conversions : cspdiuxX%
-      flags : -,0,.,*
+      flags : - 0 . *
 conversions : nfge
-      flags : l,ll,h,hh,#,', ,+
+      flags : l ll h hh # ' (space) +
 
 %[arg_nbr$][flags 0,-,#,', ,+][width *][.precision *][length hh,h,ll,l,L,j,t,z][specifier d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o]
 %          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
@@ -62,38 +112,39 @@ typedef struct		s_prist
 {
 	int				print_nbr;
 	int				arg_nbr;
-	char 			specifier;
-	int				flag;	//['0','-','#',''',' ','+','*'] binary
+	int				flag;	//[0-#' +*] binary
 	int				width;
 	int				precision;
+	char			*length;
+	char 			specifier;
 	char			*arg;
 	struct s_prist	*next;
 }					t_prist;
 
 ("2 1 3 4 3", 1, 2, 3, 4)
 
-store
-{{printf_nbr 1; arg_nbr 2; specifier; flag; width; precision},
- {printf_nbr 2; arg_nbr 1; specifier; flag; width; precision},
- {printf_nbr 3; arg_nbr 3; specifier; flag; width; precision},
- {printf_nbr 4; arg_nbr 4; specifier; flag; width; precision},
- {printf_nbr 5; arg_nbr 3; specifier; flag; width; precision}}
+ft_store
+for each : ft_check_error
+{{printf_nbr 1; arg_nbr 2; flag; width; precision; length; specifier},
+ {printf_nbr 2; arg_nbr 1; flag; width; precision; length; specifier},
+ {printf_nbr 3; arg_nbr 3; flag; width; precision; length; specifier},
+ {printf_nbr 4; arg_nbr 4; flag; width; precision; length; specifier},
+ {printf_nbr 5; arg_nbr 3; flag; width; precision; length; specifier}}
 
-check_more_error
+ft_sort_by_arg
+{{printf_nbr 2; arg_nbr 1; flag; width; precision; length; specifier},
+ {printf_nbr 1; arg_nbr 2; flag; width; precision; length; specifier},
+ {printf_nbr 3; arg_nbr 3; flag; width; precision; length; specifier},
+ {printf_nbr 5; arg_nbr 3; flag; width; precision; length; specifier},
+ {printf_nbr 4; arg_nbr 4; flag; width; precision; length; specifier}}
 
-sort_by_arg
-{{printf_nbr 2; arg_nbr 1; specifier; flag; width; precision},
- {printf_nbr 1; arg_nbr 2; specifier; flag; width; precision},
- {printf_nbr 3; arg_nbr 3; specifier; flag; width; precision},
- {printf_nbr 5; arg_nbr 3; specifier; flag; width; precision},
- {printf_nbr 4; arg_nbr 4; specifier; flag; width; precision}}
-
-add_str_to_print
+ft_add_arg
 if flag == * >> rerun for next argument but same list element
-{{printf_nbr 2; arg_nbr 1; specifier; flag; width; precision; arg},
- {printf_nbr 1; arg_nbr 2; specifier; flag; width; precision; arg},
- {printf_nbr 3; arg_nbr 3; specifier; flag; width; precision; arg},
- {printf_nbr 5; arg_nbr 3; specifier; flag; width; precision; arg},
- {printf_nbr 4; arg_nbr 4; specifier; flag; width; precision; arg}}
+if lst->next->arg == lst->arg rerun for next list element but same argument
+{{printf_nbr 2; arg_nbr 1; flag; width; precision; length; specifier; arg},
+ {printf_nbr 1; arg_nbr 2; flag; width; precision; length; specifier; arg},
+ {printf_nbr 3; arg_nbr 3; flag; width; precision; length; specifier; arg},
+ {printf_nbr 5; arg_nbr 3; flag; width; precision; length; specifier; arg},
+ {printf_nbr 4; arg_nbr 4; flag; width; precision; length; specifier; arg}}
 
 */
