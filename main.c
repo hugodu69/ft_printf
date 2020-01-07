@@ -198,6 +198,12 @@ int		main(void)
 	//	printf("(\"%%.*i-%%.*i\",0,1,2,3) ft : ");	ft_printf("'%.*i-%.*i'\n", 0, 1, 2, 3);
 		printf("(\"%%.*i-%%.*i\",0,1,2,3)    : ");	   printf("'%.*i-%.*i'\n", 0, 1, 2, 3); printf("\n");
 
+	//	printf("(\"%%3.2i\",1)           ft : ");	ft_printf("'%3.2i'\n", 1);
+		printf("(\"%%3.2i\",1)              : ");	   printf("'%3.2i'\n", 1); printf("\n");
+
+	//	printf("(\"%%*.*i\",3,2,1)       ft : ");	ft_printf("'%*.*i'\n", 3, 2, 1);
+		printf("(\"%%*.*i\",3,2,1)          : ");	   printf("'%*.*i'\n", 3, 2, 1); printf("\n");
+
 
 	//	printf("-----------------------------------------------\n");
 	//	printf("-                    BONUS                    -\n");
@@ -261,6 +267,9 @@ int		main(void)
 
 	//	printf("(\"%%\",8645)        ft : ");	ft_printf("'%'", 8645);
 		printf("(\"%%\",8645)           : ");/*	   printf("'%'", 8645);*/ printf(" missing conversion specifier\n\n");
+
+	//	printf("(\"%%2$i-%%i\",3,2)   ft : ");	ft_printf("'%2$i-%i'\n", 3, 2);
+		printf("(\"%%2$i-%%i\",3,2)      : ");/*	   printf("'%2$i-%i'", 3, 2);*/ printf(" cannot mix positioned and non-positioned args\n\n");
 
 	return (0);
 }

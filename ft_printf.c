@@ -1,83 +1,53 @@
 
-//#include "ft_printf.h"
-#include <libc.h>
+#include "ft_printf.h"
 
-typedef unsigned char *ta_list;
-#define ta_start(list, param) (list = (((ta_list)&param) + sizeof(param)))
-#define ta_arg(list, type)    (*(type *)((list += sizeof(type)) - sizeof(type)))
-
-//int		ft_printf(char *string, ...)
-int		ft_printf(int num, ...)
+int		ft_error(int i)
 {
-//	ta_list	ap;
-	char	*arg;
-//	int		d;
-//	char	c;
-//	char	*s;
+	if (i == 0)
+		return (1);
+	return (0);
+}
 
-	arg = (char *)&num;
-	arg++;
-	printf("%s\n", arg);
-/*	while (*arg != '\0')
-		arg++;
-	arg += 1;
-	//arg = (((char*)&string) + sizeof(string));
-	//ta_start(ap, string);
+t_list		*ft_store(char *str)
+{
+	t_prist	*arglst;
+	t_list	*lst;
+	char	*tmp;
+
+	//str = "truc: %i, machins:%s\n"
+	while (*str != '\0')
+	{
+		(*arglst) = (t_prist *)malloc(sizeof(*arglst));
+		lst = ft_lstadd_back(&lst, arglst);
+		if (tmp = strchr(str,%))
+			tmp[0] = '\0'
+		(*arglst)->str = ft_strdup(str);
+		...fill_flag...;
+		if (tmp != NULL)
+			tmp[0] = '%';
+			str = tmp;
+	}
+	return (*arglst);
+}
+
+int		ft_printf(char *string, ...)
+{
+	va_list	ap;
+	t_list	*lst;
+
+	va_start(ap, string);
+	lst = ft_store(string);
 	while (*string != '\0')
 	{
 		if (*string == 's')
-		{
-			//s = ta_arg(ap, char *);
-			s = (char *)arg;
-			printf("string '%s'\n", s);
-		//	while (*arg != '\0')
-		//	{
-			//	printf(" '%1$i%1$c' ", *arg);
-		//		arg++;
-		//	}
-		//	printf(" '%1$i%1$c' ", *arg);
-			arg += sizeof(char *);
-		//	printf(" '%1$i%1$c' \n", *arg);
-			//arg += sizeof(char *);
-		}
+			printf("string %s\n", va_arg(ap, char *));
 		if (*string == 'd')
-		{
-			//d = ta_arg(ap, int);
-			d = (int)(*arg);
-			printf("int %d\n", d);
-		}
+			printf("int %d\n", va_arg(ap, int));
 		if (*string == 'c')
-		{
-			//c = ta_arg(ap, int);
-			//c = (char)(*arg);
-			printf("char %s\n", arg);
-		}
+			printf("char %c\n", va_arg(ap, int));
 		string++;
-	}*/
-
-//	va_list	ap;
-//
-//	va_start(ap, string);
-//	while (*string != '\0')
-//	{
-//		if (*string == 's')
-//		{
-//			s = va_arg(ap, char *);
-//			printf("string %s\n", s);
-//		}
-//		if (*string == 'd')
-//		{
-//			d = va_arg(ap, int);
-//			printf("int %d\n", d);
-//		}
-//		if (*string == 'c')
-//		{
-//			c = va_arg(ap, int);
-//			printf("char %c\n", c);
-//		}
-//		string++;
-//	}
-//	va_end(ap);
+	}
+	va_end(ap);
 	return (0);
 }
 
@@ -93,7 +63,7 @@ int		main(void)
 	str = "bravo";
 	i = 6;
 	printf("%s-%s-%c-%i\n\n", s, str, c, i);
-	ft_printf(4, s, c, str, i);
+	ft_printf(s, c, str, i);
 	return (0);
 }
 
@@ -108,43 +78,80 @@ conversions : nfge
 %          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
 %          [flags     #,', ,+]                       [length hh,h,ll,l        ][specifier                   e,f,g,n                ]
 
+int flag:                  pw+ '#-0
+00000000 00000000 00000000 00000001 == 1	'0'
+00000000 00000000 00000000 00000010 == 2	'-'
+00000000 00000000 00000000 00000100 == 4	'#'
+00000000 00000000 00000000 00001000 == 8	'''
+00000000 00000000 00000000 00010000 == 16	' '
+00000000 00000000 00000000 00100000 == 32	'+'
+00000000 00000000 00000000 01000000 == 64	'*' width
+00000000 00000000 00000000 10000000 == 128	'*' precision
+
 typedef struct		s_prist
 {
-	int				print_nbr;
-	int				arg_nbr;
-	int				flag;	//[0-#' +*] binary
-	int				width;
-	int				precision;
-	char			*length;
-	char 			specifier;
-	char			*arg;
+	char			*str;
+	int				flag;		// default 0    ; [0-#' +**] binary
+	int				width;		// default 0    ;
+	int				prec;		// default 0    ; precision
+	char			*length;	// default "\0" ;
+	char 			spec;		// default 0    ; specifier
+	char			*arg;		// default "\0" ;
+	int				p_nb;		// default 0    ; print_nb : order in which to print (order it was found in string)
+	int				a_nb;		// default 0    ;   arg_nb : number of the corresponding argument (for flag $)
 	struct s_prist	*next;
 }					t_prist;
 
 ("2 1 3 4 3", 1, 2, 3, 4)
 
-ft_store
-for each : ft_check_error
-{{printf_nbr 1; arg_nbr 2; flag; width; precision; length; specifier},
- {printf_nbr 2; arg_nbr 1; flag; width; precision; length; specifier},
- {printf_nbr 3; arg_nbr 3; flag; width; precision; length; specifier},
- {printf_nbr 4; arg_nbr 4; flag; width; precision; length; specifier},
- {printf_nbr 5; arg_nbr 3; flag; width; precision; length; specifier}}
+ft_error(int err)
+ft_store("%i truc %-10d machin\n")
+	ft_split_print(str)
+		prist->str = "%i";
+			ft_fill_lst(prist)
+				prist->flag;		// default = 0
+				prist->width;		// default = 0
+				prist->prec;		// default = 0
+				prist->length;
+				prist->spec;
+				prist->p_nb;
+				prist->a_nb;		// if not $ == p_nb
+		prist->str = " truc ";
+			ft_fill_lst(prist)
+				...					// if str start without % it means it can be printed as a string directly
+		prist->str = "%-10d";
+			ft_fill_lst...
+		prist->str = " machin\n";
+			ft_fill_lst...
+	return
+	{{str; flag; width; precision; length; specifier; p_nb 1; a_nb 2},
+	 {str; flag; width; precision; length; specifier; p_nb 2; a_nb 1},
+	 {str; flag; width; precision; length; specifier; p_nb 3; a_nb 3},
+	 {str; flag; width; precision; length; specifier; p_nb 4; a_nb 4},
+	 {str; flag; width; precision; length; specifier; p_nb 5; a_nb 3}}
 
 ft_sort_by_arg
-{{printf_nbr 2; arg_nbr 1; flag; width; precision; length; specifier},
- {printf_nbr 1; arg_nbr 2; flag; width; precision; length; specifier},
- {printf_nbr 3; arg_nbr 3; flag; width; precision; length; specifier},
- {printf_nbr 5; arg_nbr 3; flag; width; precision; length; specifier},
- {printf_nbr 4; arg_nbr 4; flag; width; precision; length; specifier}}
+{{str; flag; width; precision; length; specifier; p_nb 2; a_nb 1},
+ {str; flag; width; precision; length; specifier; p_nb 1; a_nb 2},
+ {str; flag; width; precision; length; specifier; p_nb 3; a_nb 3},
+ {str; flag; width; precision; length; specifier; p_nb 5; a_nb 3},
+ {str; flag; width; precision; length; specifier; p_nb 4; a_nb 4}}
 
 ft_add_arg
-if flag == * >> rerun for next argument but same list element
-if lst->next->arg == lst->arg rerun for next list element but same argument
-{{printf_nbr 2; arg_nbr 1; flag; width; precision; length; specifier; arg},
- {printf_nbr 1; arg_nbr 2; flag; width; precision; length; specifier; arg},
- {printf_nbr 3; arg_nbr 3; flag; width; precision; length; specifier; arg},
- {printf_nbr 5; arg_nbr 3; flag; width; precision; length; specifier; arg},
- {printf_nbr 4; arg_nbr 4; flag; width; precision; length; specifier; arg}}
-
+if lst->str[o] != '\%'  rerun without looking for argument
+if lst->flag == *  rerun for next argument but same list element
+								[fl][w][p]  or          or
+	%i		,1		-> '1'		[]  [0][0]  [  ][0][0]  []  [0][0]
+	%*i		,3,1	-> '  1'	[*] [0][0]  [* ][0][0]  [w] [0][0]
+	%.*i	,2,1	-> '01'		[*] [0][0]  [ *][0][0]  [p] [0][0]
+	%*.*i	,3,2,1	-> ' 01'	[**][0][0]  [**][0][0]  [wp][0][0]
+	%3.*i	,2,1	-> ' 01'	[*] [3][0]  [ *][3][0]  [p] [3][0]
+	%*.2i	,3,1	-> ' 01'	[*] [0][2]  [* ][0][2]  [w] [0][2]
+	%3.2i	,1		-> ' 01'	[]  [3][2]  [  ][3][2]  []  [3][2]
+if lst->next->a_nb == lst->a_nb rerun for next list element but same argument
+{{str; flag; width; precision; length; specifier; arg; p_nb 2; a_nb 1},
+ {str; flag; width; precision; length; specifier; arg; p_nb 1; a_nb 2},
+ {str; flag; width; precision; length; specifier; arg; p_nb 3; a_nb 3},
+ {str; flag; width; precision; length; specifier; arg; p_nb 5; a_nb 3},
+ {str; flag; width; precision; length; specifier; arg; p_nb 4; a_nb 4}}
 */

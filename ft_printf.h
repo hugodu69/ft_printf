@@ -8,14 +8,15 @@ int		ft_printf(char *string, ...);
 
 typedef struct		s_prist
 {
-	int				print_nbr;
-	int				arg_nbr;
+	char			*str;
 	int				flag;
 	int				width;
-	int				precision;
+	int				prec;
 	char			*length;
-	char 			specifier;
+	char 			spec;
 	char			*arg;
+	int				p_nb;
+	int				a_nb;
 	struct s_prist	*next;
 }					t_prist;
 
