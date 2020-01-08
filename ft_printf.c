@@ -8,17 +8,19 @@ int		ft_error(int i)
 	return (0);
 }
 
-t_list		*ft_store(char *str)
+t_prist		*ft_store(char *str)
 {
-	t_prist	*arglst;
-	t_list	*lst;
+	t_prist	*lst;
+	t_prist	*lstmp;
 	char	*tmp;
 
 	//str = "truc: %i, machins:%s\n"
+	str = ft_strdup(str);
+	lst = NULL;
 	while (*str != '\0')
 	{
-		(*arglst) = (t_prist *)malloc(sizeof(*arglst));
-		lst = ft_lstadd_back(&lst, arglst);
+		lstmp = lst;
+		(*lst) = (t_prist *)malloc(sizeof(*lst));
 		if (tmp = strchr(str,%))
 			tmp[0] = '\0'
 		(*arglst)->str = ft_strdup(str);
@@ -26,14 +28,15 @@ t_list		*ft_store(char *str)
 		if (tmp != NULL)
 			tmp[0] = '%';
 			str = tmp;
+		lst->next = lstmp;
 	}
-	return (*arglst);
+	return (*lst);
 }
 
 int		ft_printf(char *string, ...)
 {
+	t_prist	*lst;
 	va_list	ap;
-	t_list	*lst;
 
 	va_start(ap, string);
 	lst = ft_store(string);
