@@ -8,29 +8,69 @@ int		ft_error(int i)
 	return (0);
 }
 
+
+/*
+%[arg_nbr$][flags 0,-,#,', ,+][width *][.precision *][length hh,h,ll,l,L,j,t,z][specifier d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o]
+%          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
+%          [flags     #,', ,+]                       [length hh,h,ll,l        ][specifier                   e,f,g,n                ]
+
+str = "%3s - truc: %.2i - machin: %04c \n"
+
+ft_next_word
+	if str[0] == '%'
+		from str+1 to [specifier];
+	else
+		from str[0] to '%';
+	[%3s][ - truc: ][%.2i][ - machin: ][%04c][ \n]
+
+while ((s = next_word(str)) != NULL)
+	type = ft_specifier(&s);				// return the type according to specifier and length && pull them out of s
+	while (flag_*(s))
+		s = ft_expand_star(va_arg, "i", s);	// (use ft_convert) replace first * by arg in s, ex: "%*.*i" --> "%2.*i" --> "%2.3i"
+	print = ft_convert(va_arg, type);
+	if ((i = flag_p(s)))
+		print = ft_precision(i, print);
+	if ((i = flag_w(s)))
+		if (flag_-(s))
+			print = ft_right_padded(i, print);
+		else if (flag_0(s))
+			print = ft_right_padded(i, print);
+(	if (flag_+(s))
+(	else if (flag_space(s))
+(	if (flag_'(s))
+(	if (flag_#(s))
+(		print = ft_alternate_form(print)
+			
+
+*/
+char		*ft_nextword(char *str)
+{
+	char	*word;
+
+	word = strdup(str);
+	return (word);
+}
+
 t_prist		*ft_store(char *str)
 {
 	t_prist	*lst;
 	t_prist	*lstmp;
 	char	*tmp;
 
-	//str = "truc: %i, machins:%s\n"
-	str = ft_strdup(str);
 	lst = NULL;
 	while (*str != '\0')
 	{
 		lstmp = lst;
 		(*lst) = (t_prist *)malloc(sizeof(*lst));
-		if (tmp = strchr(str,%))
-			tmp[0] = '\0'
-		(*arglst)->str = ft_strdup(str);
+		tmp = ft_nextword(str);
+		(*arglst)->str = ft_strdup(tmp);
 		...fill_flag...;
 		if (tmp != NULL)
 			tmp[0] = '%';
 			str = tmp;
 		lst->next = lstmp;
 	}
-	return (*lst);
+	return (lst);
 }
 
 int		ft_printf(char *string, ...)

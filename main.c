@@ -178,8 +178,17 @@ int		main(void)
 	//	printf("(\"%%.i\",0)             ft : ");	ft_printf("'%.i'\n", 0);
 		printf("(\"%%.i\",0)                : ");	   printf("'%.i'\n", 0); printf("\n");
 
-	//	printf("(\"%%010.7X\",8645) ft : ");	ft_printf("'%010.7X'\n", 8645);
-		printf("(\"%%010.7X\",8645)    : ");	   printf("'%010.7X'\n", 8645); printf("\n");
+	//	printf("(\"%%010.7X\",8645)      ft : ");	ft_printf("'%010.7X'\n", 8645);
+		printf("(\"%%010.7X\",8645)         : ");	   printf("'%010.7X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%10.7X\",8645)       ft : ");	ft_printf("'%10.7X'\n", 8645);
+		printf("(\"%%10.7X\",8645)          : ");	   printf("'%10.7X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%-10.7X\",8645)      ft : ");	ft_printf("'%-10.7X'\n", 8645);
+		printf("(\"%%-10.7X\",8645)         : ");	   printf("'%-10.7X'\n", 8645); printf("\n");
+
+	//	printf("(\"%%-.7X\",8645)        ft : ");	ft_printf("'%-.7X'\n", 8645);
+		printf("(\"%%-.7X\",8645)           : ");	   printf("'%-.7X'\n", 8645); printf("\n");
 
 		printf("- flag * --------------------------------------\n\n");
 
