@@ -94,7 +94,7 @@ int		main(void)
 		printf("(\"%%i\",0x1E240)    : ");	   printf("%i\n", 0x1E240); printf("\n");
 
 		printf("-----------------------------------------------\n");
-		printf("- flags : -,0,.,*                             -\n");
+		printf("- flags : -0.*                                -\n");
 		printf("- taille de champ minimale                    -\n");
 		printf("-----------------------------------------------\n\n");
 
@@ -117,6 +117,9 @@ int		main(void)
 
 	//	printf("(\"%%0i\",0)             ft : ");	ft_printf("'%0i'\n", 0);
 		printf("(\"%%0i\",0)                : ");	   printf("'%0i'\n", 0); printf("\n");
+
+	//	printf("(\"%%6i\",-456)          ft : ");	ft_printf("'%6i'\n", -456);
+		printf("(\"%%6i\",-456)             : ");	   printf("'%6i'\n", -456); printf("\n");
 
 		printf("- flag - --------------------------------------\n\n");
 
@@ -146,10 +149,36 @@ int		main(void)
 	//	printf("(\"%%03i\",1)            ft : ");	ft_printf("'%03i'\n", 1);
 		printf("(\"%%03i\",1)               : ");	   printf("'%03i'\n", 1); printf("\n");
 
-		printf("- flag . --------------------------------------\n\n");
+	//	printf("(\"%%09i\",\"123456\")     ft : ");	ft_printf("'%09s'\n", "123456");
+//		printf("(\"%%09i\",\"123456\")        : ");	   printf("'%09s'\n", "123456"); printf("\n");
+
+	//	printf("(\"%%03i\",1)            ft : ");	ft_printf("'%03i'\n", 1);
+		printf("(\"%%03i\",1)               : ");	   printf("'%03i'\n", 1); printf("\n");
+
+	//	printf("(\"%%03i\",1)            ft : ");	ft_printf("'%03i'\n", 1);
+		printf("(\"%%03i\",1)               : ");	   printf("'%03i'\n", 1); printf("\n");
+
+		printf("- flag . (diouxXs) ----------------------------------------------------------\n");
+		printf("-        if the . is not followed by a number, the value is 0\n");
+		printf("-        with arg value of 0, precision of 0 print nothing\n");
+		printf("-        with numbers (diouxX), gives the minimum number of digit to appear\n");
+		printf("-          if precision > nbr, it's preceded by '0'\n");
+		printf("-          if nbr < 0, '-' is not counted in precision\n");
+		printf("-          (length with '-' is (length(nbr or precision) + 1)'\n");
+		printf("-          if 0 flag is given (for width or precision) it's ignored\n");
+		printf("-        with strings (s), gives the maximum number of characters to be print\n");
+		printf("-          if precision > length(s), it's not preceded by '0'\n");
+		printf("-        precision is calculated before width\n");
+		printf("\n");
 
 	//	printf("(\"%%.5s\",\"12\")         ft : ");	ft_printf("'%.5s'\n", "12");
 		printf("(\"%%.5s\",\"12\")            : ");	   printf("'%.5s'\n", "12"); printf("\n");
+
+	//	printf("(\"%%.5s\",\"12345678\")   ft : ");	ft_printf("'%.5s'\n", "12345678");
+		printf("(\"%%.5s\",\"12345678\")      : ");	   printf("'%.5s'\n", "12345678"); printf("\n");
+
+	//	printf("(\"%%12.5s\",\"12345678\") ft : ");	ft_printf("'%12.5s'\n", "12345678");
+		printf("(\"%%12.5s\",\"12345678\")    : ");	   printf("'%12.5s'\n", "12345678"); printf("\n");
 
 	//	printf("(\"%%.5i\",12)           ft : ");	ft_printf("'%.5i'\n", 12);
 		printf("(\"%%.5i\",12)              : ");	   printf("'%.5i'\n", 12); printf("\n");
@@ -178,6 +207,9 @@ int		main(void)
 	//	printf("(\"%%.i\",0)             ft : ");	ft_printf("'%.i'\n", 0);
 		printf("(\"%%.i\",0)                : ");	   printf("'%.i'\n", 0); printf("\n");
 
+	//	printf("(\"%%i\",0)              ft : ");	ft_printf("'%i'\n", 0);
+		printf("(\"%%i\",0)                 : ");	   printf("'%i'\n", 0); printf("\n");
+
 	//	printf("(\"%%010.7X\",8645)      ft : ");	ft_printf("'%010.7X'\n", 8645);
 		printf("(\"%%010.7X\",8645)         : ");	   printf("'%010.7X'\n", 8645); printf("\n");
 
@@ -187,8 +219,14 @@ int		main(void)
 	//	printf("(\"%%-10.7X\",8645)      ft : ");	ft_printf("'%-10.7X'\n", 8645);
 		printf("(\"%%-10.7X\",8645)         : ");	   printf("'%-10.7X'\n", 8645); printf("\n");
 
-	//	printf("(\"%%-.7X\",8645)        ft : ");	ft_printf("'%-.7X'\n", 8645);
-		printf("(\"%%-.7X\",8645)           : ");	   printf("'%-.7X'\n", 8645); printf("\n");
+	//	printf("(\"%%-.7i\",8645)        ft : ");	ft_printf("'%-.7i'\n", 8645);
+		printf("(\"%%-.7i\",8645)           : ");	   printf("'%-.7i'\n", 8645); printf("\n");
+
+	//	printf("(\"%%.7i\",-8645)        ft : ");	ft_printf("'%.7i'\n", -8645);
+		printf("(\"%%.7i\",-8645)           : ");	   printf("'%.7i'\n", -8645); printf("\n");
+
+	//	printf("(\"%%.07i\",8645)        ft : ");	ft_printf("'%.07i'\n", 8645);
+		printf("(\"%%.07i\",8645)           : ");	   printf("'%.07i'\n", 8645); printf("\n");
 
 		printf("- flag * --------------------------------------\n\n");
 
@@ -283,87 +321,165 @@ int		main(void)
 	return (0);
 }
 
-	//	conversions : cspdiuxX%
-	//	      flags : -,0,.,*
-	//	conversions : nfge
-	//	      flags : l,ll,h,hh,#,', ,+
-	//
-	//	usage :
-	//	%[arg_nbr$][flags #,0,-, ,+,'][width *][.precision *][length hh,h,ll,l,L,j,t,z][specifier d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o]
-	//	%          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
-	//	%          [flags     #,', ,+]                       [length hh,h,ll,l        ][specifier                   e,f,g,n                ]
-	//
-	//	[arg_nbr]
-	//(	nbr$	specify the argument to access, they are numbered starting at 1
-	//
-	//	[flags] #,0,-, ,+,'
-	//	-		left-justify within the given field width
-	//	0		left-pads the number with zeroes (0) instead of spaces, where
-	//			padding is specified (see width sub-specifier)
-	//(	+		forces to precede the result with a plus or minus sign even for
-	//			positive numbers)
-	//(	(space)	if no sign is going to be written, a blank space is inserted
-	//			before the value)
-	//(	#		(o, x, X, a, A, e, E, f, F, g, G) used with (o, x or X) the
-	//			value is preceded with 0, 0x or 0X for values different than
-	//			zero. used with (e, E or f), it forces the written output to
-	//			contain a decimal point even if no digits would follow. by
-	//			default, if no digits follow, no decimal point is written. used
-	//			with (g or G) the result is the same as with e or E but trailing
-	//			zeros are not removed
-	//(	'		(d, u, i, f, F) used with d, u or i, or the integral portion of
-	//			a float f or F, the decimal conversions are printed by groups of
-	//			thousands separated by the non-monetary separator returned by
-	//			localeconv(3) (ex 123456789 -> 123,456,789)
-	//			
-	//
-	//	[specifiers] d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o
-	//	c	char	character
-	//	s	*char	string of characters
-	//	p	*		pointer adress
-	//	d	int		(or i) signed decimal integer
-	//	i	int		(or d) signed decimal integer
-	//	u	int		unsigned decimal integer
-	//	x	int		unsigned hexadecimal integer
-	//	X	int		unsigned hexadecimal integer (capital letters)
-	//(	n	*int	nothing printed
-	//(	f	float	decimal floating point
-	//(	e	float	scientific notation (mantissa/exponent) using e
-	//(	g	float	uses the shorter of %e or %f
-	//((F	float
-	//((E	float	scientific notation (mantissa/exponent) using E
-	//((G	float	uses the shorter of %E or %f
-	//((o	int		signed octal
-	//((C	char	treated as c with l modifier
-	//((a	float
-	//((A	float
-	//((S	*char	treated as s with l modifier
-	//
-	//	[width]
-	//	(nbr)	minimum number of characters to be printed. if the value to be
-	//			printed is shorter than this number, the result is padded with
-	//			blank spaces. The value is not truncated even if the result is
-	//			larger
-	//	*		the width is not specified in the format string, but as an
-	//			additional integer value argument preceding the argument that
-	//			has to be formatted
-	//
-	//	[.precision]
-	//	.nbr	fot integer specifiers (d,i,o,x,X) - precision specifies the
-	//			minimum number of digits to be written. If the value to be
-	//			written is shorter than this number, the result is padded with
-	//			leading zeros. The value is not truncated even if the result is
-	//			longer. A precision of 0 means that no character is written for
-	//			the value 0. For e, E and f specifiers − this is the number of
-	//			digits to be printed after the decimal point. For g and G
-	//			specifiers − This is the maximum number of significant digits
-	//			to be printed. For s − this is the maximum number of characters
-	//			to be printed. By default all characters are printed until the
-	//			ending null character is encountered. For c type − it has no
-	//			effect. When no precision is specified, the default is 1. If the
-	//			period is specified without an explicit value for precision, 0
-	//			is assumed
-	//	.*		the precision is not specified in the format string, but as an
-	//			additional integer value argument preceding the argument that
-	//			has to be formated
-	//
+/*
+		int flag:                  pw+ '#-0
+		00000000 00000000 00000000 00000001 == 1	'0'
+		00000000 00000000 00000000 00000010 == 2	'-'
+		00000000 00000000 00000000 00000100 == 4	'#'
+		00000000 00000000 00000000 00001000 == 8	'''
+		00000000 00000000 00000000 00010000 == 16	' '
+		00000000 00000000 00000000 00100000 == 32	'+'
+		00000000 00000000 00000000 01000000 == 64	'*' width
+		00000000 00000000 00000000 10000000 == 128	'*' precision
+		
+		typedef struct		s_prist
+		{
+			char			*str;
+			int				flag;		// default 0    ; [0-#' +**] binary
+			int				width;		// default 0    ;
+			int				prec;		// default 0    ; precision
+			char			*length;	// default "\0" ;
+			char 			spec;		// default 0    ; specifier
+			char			*arg;		// default "\0" ;
+			int				p_nb;		// default 0    ; print_nb : order in which to print (order it was found in string)
+			int				a_nb;		// default 0    ;   arg_nb : number of the corresponding argument (for flag $)
+			struct s_prist	*next;
+		}					t_prist;
+		
+		("2 1 3 4 3", 1, 2, 3, 4)
+		
+		ft_error(int err)
+		ft_store("%i truc %-10d machin\n")
+			ft_split_print(str)
+				prist->str = "%i";
+					ft_fill_lst(prist)
+						prist->flag;		// default = 0
+						prist->width;		// default = 0
+						prist->prec;		// default = 0
+						prist->length;
+						prist->spec;
+						prist->p_nb;
+						prist->a_nb;		// if not $ == p_nb
+				prist->str = " truc ";
+					ft_fill_lst(prist)
+						...					// if str start without % it means it can be printed as a string directly
+				prist->str = "%-10d";
+					ft_fill_lst...
+				prist->str = " machin\n";
+					ft_fill_lst...
+			return
+			{{str; flag; width; precision; length; specifier; p_nb 1; a_nb 2},
+			 {str; flag; width; precision; length; specifier; p_nb 2; a_nb 1},
+			 {str; flag; width; precision; length; specifier; p_nb 3; a_nb 3},
+			 {str; flag; width; precision; length; specifier; p_nb 4; a_nb 4},
+			 {str; flag; width; precision; length; specifier; p_nb 5; a_nb 3}}
+		
+		ft_sort_by_arg
+		{{str; flag; width; precision; length; specifier; p_nb 2; a_nb 1},
+		 {str; flag; width; precision; length; specifier; p_nb 1; a_nb 2},
+		 {str; flag; width; precision; length; specifier; p_nb 3; a_nb 3},
+		 {str; flag; width; precision; length; specifier; p_nb 5; a_nb 3},
+		 {str; flag; width; precision; length; specifier; p_nb 4; a_nb 4}}
+		
+		ft_add_arg
+		if lst->str[o] != '\%'  rerun without looking for argument
+		if lst->flag == *  rerun for next argument but same list element
+										[fl][w][p]  or          or
+			%i		,1		-> '1'		[]  [0][0]  [  ][0][0]  []  [0][0]
+			%*i		,3,1	-> '  1'	[*] [0][0]  [* ][0][0]  [w] [0][0]
+			%.*i	,2,1	-> '01'		[*] [0][0]  [ *][0][0]  [p] [0][0]
+			%*.*i	,3,2,1	-> ' 01'	[**][0][0]  [**][0][0]  [wp][0][0]
+			%3.*i	,2,1	-> ' 01'	[*] [3][0]  [ *][3][0]  [p] [3][0]
+			%*.2i	,3,1	-> ' 01'	[*] [0][2]  [* ][0][2]  [w] [0][2]
+			%3.2i	,1		-> ' 01'	[]  [3][2]  [  ][3][2]  []  [3][2]
+		if lst->next->a_nb == lst->a_nb rerun for next list element but same argument
+		{{str; flag; width; precision; length; specifier; arg; p_nb 2; a_nb 1},
+		 {str; flag; width; precision; length; specifier; arg; p_nb 1; a_nb 2},
+		 {str; flag; width; precision; length; specifier; arg; p_nb 3; a_nb 3},
+		 {str; flag; width; precision; length; specifier; arg; p_nb 5; a_nb 3},
+		 {str; flag; width; precision; length; specifier; arg; p_nb 4; a_nb 4}}
+		 
+		conversions : cspdiuxX%
+		      flags : -,0,.,*
+		conversions : nfge
+		      flags : l,ll,h,hh,#,', ,+
+	
+		usage :
+		printf		%[arg_nbr$][flags #,0,-, ,+,'][width *][.precision *][length hh,h,ll,l,L,j,t,z][specifier d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o]
+		ft_printf	%          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
+		bonus		%          [flags     #,', ,+]                       [length hh,h,ll,l        ][specifier                   e,f,g,n                ]
+	
+		[arg_nbr]
+	(	nbr$	specify the argument to access, they are numbered starting at 1
+	
+		[flags] #,0,-, ,+,'
+		-		left-justify within the given field width
+		0		left-pads the number with zeroes (0) instead of spaces, where
+				padding is specified (see width sub-specifier)
+	(	+		forces to precede the result with a plus or minus sign even for
+				positive numbers)
+	(	(space)	if no sign is going to be written, a blank space is inserted
+				before the value)
+	(	#		(o, x, X, a, A, e, E, f, F, g, G) used with (o, x or X) the
+				value is preceded with 0, 0x or 0X for values different than
+				zero. used with (e, E or f), it forces the written output to
+				contain a decimal point even if no digits would follow. by
+				default, if no digits follow, no decimal point is written. used
+				with (g or G) the result is the same as with e or E but trailing
+				zeros are not removed
+	(	'		(d, u, i, f, F) used with d, u or i, or the integral portion of
+				a float f or F, the decimal conversions are printed by groups of
+				thousands separated by the non-monetary separator returned by
+				localeconv(3) (ex 123456789 -> 123,456,789)
+				
+	
+		[specifiers] d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o
+		c	char	character
+		s	*char	string of characters
+		p	*		pointer adress
+		d	int		(or i) signed decimal integer
+		i	int		(or d) signed decimal integer
+		u	int		unsigned decimal integer
+		x	int		unsigned hexadecimal integer
+		X	int		unsigned hexadecimal integer (capital letters)
+	(	n	*int	nothing printed
+	(	f	float	decimal floating point
+	(	e	float	scientific notation (mantissa/exponent) using e
+	(	g	float	uses the shorter of %e or %f
+	((F	float
+	((E	float	scientific notation (mantissa/exponent) using E
+	((G	float	uses the shorter of %E or %f
+	((o	int		signed octal
+	((C	char	treated as c with l modifier
+	((a	float
+	((A	float
+	((S	*char	treated as s with l modifier
+	
+		[width]
+		(nbr)	minimum number of characters to be printed. if the value to be
+				printed is shorter than this number, the result is padded with
+				blank spaces. The value is not truncated even if the result is
+				larger
+		*		the width is not specified in the format string, but as an
+				additional integer value argument preceding the argument that
+				has to be formatted
+	
+		[.precision]
+		.nbr	fot integer specifiers (d,i,o,x,X) - precision specifies the
+				minimum number of digits to be written. If the value to be
+				written is shorter than this number, the result is padded with
+				leading zeros. The value is not truncated even if the result is
+				longer. A precision of 0 means that no character is written for
+				the value 0. For e, E and f specifiers − this is the number of
+				digits to be printed after the decimal point. For g and G
+				specifiers − This is the maximum number of significant digits
+				to be printed. For s − this is the maximum number of characters
+				to be printed. By default all characters are printed until the
+				ending null character is encountered. For c type − it has no
+				effect. When no precision is specified, the default is 1. If the
+				period is specified without an explicit value for precision, 0
+				is assumed
+		.*		the precision is not specified in the format string, but as an
+				additional integer value argument preceding the argument that
+				has to be formated
+*/
