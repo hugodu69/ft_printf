@@ -121,6 +121,9 @@ int		main(void)
 	//	printf("(\"%%6i\",-456)          ft : ");	ft_printf("'%6i'\n", -456);
 		printf("(\"%%6i\",-456)             : ");	   printf("'%6i'\n", -456); printf("\n");
 
+	//	printf("(\"%%6%%\")               ft : ");	ft_printf("'%6%'\n");
+		printf("(\"%%6%%\")                  : ");	   printf("'%6%'\n"); printf("\n");
+
 		printf("- flag - --------------------------------------\n\n");
 
 	//	printf("(\"%%-3s\",\"a\")          ft : ");	ft_printf("'%-3s'\n", "a");
@@ -144,19 +147,23 @@ int		main(void)
 	//	printf("(\"%%-3i\",123456)       ft : ");	ft_printf("'%-3i'\n", 123456);
 		printf("(\"%%-3i\",123456)          : ");	   printf("'%-3i'\n", 123456); printf("\n");
 
-		printf("- flag 0 --------------------------------------\n\n");
+		printf("- flag 0 (diouxX%%)------------------------------\n");
+		printf("-        \n");
 
 	//	printf("(\"%%03i\",1)            ft : ");	ft_printf("'%03i'\n", 1);
 		printf("(\"%%03i\",1)               : ");	   printf("'%03i'\n", 1); printf("\n");
 
-	//	printf("(\"%%09i\",\"123456\")     ft : ");	ft_printf("'%09s'\n", "123456");
-//		printf("(\"%%09i\",\"123456\")        : ");	   printf("'%09s'\n", "123456"); printf("\n");
+	//	printf("(\"%%03u\",1)            ft : ");	ft_printf("'%03u'\n", 1);
+		printf("(\"%%03u\",1)               : ");	   printf("'%03u'\n", 1); printf("\n");
 
-	//	printf("(\"%%03i\",1)            ft : ");	ft_printf("'%03i'\n", 1);
-		printf("(\"%%03i\",1)               : ");	   printf("'%03i'\n", 1); printf("\n");
+	//	printf("(\"%%03x\",1)            ft : ");	ft_printf("'%03x'\n", 1);
+		printf("(\"%%03x\",1)               : ");	   printf("'%03x'\n", 1); printf("\n");
 
-	//	printf("(\"%%03i\",1)            ft : ");	ft_printf("'%03i'\n", 1);
-		printf("(\"%%03i\",1)               : ");	   printf("'%03i'\n", 1); printf("\n");
+	//	printf("(\"%%03%%\")              ft : ");	ft_printf("'%03%'\n");
+		printf("(\"%%03%%\")                 : ");	   printf("'%03%'\n"); printf("\n");
+
+	//	printf("(\"%%0%%\")               ft : ");	ft_printf("'%0%'\n");
+		printf("(\"%%0%%\")                  : ");	   printf("'%0%'\n"); printf("\n");
 
 		printf("- flag . (diouxXs) ----------------------------------------------------------\n");
 		printf("-        if the . is not followed by a number, the value is 0\n");
@@ -227,6 +234,9 @@ int		main(void)
 
 	//	printf("(\"%%.07i\",8645)        ft : ");	ft_printf("'%.07i'\n", 8645);
 		printf("(\"%%.07i\",8645)           : ");	   printf("'%.07i'\n", 8645); printf("\n");
+
+	//	printf("(\"%%.7%%\")              ft : ");	ft_printf("'%.7%'\n");
+		printf("(\"%%.7%%\")                 : ");	   printf("'%.7%'\n"); printf("\n");
 
 		printf("- flag * --------------------------------------\n\n");
 
@@ -308,6 +318,12 @@ int		main(void)
 
 	//	printf("(\"%%010s\",str)     ft : ");	ft_printf("'%010s'", str);
 		printf("(\"%%010s\",str)        : ");/*	   printf("'%010s'", str);*/ printf(" flag 0 has undefined behavior with s specifier\n\n");
+
+	//	printf("(\"%%010c\",c)       ft : ");	ft_printf("'%010c'", c);
+		printf("(\"%%010c\",c)          : ");/*	   printf("'%010c'", c);*/ printf(" flag 0 has undefined behavior with c specifier\n\n");
+
+	//	printf("(\"%%03p\",str)      ft : ");		ft_printf("'%03p'\n", str);
+		printf("(\"%%03p\",str)         : ");/*	   printf("'%03p'\n", str);*/ printf(" flag 0 has undefined behavior with p specifier\n\n");
 
 	//	printf("(\"%%.-7X\",8645)    ft : ");	ft_printf("'%.-7X'", 8645);
 		printf("(\"%%.-7X\",8645)       : ");/*	   printf("'%.-7X'", 8645);*/ printf(" invalid flag - for .precision\n\n");

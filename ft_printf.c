@@ -2,85 +2,14 @@
 #include "ft_printf.h"
 #include <libc.h>
 
-//int		ft_error(int i)
-//{
-//	if (i == 0)
-//		return (1);
-//	return (0);
-//}
-
 /*
-%[arg_nbr$][flags 0,-,#,', ,+][width *][.precision *][length hh,h,ll,l,L,j,t,z][specifier d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o]
-%          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
-%          [flags     #,', ,+]                       [length hh,h,ll,l        ][specifier                   e,f,g,n                ]
-
-str = "%3s - truc: %.2i - machin: %04c \n"
-
-ft_next_word
-	if str[0] == '%'
-		from str+1 to [specifier];
-	else
-		from str[0] to '%';
-	[%3s][ - truc: ][%.2i][ - machin: ][%04c][ \n]
-
-while ((s = next_word(str)) != NULL)
-	type = ft_specifier(&s);				// return the type according to specifier and length && pull them out of s
-	while (flag_*(s))
-		s = ft_expand_star(va_arg, "i", s);	// (use ft_convert) replace first * by arg in s, ex: "%*.*i" --> "%2.*i" --> "%2.3i"
-	print = ft_convert(va_arg, type);
-	if ((i = flag_p(s)))
-		print = ft_precision(i, print);
-	if ((i = flag_w(s)))
-		if (flag_-(s))
-			print = ft_right_padded(i, print);
-		else if (flag_0(s))
-			print = ft_right_padded(i, print);
-(	if (flag_+(s))
-(	else if (flag_space(s))
-(	if (flag_'(s))
-(	if (flag_#(s))
-(		print = ft_alternate_form(print)
-			
-
-*/
-
-//char		*ft_nextword(char *str)
-//{
-//	char	*word;
-//
-//	word = strdup(str);
-//	return (word);
-//}
-
-//t_prist		*ft_store(char *str)
-//{
-//	t_prist	*lst;
-//	t_prist	*lstmp;
-//	char	*tmp;
-//
-//	lst = NULL;
-//	while (*str != '\0')
-//	{
-//		lstmp = lst;
-//		(*lst) = (t_prist *)malloc(sizeof(*lst));
-//		tmp = ft_nextword(str);
-//		(*arglst)->str = ft_strdup(tmp);
-//		...fill_flag...;
-//		if (tmp != NULL)
-//			tmp[0] = '%';
-//			str = tmp;
-//		lst->next = lstmp;
-//	}
-//	return (lst);
-//}
-
-/*
+**	va_list	ap;
 **	char	*print;				| -contain the arg converted into a string
 **	char	*type;				| -contain the specifier type to use
 **								|  by va_arg
 **	while s = next_word()		| -return the next sequence to be print
 **								|  (either a string, or a conversion)
-**		type = ft_specifier(&s)	| -return the type if it's a conversion,
+**		type = ft_specifier(&s)	| -return the type if it's a conversion, or "%",
 **								|  or NULL if it's a string.
 **								|  if convers0, rmvs length & specifier from s
 **		if !type: ft_put_word()	| -print the string if it wasn't a conversion
@@ -91,45 +20,88 @@ while ((s = next_word(str)) != NULL)
 **		ft_flag_transform()		| -proceed all modification according to flags
 **		ft_put_word(print)		| -print the string fully converted
 **	return (length)				| -return the length of what was printed
+**
+** char *next_word(char *s);
+** char *ft_specifier(char **s);
+** int  ft_put_words(char *s);
+** void flag_*(char *s);
+** void ft_expand_star(int i, char **s);
+** char *ft_convert(va_list ap, char *type);
+** char *ft_flag_transform(char *s, char *print);
 */
 
 int		ft_printf(char *string, ...)
 {
-	char	*print;
-	char	*type;
-	int		length;
+//	char	*print;
+//	char	*type;
+//	int		length;
+//	va_list	ap;
+//
+//	length = 0;
+//	va_start(ap, string);
+//	while ((s = next_word(str)) != NULL)
+//	{
+//		if (!(type = ft_specifier(&s)))
+//			lentgh += ft_put_word(s);
+//		while (flag_*(s))
+//			ft_expand_star(va_arg(ap, int), &s);
+//		if (*type == '%')
+//			print = ft_strdup("%");
+//		else
+//			print = ft_convert(ap, type);
+//		print = ft_flag_transform(s, print);
+//		length += ft_put_word(print);
+//	}
+//	return (length)
+//}
 
-	length = 0;
-	while ((s = next_word(str)) != NULL)
-	{
-		if (!(type = ft_specifier(&s)))
-			lentgh += ft_put_word(s);
-		while (flag_*(s))
-			ft_expand_star(va_arg(ap, int), &s);
-		print = ft_convert(va_arg(ap, type), type);
-		print = ft_flag_transform(s, print);
-		length += ft_put_word(print);
-	}
-	return (length)
-}
+/*
+** 	if i = flag_p(&s)			| -precision is calculated before width,
+** 								|  on str, if < length(str), cuts it,
+** 		print = ft_precision()	|  on nbr, if > length(nbr), add '0' before,
+** 								|  then add '-' if negatif
+** 								|  (if precision given with flags '-' or '0'
+** 								|  they're ignored and cuted from s)
+** 	if i = flag_w(s)			| -width is caculated
+** 		if flag_-(&s)			| -if flag '-', rm '-' and width from s
+** 			print = ft_rpadd()	| -put extra width as ' ' to right,
+** 		else if flag_0(&s)		| -if flag '0', rm '0' and width from s
+** 			print = ft_lpadd()	| -put extra width as '0' to left
+** 		else					| -if just width
+** 			print = ft_lpadd()	|  put extra width as ' ' to left
+** //	if flag_+(s)			|
+** //	else if flag_space(s)	|
+** //	if flag_'(s)			|
+** //	if flag_#(s)			|
+** //		print = ft_altfrm() |
+**
+** int  flag_p(char **s);
+** char *ft_precision(int i, char *print);
+** int  flag_w(char *s);
+** void flag_-(char **s);
+** char *ft_rpadd(int i, char *print);
+** char *ft_lpadd(int i, char *print, char c);
+*/
 
 //	ft_flag_transform()
 //	{
-//		if ((i = flag_p(&s)))						// precision is calculated before width, if its on string it cuts it if smaller than it, 
-//			print = ft_precision(i, print);			//   and on numbers it add '0' before it if bigger, then add minus sign if negatif (if precision is given with flags - or 0 they're ignored and cuted from s)
-//		if ((i = flag_w(s)))						// 
+//		if ((i = flag_p(&s)))
+//			print = ft_precision(i, print);
+//		if ((i = flag_w(s)))
 //		{
-//			if (flag_-(s))
-//				print = ft_right_padded(i, print);
-//			else if (flag_0(s))
-//				print = ft_left_padded(i, print);
+//			if (flag_-(&s))
+//				print = ft_rpadd(i, print);
+//			else if (flag_0(&s))
+//				print = ft_lpadd(i, print, '0');
+//			else
+//				print = ft_lpadd(i, print, ' ');
 //		}
-//	//	if (flag_+(s))
-//	//	else if (flag_space(s))
-//	//	if (flag_'(s))
-//	//	if (flag_#(s))
-//	//		print = ft_alternate_form(print)
-//	}
+	//	if (flag_+(s))								//
+	//	else if (flag_space(s))						//
+	//	if (flag_'(s))								//
+	//	if (flag_#(s))								//
+	//		print = ft_alternate_form(print)		//                                           
+	//	}
 
 	t_prist	*lst;
 	va_list	ap;
@@ -162,24 +134,6 @@ int		main(void)
 	i = 6;
 	printf("%s-%s-%c-%i\n\n", s, str, c, i);
 	ft_printf(s, c, str, i);
-	printf("char               %lu\n", sizeof(char));
-	printf("short              %lu\n", sizeof(short));
-	printf("int                %lu\n", sizeof(int));
-	printf("long               %lu\n", sizeof(long));
-	printf("long long          %lu\n", sizeof(long long));
-	printf("unsigned char      %lu\n", sizeof(unsigned char));
-	printf("unsigned short     %lu\n", sizeof(unsigned short));
-	printf("unsigned int       %lu\n", sizeof(unsigned int));
-	printf("unsigned long      %lu\n", sizeof(unsigned long));
-	printf("unsigned long long %lu\n", sizeof(unsigned long long));
-	printf("char *             %lu\n", sizeof(char *));
-	printf("short *            %lu\n", sizeof(short *));
-	printf("int *              %lu\n", sizeof(int *));
-	printf("long *             %lu\n", sizeof(long *));
-	printf("long long *        %lu\n", sizeof(long long *));
-	printf("double             %lu\n", sizeof(double));
-//	printf("wint_t             %lu\n", sizeof(wint_t));
-//	printf("wchar_T            %lu\n", sizeof(wchar_t));
 	return (0);
 }
 
@@ -268,4 +222,25 @@ nhh	char *
 nh	short *					15	short *
 nl	long *					16	long *
 nll	long long *				17	long long *
+
+
+	printf("char               %lu\n", sizeof(char));
+	printf("short              %lu\n", sizeof(short));
+	printf("int                %lu\n", sizeof(int));
+	printf("long               %lu\n", sizeof(long));
+	printf("long long          %lu\n", sizeof(long long));
+	printf("unsigned char      %lu\n", sizeof(unsigned char));
+	printf("unsigned short     %lu\n", sizeof(unsigned short));
+	printf("unsigned int       %lu\n", sizeof(unsigned int));
+	printf("unsigned long      %lu\n", sizeof(unsigned long));
+	printf("unsigned long long %lu\n", sizeof(unsigned long long));
+	printf("char *             %lu\n", sizeof(char *));
+	printf("short *            %lu\n", sizeof(short *));
+	printf("int *              %lu\n", sizeof(int *));
+	printf("long *             %lu\n", sizeof(long *));
+	printf("long long *        %lu\n", sizeof(long long *));
+	printf("double             %lu\n", sizeof(double));
+//	printf("wint_t             %lu\n", sizeof(wint_t));
+//	printf("wchar_T            %lu\n", sizeof(wchar_t));
+
 */
