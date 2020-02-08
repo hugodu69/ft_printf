@@ -4,6 +4,7 @@
 
 /*
 **	va_list	ap;
+**	int		length;
 **	char	*print;				| -contain the arg converted into a string
 **	char	*type;				| -contain the specifier type to use
 **								|  by va_arg
@@ -13,8 +14,8 @@
 **								|  or NULL if it's a string.
 **								|  if convers0, rmvs length & specifier from s
 **		if !type: ft_put_word()	| -print the string if it wasn't a conversion
-**		while flag_*(s)			| -for each * present, expand it into s
-**			ft_expand_star()	|  in order it appears
+**		while ft_strchr(s,'*')	| -for each * present, expand it into s in
+**			ft_expand_star()	|  order it appears
 **		print = ft_convert()	| -convert the arg with its type,
 **								|  then trsfm it into a str and rtrn the str
 **		ft_flag_transform()		| -proceed all modification according to flags
@@ -24,7 +25,6 @@
 ** char *next_word(char *s);
 ** char *ft_specifier(char **s);
 ** int  ft_put_words(char *s);
-** void flag_*(char *s);
 ** void ft_expand_star(int i, char **s);
 ** char *ft_convert(va_list ap, char *type);
 ** char *ft_flag_transform(char *s, char *print);
@@ -43,7 +43,7 @@ int		ft_printf(char *string, ...)
 //	{
 //		if (!(type = ft_specifier(&s)))
 //			lentgh += ft_put_word(s);
-//		while (flag_*(s))
+//		while (ft_strchr(s, '*'))
 //			ft_expand_star(va_arg(ap, int), &s);
 //		if (*type == '%')
 //			print = ft_strdup("%");
