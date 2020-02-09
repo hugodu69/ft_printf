@@ -30,30 +30,98 @@
 ** char *ft_flag_transform(char *s, char *print);
 */
 
+int		isword(char *s)
+{
+	int		i;
+
+	if ('\0')
+		return (0);
+	i = 0;
+	if (s[i] != %)
+	{
+		while (s[i] != %)
+			i++;
+		return (i);
+	}
+	i = 1;
+	while (strchr(s[i],"#0- +'"))
+		i++;
+	if (*)
+		i++;
+	else if (1,2,3,4,5,6,7,8,9)
+	{
+		i++;
+		while (0,1,2,3,4,5,6,7,8,9)
+			i++;
+	}
+	if (.)
+	{
+		i++;
+		if (*)
+			i++;
+		else if (1,2,3,4,5,6,7,8,9)
+		{
+			i++;
+			while (0,1,2,3,4,5,6,7,8,9)
+				i++;
+		}
+	}
+	if (h,hh,l,ll)
+		i++;
+	if (!(d,i,u,x,X,c,s,p,%,e,f,g,n))
+		return (-1);
+	return (i);
+//	if (*s == '\0')
+//		return (0);
+//	return (1);
+}
+
+char	*next_word(char **string)
+{
+	char	*s;
+	char	*word;
+	int		i;
+
+	s = *string;
+	if (*s == '\0')
+		return (NULL);
+	i = isword(s);
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	word[i] = '\0';
+	memmove(word, s, i);
+	*string += i;
+	return (word);
+}
+
 int		ft_printf(char *string, ...)
 {
-//	char	*print;
-//	char	*type;
-//	int		length;
-//	va_list	ap;
-//
-//	length = 0;
-//	va_start(ap, string);
-//	while ((s = next_word(str)) != NULL)
-//	{
-//		if (!(type = ft_specifier(&s)))
-//			lentgh += ft_put_word(s);
-//		while (ft_strchr(s, '*'))
-//			ft_expand_star(va_arg(ap, int), &s);
-//		if (*type == '%')
-//			print = ft_strdup("%");
-//		else
-//			print = ft_convert(ap, type);
-//		print = ft_flag_transform(s, print);
-//		length += ft_put_word(print);
-//	}
-//	return (length)
-//}
+	char	*s;
+	char	*print;
+	char	*type;
+	int		length;
+	va_list	ap;
+
+	length = 0;
+	va_start(ap, string);
+	while ((s = next_word(&string)) != NULL)
+	{
+		printf("%s\n", s);
+		(void)print;
+		(void)type;
+		length = 1;
+	//	if (!(type = ft_specifier(&s)))
+	//		lentgh += ft_put_word(s);
+	//	while (ft_strchr(s, '*'))
+	//		ft_expand_star(va_arg(ap, int), &s);
+	//	if (*type == '%')
+	//		print = ft_strdup("%");
+	//	else
+	//		print = ft_convert(ap, type);
+	//	print = ft_flag_transform(s, print);
+	//	length += ft_put_word(print);
+	}
+	return (length);
+}
 
 /*
 ** 	if i = flag_p(&s)			| -precision is calculated before width,
@@ -103,6 +171,8 @@ int		ft_printf(char *string, ...)
 	//		print = ft_alternate_form(print)		//                                           
 	//	}
 
+int		ft_printf_test(char *string, ...)
+{
 	t_prist	*lst;
 	va_list	ap;
 
@@ -128,11 +198,12 @@ int		main(void)
 	char	c;
 	int		i;
 
-	s = "csd";
+	s = "csd erre rtgrtg wer";
 	c = 'p';
 	str = "bravo";
 	i = 6;
 	printf("%s-%s-%c-%i\n\n", s, str, c, i);
+//	ft_printf_test(s, c, str, i);
 	ft_printf(s, c, str, i);
 	return (0);
 }
@@ -146,6 +217,78 @@ conversions : nfge
 %[arg_nbr$][flags 0,-,#,', ,+][width *][.precision *][length hh,h,ll,l,L,j,t,z][specifier d,i,u,x,X,c,s,p,%,e,f,g,n,E,F,G,a,A,C,S,o]
 %          [flags 0,-        ][width *][.precision *]                          [specifier d,i,u,x,X,c,s,p,%                        ]
 %          [flags     #,', ,+]                       [length hh,h,ll,l        ][specifier                   e,f,g,n                ]
+
+
+		[flags]
+		-		left-justify within the given field width
+		0		left-pads the number with zeroes (0) instead of spaces, where
+				padding is specified (see width sub-specifier)
+	(	+		forces to precede the result with a plus or minus sign even for
+				positive numbers)
+	(	(space)	if no sign is going to be written, a blank space is inserted
+				before the value)
+	(	#		(o, x, X, a, A, e, E, f, F, g, G) used with (o, x or X) the
+				value is preceded with 0, 0x or 0X for values different than
+				zero. used with (e, E or f), it forces the written output to
+				contain a decimal point even if no digits would follow. by
+				default, if no digits follow, no decimal point is written. used
+				with (g or G) the result is the same as with e or E but trailing
+				zeros are not removed
+	(	'		(d, u, i, f, F) used with d, u or i, or the integral portion of
+				a float f or F, the decimal conversions are printed by groups of
+				thousands separated by the non-monetary separator returned by
+				localeconv(3) (ex 123456789 -> 123,456,789)
+				
+		[width]
+		(nbr)	minimum number of characters to be printed. if the value to be
+				printed is shorter than this number, the result is padded with
+				blank spaces. The value is not truncated even if the result is
+				larger
+		*		the width is not specified in the format string, but as an
+				additional integer value argument preceding the argument that
+				has to be formatted
+	
+		[.precision]
+		.nbr	fot integer specifiers (d,i,o,x,X) - precision specifies the
+				minimum number of digits to be written. If the value to be
+				written is shorter than this number, the result is padded with
+				leading zeros. The value is not truncated even if the result is
+				longer. A precision of 0 means that no character is written for
+				the value 0. For e, E and f specifiers − this is the number of
+				digits to be printed after the decimal point. For g and G
+				specifiers − This is the maximum number of significant digits
+				to be printed. For s − this is the maximum number of characters
+				to be printed. By default all characters are printed until the
+				ending null character is encountered. For c type − it has no
+				effect. When no precision is specified, the default is 1. If the
+				period is specified without an explicit value for precision, 0
+				is assumed
+		.*		the precision is not specified in the format string, but as an
+				additional integer value argument preceding the argument that
+				has to be formated
+
+		[specifiers]
+		c	char	character
+		s	*char	string of characters
+		p	*		pointer adress
+		d	int		(or i) signed decimal integer
+		i	int		(or d) signed decimal integer
+		u	int		unsigned decimal integer
+		x	int		unsigned hexadecimal integer
+		X	int		unsigned hexadecimal integer (capital letters)
+	(	n	*int	nothing printed
+	(	f	float	decimal floating point
+	(	e	float	scientific notation (mantissa/exponent) using e
+	(	g	float	uses the shorter of %e or %f
+	((F	float
+	((E	float	scientific notation (mantissa/exponent) using E
+	((G	float	uses the shorter of %E or %f
+	((o	int		signed octal
+	((C	char	treated as c with l modifier
+	((a	float
+	((A	float
+	((S	*char	treated as s with l modifier
+	
 
 p == long unsigned int
 
