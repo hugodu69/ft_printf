@@ -10,7 +10,7 @@
 **								|  by va_arg
 **	while s = next_word()		| -return the next sequence to be print
 **								|  (either a string, or a conversion)
-**		type = ft_specifier(&s)	| -return the type if it's a conversion, or "%",
+**		type = specifier(&s)	| -return the type if it's a conversion, or "%",
 **								|  or NULL if it's a string. if it's a
 **								|  single '%' it's considered as a string
 **								|  if convers0, rmvs length & specifier from s
@@ -24,12 +24,29 @@
 **	return (length)				| -return the length of what was printed
 **
 ** char *next_word(char *s);
-** char *ft_specifier(char **s);
+** char *specifier(char **s);
 ** int  ft_put_words(char *s);
 ** void ft_expand_star(int i, char **s);
 ** char *ft_convert(va_list ap, char *type);
 ** char *ft_flag_transform(char *s, char *print);
 */
+
+char	*specifier(char **string)
+{
+	char	*s;
+	int		i;
+
+	s = *string;
+	printf("[%s]\n", s);
+	if (s[0] != '%' || s[1] == '\0')
+		return (NULL);
+	if (s[1] == '%')
+		return (ft_strdup("%"));
+	i = 1;
+	while (ft_strchr("#0- +'0123456789.*", s[i]) != NULL)
+		i++;
+	return (ft_strdup(s + i));
+}
 
 int		ft_printf(char *string, ...)
 {
@@ -42,12 +59,13 @@ int		ft_printf(char *string, ...)
 	length = 0;
 	va_start(ap, string);
 	while ((s = next_word(&string)) != NULL)
-	{
-		printf("[%s]\n", s);
-		(void)print;
-		(void)type;
-		length = 1;
-	//	if (!(type = ft_specifier(&s)))
+	{																				// TEST NEXT_WORD : printf("[%s]\n", s); (void)print; (void)type; length = 1;
+		if (!(type = specifier(&s)))
+		{
+			(void)print;
+			length = 1;
+		}
+		printf(" %s\n", type);
 	//		lentgh += ft_put_word(s);
 	//	while (ft_strchr(s, '*'))
 	//		ft_expand_star(va_arg(ap, int), &s);

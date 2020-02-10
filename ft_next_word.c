@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:58:30 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/10 13:58:34 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/02/10 16:36:35 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int		width_precision(char *s)
 	int		i;
 
 	i = 0;
-	if (strchr("*", s[i]) != NULL)
+	if (ft_strchr("*", s[i]) != NULL)
 		i++;
-	else if (strchr("123456789", s[i]) != NULL)
+	else if (ft_strchr("123456789", s[i]) != NULL)
 	{
 		i++;
-		while (strchr("0123456789", s[i]) != NULL)
+		while (ft_strchr("0123456789", s[i]) != NULL)
 			i++;
 	}
 	return (i);
@@ -62,19 +62,17 @@ int		word_length(char *s)
 	{
 		while (s[i] != '%' && s[i] != '\0')
 			i++;
-		printf("%02i.:",i);
 		return (i);
 	}
-	while (strchr("#0- +'", s[i]) != NULL)
+	while (ft_strchr("#0- +'", s[i]) != NULL)
 		i++;
 	i += width_precision(s + i);
-	if (strchr(".", s[i]) != NULL)
+	if (ft_strchr(".", s[i]) != NULL)
 		i += width_precision(s + i + 1) + 1;
-	if (strchr("hl", s[i]) != NULL)
+	while (ft_strchr("hl", s[i]) != NULL)
 		i++;
-	if (strchr("diuxXcspefgn%", s[i]) != NULL)
+	if (ft_strchr("diuxXcspefgn%", s[i]) != NULL)
 		i++;
-	printf("%02i::",i);
 	return (i);
 }
 
@@ -95,13 +93,10 @@ char	*next_word(char **string)
 	if (*s == '\0')
 		return (NULL);
 	if ((i = word_length(s)) < 0)
-	{
-		printf("error\n");
 		return (NULL);
-	}
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	word[i] = '\0';
-	memmove(word, s, i);
+	ft_memmove(word, s, i);
 	*string += i;
 	return (word);
 }
