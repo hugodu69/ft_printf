@@ -31,13 +31,12 @@
 ** char *ft_flag_transform(char *s, char *print);
 */
 
-char	*specifier(char **string)
+char	*specifier(char *s)
 {
-	char	*s;
+	char	*string;
 	int		i;
 
-	s = *string;
-	printf("[%s]\n", s);
+	printf("[%s]", s);
 	if (s[0] != '%' || s[1] == '\0')
 		return (NULL);
 	if (s[1] == '%')
@@ -45,7 +44,13 @@ char	*specifier(char **string)
 	i = 1;
 	while (ft_strchr("#0- +'0123456789.*", s[i]) != NULL)
 		i++;
-	return (ft_strdup(s + i));
+	string = ft_strdup(s + i);
+	while (s[i] != '\0')
+	{
+		s[i] = '\0';
+		i++;
+	}
+	return (string);
 }
 
 int		ft_printf(char *string, ...)
@@ -60,13 +65,28 @@ int		ft_printf(char *string, ...)
 	va_start(ap, string);
 	while ((s = next_word(&string)) != NULL)
 	{																				// TEST NEXT_WORD : printf("[%s]\n", s); (void)print; (void)type; length = 1;
-		if (!(type = specifier(&s)))
+		int i = ft_strlen(s);
+		if (!(type = specifier(s)))
 		{
+			printf("%s\n", type);
 			(void)print;
 			length = 1;
 		}
-		printf(" %s\n", type);
-	//		lentgh += ft_put_word(s);
+		else
+		{
+			printf("\n ");
+			int j = 0;
+			while (j < i)
+			{
+				if (s[j] == '\0')
+					printf("\\0");
+				else
+					printf("%c", s[j]);
+				j++;
+			}
+			printf(" (%s)\n", type);
+		}
+	//		length += ft_put_word(s);
 	//	while (ft_strchr(s, '*'))
 	//		ft_expand_star(va_arg(ap, int), &s);
 	//	if (*type == '%')
