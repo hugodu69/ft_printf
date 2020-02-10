@@ -11,7 +11,8 @@
 **	while s = next_word()		| -return the next sequence to be print
 **								|  (either a string, or a conversion)
 **		type = ft_specifier(&s)	| -return the type if it's a conversion, or "%",
-**								|  or NULL if it's a string.
+**								|  or NULL if it's a string. if it's a
+**								|  single '%' it's considered as a string
 **								|  if convers0, rmvs length & specifier from s
 **		if !type: ft_put_word()	| -print the string if it wasn't a conversion
 **		while ft_strchr(s,'*')	| -for each * present, expand it into s in
@@ -30,50 +31,48 @@
 ** char *ft_flag_transform(char *s, char *print);
 */
 
-int		isword(char *s)
+int		word_length(char *s)
 {
 	int		i;
 
-	if ('\0')
+	i = 1;
+	if (s[0] == '\0')
 		return (0);
-	i = 0;
-	if (s[i] != %)
+	if (s[0] != '%')
 	{
-		while (s[i] != %)
+		while (s[i] != '%' && s[i] != '\0')
 			i++;
+		printf("%02i.:",i);
 		return (i);
 	}
-	i = 1;
-	while (strchr(s[i],"#0- +'"))
+	while (strchr("#0- +'", s[i]) != NULL)
 		i++;
-	if (*)
+	if (strchr("*", s[i]) != NULL)
 		i++;
-	else if (1,2,3,4,5,6,7,8,9)
+	else if (strchr("123456789", s[i]) != NULL)
 	{
 		i++;
-		while (0,1,2,3,4,5,6,7,8,9)
+		while (strchr("0123456789", s[i]) != NULL)
 			i++;
 	}
-	if (.)
+	if (strchr(".", s[i]) != NULL)
 	{
 		i++;
-		if (*)
+		if (strchr("*", s[i]) != NULL)
 			i++;
-		else if (1,2,3,4,5,6,7,8,9)
+		else if (strchr("123456789", s[i]) != NULL)
 		{
 			i++;
-			while (0,1,2,3,4,5,6,7,8,9)
+			while (strchr("0123456789", s[i]) != NULL)
 				i++;
 		}
 	}
-	if (h,hh,l,ll)
+	if (strchr("hl", s[i]) != NULL)
 		i++;
-	if (!(d,i,u,x,X,c,s,p,%,e,f,g,n))
-		return (-1);
+	if (strchr("diuxXcspefgn%", s[i]) != NULL)
+		i++;
+	printf("%02i::",i);
 	return (i);
-//	if (*s == '\0')
-//		return (0);
-//	return (1);
 }
 
 char	*next_word(char **string)
@@ -85,7 +84,11 @@ char	*next_word(char **string)
 	s = *string;
 	if (*s == '\0')
 		return (NULL);
-	i = isword(s);
+	if ((i = word_length(s)) < 0)
+	{
+		printf("error\n");
+		return (NULL);
+	}
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	word[i] = '\0';
 	memmove(word, s, i);
@@ -105,7 +108,7 @@ int		ft_printf(char *string, ...)
 	va_start(ap, string);
 	while ((s = next_word(&string)) != NULL)
 	{
-		printf("%s\n", s);
+		printf("[%s]\n", s);
 		(void)print;
 		(void)type;
 		length = 1;
@@ -191,7 +194,7 @@ int		ft_printf_test(char *string, ...)
 	return (0);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	char	*s;
 	char	*str;
@@ -202,9 +205,12 @@ int		main(void)
 	c = 'p';
 	str = "bravo";
 	i = 6;
-	printf("%s-%s-%c-%i\n\n", s, str, c, i);
+	if (ac == 2)
+		printf("[%s]", av[1]);
+	printf("[%s][%s][%c][%i]\n\n", s, str, c, i);
 //	ft_printf_test(s, c, str, i);
-	ft_printf(s, c, str, i);
+	if (ac == 2)
+		ft_printf(av[1]);
 	return (0);
 }
 
