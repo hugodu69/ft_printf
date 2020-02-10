@@ -4,20 +4,12 @@
 # include <stdio.h>
 # include <stdarg.h>
 
+# include <libc.h>
+
 int		ft_printf(char *string, ...);
 
-typedef struct		s_prist
-{
-	char			*str;
-	int				flag;
-	int				width;
-	int				prec;
-	char			*length;
-	char 			spec;
-	char			*arg;
-	int				p_nb;
-	int				a_nb;
-	struct s_prist	*next;
-}					t_prist;
+int		width_precision(char *s);
+int		word_length(char *s);
+char	*next_word(char **s);
 
 #endif

@@ -1,8 +1,8 @@
 
 #include "ft_printf.h"
-#include <libc.h>
 
 /*
+** FT_PRINTF :
 **	va_list	ap;
 **	int		length;
 **	char	*print;				| -contain the arg converted into a string
@@ -30,71 +30,6 @@
 ** char *ft_convert(va_list ap, char *type);
 ** char *ft_flag_transform(char *s, char *print);
 */
-
-int		word_length(char *s)
-{
-	int		i;
-
-	i = 1;
-	if (s[0] == '\0')
-		return (0);
-	if (s[0] != '%')
-	{
-		while (s[i] != '%' && s[i] != '\0')
-			i++;
-		printf("%02i.:",i);
-		return (i);
-	}
-	while (strchr("#0- +'", s[i]) != NULL)
-		i++;
-	if (strchr("*", s[i]) != NULL)
-		i++;
-	else if (strchr("123456789", s[i]) != NULL)
-	{
-		i++;
-		while (strchr("0123456789", s[i]) != NULL)
-			i++;
-	}
-	if (strchr(".", s[i]) != NULL)
-	{
-		i++;
-		if (strchr("*", s[i]) != NULL)
-			i++;
-		else if (strchr("123456789", s[i]) != NULL)
-		{
-			i++;
-			while (strchr("0123456789", s[i]) != NULL)
-				i++;
-		}
-	}
-	if (strchr("hl", s[i]) != NULL)
-		i++;
-	if (strchr("diuxXcspefgn%", s[i]) != NULL)
-		i++;
-	printf("%02i::",i);
-	return (i);
-}
-
-char	*next_word(char **string)
-{
-	char	*s;
-	char	*word;
-	int		i;
-
-	s = *string;
-	if (*s == '\0')
-		return (NULL);
-	if ((i = word_length(s)) < 0)
-	{
-		printf("error\n");
-		return (NULL);
-	}
-	word = (char *)malloc(sizeof(char) * (i + 1));
-	word[i] = '\0';
-	memmove(word, s, i);
-	*string += i;
-	return (word);
-}
 
 int		ft_printf(char *string, ...)
 {
@@ -176,7 +111,6 @@ int		ft_printf(char *string, ...)
 
 int		ft_printf_test(char *string, ...)
 {
-	t_prist	*lst;
 	va_list	ap;
 
 	va_start(ap, string);
