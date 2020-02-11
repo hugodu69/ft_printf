@@ -2,6 +2,41 @@
 #include "ft_printf.h"
 
 /*
+** -if s is a string, or is a single '%'
+**  return NULL (to print is as a string)
+** -if s is a double '%%', remove one '%', and
+**  return NULL (to print is as a string)
+** -then s is a conversion, go to the length and specifier
+** -copy them in 'string'
+** -and remove them from s
+** -return the length and specifier in a string
+*/
+
+char	*specifier(char *s)
+{
+	char	*string;
+	int		i;
+
+	if (s[0] != '%' || s[1] == '\0')
+		return (NULL);
+	if (s[1] == '%')
+	{
+		s[1] = '\0';
+		return (NULL);
+	}
+	i = 1;
+	while (ft_strchr("#0- +'0123456789.*", s[i]) != NULL)
+		i++;
+	string = ft_strdup(s + i);
+	while (s[i] != '\0')
+	{
+		s[i] = '\0';
+		i++;
+	}
+	return (string);
+}
+
+/*
 ** FT_PRINTF :
 **	va_list	ap;
 **	int		length;
@@ -15,12 +50,13 @@
 **								|  single '%' it's considered as a string
 **								|  if convers0, rmvs length & specifier from s
 **		if !type: ft_put_word()	| -print the string if it wasn't a conversion
-**		while ft_strchr(s,'*')	| -for each * present, expand it into s in
-**			ft_expand_star()	|  order it appears
-**		print = ft_convert()	| -convert the arg with its type,
+**		else					|  or if it was a '%%'
+**			while strchr(s,*)	| -for each * present, expand it into s in
+**				ft_expand_star()|  order it appears
+**			print = ft_convert()| -convert the arg with its type,
 **								|  then trsfm it into a str and rtrn the str
-**		ft_flag_transform()		| -proceed all modification according to flags
-**		ft_put_word(print)		| -print the string fully converted
+**			ft_flag_transform()	| -proceed all modification according to flags
+**			ft_put_word(print)	| -print the string fully converted
 **	return (length)				| -return the length of what was printed
 **
 ** char *next_word(char *s);
@@ -31,26 +67,13 @@
 ** char *ft_flag_transform(char *s, char *print);
 */
 
-char	*specifier(char *s)
+int		ft_put_word(char *s)
 {
-	char	*string;
 	int		i;
 
-	printf("[%s]", s);
-	if (s[0] != '%' || s[1] == '\0')
-		return (NULL);
-	if (s[1] == '%')
-		return (ft_strdup("%"));
-	i = 1;
-	while (ft_strchr("#0- +'0123456789.*", s[i]) != NULL)
-		i++;
-	string = ft_strdup(s + i);
-	while (s[i] != '\0')
-	{
-		s[i] = '\0';
-		i++;
-	}
-	return (string);
+	i = ft_strlen(s);
+	ft_putstr(s);
+	return (i);
 }
 
 int		ft_printf(char *string, ...)
@@ -64,29 +87,19 @@ int		ft_printf(char *string, ...)
 	length = 0;
 	va_start(ap, string);
 	while ((s = next_word(&string)) != NULL)
-	{																				// TEST NEXT_WORD : printf("[%s]\n", s); (void)print; (void)type; length = 1;
-		int i = ft_strlen(s);
-		if (!(type = specifier(s)))
+	{
+		if ((type = specifier(s)) == NULL)
 		{
-			printf("%s\n", type);
-			(void)print;
-			length = 1;
+			ft_putnbr(length);
+			write(1, "|", 1);
+			length += ft_put_word(s);
+			write(1, "|", 1);
+			write(1, "\n", 1);
 		}
 		else
 		{
-			printf("\n ");
-			int j = 0;
-			while (j < i)
-			{
-				if (s[j] == '\0')
-					printf("\\0");
-				else
-					printf("%c", s[j]);
-				j++;
-			}
-			printf(" (%s)\n", type);
+			printf("[%s][%s]\n", s, type);
 		}
-	//		length += ft_put_word(s);
 	//	while (ft_strchr(s, '*'))
 	//		ft_expand_star(va_arg(ap, int), &s);
 	//	if (*type == '%')
@@ -100,6 +113,7 @@ int		ft_printf(char *string, ...)
 }
 
 /*
+** FT_FLAG_TRANSFORM :
 ** 	if i = flag_p(&s)			| -precision is calculated before width,
 ** 								|  on str, if < length(str), cuts it,
 ** 		print = ft_precision()	|  on nbr, if > length(nbr), add '0' before,
