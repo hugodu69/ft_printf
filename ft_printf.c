@@ -120,8 +120,10 @@ int		ft_expand_star(int nbr, char **string)
 
 char	*ft_convert(va_list ap, char *type)
 {
-	
-//	va_arg(ap);
+	long int	i;
+
+	if (!ft_strchr(type, 'e') || !ft_strchr(type, 'f') || !ft_strchr(type, 'g') || !ft_strchr(type, 'n'))
+		i = va_arg(ap, long int);
 	return (NULL);
 }
 
@@ -206,38 +208,76 @@ int		ft_printf_test(char *string, ...)
 	va_list	ap;
 
 	va_start(ap, string);
+	printf("%s", string);
 	while (*string != '\0')
 	{
-		if (*string == 's')
-			printf("string %s\n", (char *)va_arg(ap, unsigned long));
+		printf(" : ");
 		if (*string == 'd')
-			printf("int %d\n", va_arg(ap, int));
+			printf("%d", (int)va_arg(ap, long int));
+		if (*string == 'i')
+			printf("%i", (int)va_arg(ap, long int));
+		if (*string == 'u')
+			printf("%u", (unsigned int)va_arg(ap, long int));
+		if (*string == 'x')
+			printf("%x", (unsigned int)va_arg(ap, long int));
+		if (*string == 'X')
+			printf("%X", (unsigned int)va_arg(ap, long int));
 		if (*string == 'c')
-			printf("char %c\n", va_arg(ap, int));
+			printf("%c", (char)va_arg(ap, long int));			// var_arg promote char into int
+		if (*string == 's')
+			printf("%s", (char *)va_arg(ap, long int));
+		if (*string == 'e')
+			printf("%e", va_arg(ap, double));					// va_arg promote float into double
+		if (*string == 'f')
+			printf("%f", va_arg(ap, double));					// va_arg promote float into double
+		if (*string == 'g')
+			printf("%g", va_arg(ap, double));					// va_arg promote float into double
+		if (*string == 'I')
+			printf("%li", (long int)va_arg(ap, long int));
+		if (*string == 'U')
+			printf("%lu", (unsigned long int)va_arg(ap, long int));
 		string++;
 	}
+	printf("\n");
 	va_end(ap);
 	return (0);
 }
 
 int		main(int ac, char **av)
 {
-	char	*s;
-	char	*str;
-	char	c;
-	int		i;
+	char			*str = "diuxXcsefg";
+	int				d = 123;
+	int				i = 456;
+	unsigned int	u = 345;
+	unsigned int	x = 456;
+	unsigned int	X = 567;
+	char			c = 'c';
+	char*			s = "string";
+//					p = ;
+	float			e = 678;
+	float			f = 789;
+	float			g = 890;
+//					n = ;
+	char				*str2 = "iiIIuU";
+	int					i1 = 2147483647;
+	int					i2 = -2147483648;
+	long int			i3 = 9223372036854775807;
+	long int			i4 = -9223372036854775807;
+	unsigned int		i5 = 4294967295;
+	unsigned long int	i6 = 18446744073709551615;
 
-	s = "csd";
-	c = 'p';
-	str = "bravo";
-	i = 6;
+	if (ac == 1)
+	{
+		printf("%s : %d : %i : %u : %x : %X : %c : %s : %e : %f : %g\n", str, d, i, u, x, X, c, s, e, f, g);
+		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
+		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
+		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
+	}
 	if (ac == 2)
-		printf("[%s]", av[1]);
-//	printf("[%s][%s][%c][%i]\n\n", s, str, c, i);
-	ft_printf_test(s, c, str, i);
-//	ft_printf("%*.*i", 45,278,123, 4);
-	if (ac == 2)
+	{
+		printf("[%s]\n", av[1]);
 		ft_printf(av[1]);
+	}
 	return (0);
 }
 
@@ -306,9 +346,9 @@ conversions : nfge
 		p	*		pointer adress
 		d	int		(or i) signed decimal integer
 		i	int		(or d) signed decimal integer
-		u	int		unsigned decimal integer
-		x	int		unsigned hexadecimal integer
-		X	int		unsigned hexadecimal integer (capital letters)
+		u	u int	unsigned decimal integer
+		x	u int	unsigned hexadecimal integer
+		X	u int	unsigned hexadecimal integer (capital letters)
 	(	n	*int	nothing printed
 	(	f	float	decimal floating point
 	(	e	float	scientific notation (mantissa/exponent) using e
@@ -336,12 +376,12 @@ long long	8bytes	64bits
           4294967295           -2147483648 - +2147483647            02 [int]				[d, i]					[int]
 18446744073709551615  -9223372036854775808 - +9223372036854775807   04 [long]				[ld, li]				[long]			[d(l ,ll), i(l, ll)]
 18446744073709551615  -9223372036854775808 - +9223372036854775807   04 [long long]			[lld, lli]				[long]
-                 256                     0 - +255                   05 [unsigned char]		[hhu, hhx, hhX]			[unsigned long]	[u( , h, hh, l, ll), x( , h, hh, l, ll), X( , h, hh, l, ll), p]
+                 256                     0 - +255                   05 [unsigned char]		[hhu, hhx, hhX]			[unsigned long]	[s, u( , h, hh, l, ll), x( , h, hh, l, ll), X( , h, hh, l, ll), p]
                65536                     0 - +65536                 06 [unsigned short]		[hu, hx, hX]			[unsigned long]
           4294967296                     0 - +4294967296            07 [unsigned int]		[u, x, X, p]			[unsigned long]
 18446744073709551616                     0 - +18446744073709551616  09 [unsigned long]		[lu, lx, lX]			[unsigned long]
 18446744073709551616                     0 - +18446744073709551616  09 [unsigned long long]	[llu, llx, llX]			[unsigned long]
-18446744073709551616                     0 - +18446744073709551616  10 [char *]				[s, hhn]				[char *]		[s]
+18446744073709551616                     0 - +18446744073709551616  10 [char *]				[s, hhn]				[unsigned long]
 
 18446744073709551616                     0 - +18446744073709551616  16 [double]				[e, le, f, lf, g, lg]	[]
 18446744073709551616                     0 - +18446744073709551616  17 [wint_t]				[lc]					[]
