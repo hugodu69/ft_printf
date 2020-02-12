@@ -37,6 +37,57 @@ char	*specifier(char *s)
 }
 
 /*
+** print the string
+*/
+
+int		ft_put_word(char *s)
+{
+	int		i;
+
+	i = ft_strlen(s);
+	ft_putstr(s);
+	return (i);
+}
+
+/*
+** receive 'i' the number in which '*' will expand
+** turn it into a string
+** calculate the total lentgh of the string '%...' for nbr replacing '*'
+** allocate a new string with this length
+** copy the original str with first '*' expanded into it's corresponding  nbr
+*/
+
+int		ft_expand_star(int nbr, char **string)
+{
+	char	*s;
+	char	*strnbr;
+	int		i;
+	int		j;
+
+	strnbr = ft_itoa(nbr);
+	i = ft_strlen(strnbr) + ft_strlen(*string) - 1;
+	if (!(s = (char *)malloc(sizeof(char) * (i + 1))))
+		return (0);
+	s[i] = '\0';
+	i = 0;
+	j = 0;
+	while ((*string)[i] != '\0')
+	{
+		s[j] = (*string)[i];
+		if (s[j] == '*')
+			while (*strnbr != '\0')
+				s[j++] = *(strnbr++);
+		else
+			j++;
+		i++;
+	}
+	free(*string);
+	*string = s;
+	printf("%s-%s\n",s, *string);
+	return (1);
+}
+
+/*
 ** FT_PRINTF :
 **	va_list	ap;
 **	int		length;
@@ -45,7 +96,7 @@ char	*specifier(char *s)
 **								|  by va_arg
 **	while s = next_word()		| -return the next sequence to be print
 **								|  (either a string, or a conversion)
-**		type = specifier(&s)	| -return the type if it's a conversion, or "%",
+**		type = specifier(s)		| -return the type if it's a conversion, or "%",
 **								|  or NULL if it's a string. if it's a
 **								|  single '%' it's considered as a string
 **								|  if convers0, rmvs length & specifier from s
@@ -67,13 +118,11 @@ char	*specifier(char *s)
 ** char *ft_flag_transform(char *s, char *print);
 */
 
-int		ft_put_word(char *s)
+char	*ft_convert(va_list ap, char *type)
 {
-	int		i;
-
-	i = ft_strlen(s);
-	ft_putstr(s);
-	return (i);
+	
+//	va_arg(ap);
+	return (NULL);
 }
 
 int		ft_printf(char *string, ...)
@@ -89,25 +138,16 @@ int		ft_printf(char *string, ...)
 	while ((s = next_word(&string)) != NULL)
 	{
 		if ((type = specifier(s)) == NULL)
-		{
-			ft_putnbr(length);
-			write(1, "|", 1);
 			length += ft_put_word(s);
-			write(1, "|", 1);
-			write(1, "\n", 1);
-		}
 		else
 		{
-			printf("[%s][%s]\n", s, type);
+			while (ft_strchr(s, '*'))
+				if (!(ft_expand_star(va_arg(ap, int), &s)))
+					return (-1);
+			print = ft_convert(ap, type);
+		//	print = ft_flag_transform(s, print);
+		//	length += ft_put_word(print);
 		}
-	//	while (ft_strchr(s, '*'))
-	//		ft_expand_star(va_arg(ap, int), &s);
-	//	if (*type == '%')
-	//		print = ft_strdup("%");
-	//	else
-	//		print = ft_convert(ap, type);
-	//	print = ft_flag_transform(s, print);
-	//	length += ft_put_word(print);
 	}
 	return (length);
 }
@@ -169,7 +209,7 @@ int		ft_printf_test(char *string, ...)
 	while (*string != '\0')
 	{
 		if (*string == 's')
-			printf("string %s\n", va_arg(ap, char *));
+			printf("string %s\n", (char *)va_arg(ap, unsigned long));
 		if (*string == 'd')
 			printf("int %d\n", va_arg(ap, int));
 		if (*string == 'c')
@@ -187,14 +227,15 @@ int		main(int ac, char **av)
 	char	c;
 	int		i;
 
-	s = "csd erre rtgrtg wer";
+	s = "csd";
 	c = 'p';
 	str = "bravo";
 	i = 6;
 	if (ac == 2)
 		printf("[%s]", av[1]);
-	printf("[%s][%s][%c][%i]\n\n", s, str, c, i);
-//	ft_printf_test(s, c, str, i);
+//	printf("[%s][%s][%c][%i]\n\n", s, str, c, i);
+	ft_printf_test(s, c, str, i);
+//	ft_printf("%*.*i", 45,278,123, 4);
 	if (ac == 2)
 		ft_printf(av[1]);
 	return (0);
