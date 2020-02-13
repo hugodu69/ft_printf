@@ -5,7 +5,7 @@
 # include <stdarg.h>
 # include "libft.c/libft.h"
 
-# include <libc.h>
+# include <stdio.h>
 
 int		ft_printf(char *string, ...);
 

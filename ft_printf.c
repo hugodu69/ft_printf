@@ -118,12 +118,61 @@ int		ft_expand_star(int nbr, char **string)
 ** char *ft_flag_transform(char *s, char *print);
 */
 
+/*
+** d int
+** i int
+** u unsigned int
+** x unsigned int
+** X unsigned int
+** c char
+** s char*
+** p unsigned int
+** e double
+** f double
+** g double
+** n
+
+d  i  u  x  X  c  s  p  e  f  g  n 
+h  h  h  h  h  .  .  .  .  .  .  h 
+hh hh hh hh hh .  .  .  .  .  .  hh
+l  l  l  l  l  l  l  .  l  l  l  l 
+ll ll ll ll ll .  .  .  .  .  .  . 
+
+[char]				[hhd, hhi, c]			[int]		  	[d i c]
+[short]				[hd, hi]				[int]
+[int]				[d, i]					[int]
+[long]				[ld, li]				[long]			[ld li]
+[long long]			[lld, lli]				[long]
+[unsigned char]		[hhu, hhx, hhX]			[unsigned int]	[u x X p]
+[unsigned short]	[hu, hx, hX]			[unsigned int]
+[unsigned int]		[u, x, X, p]			[unsigned int]
+[unsigned long]		[lu, lx, lX]			[unsigned long]	[lu lx lX s]
+[unsigned long long][llu, llx, llX]			[unsigned long]
+[char *]			[s, hhn]				[unsigned long]
+[double]			[e, le, f, lf, g, lg]
+[wint_t]			[lc]
+[wchar_t]			[ls]
+[short *]			[hn]
+[int *]				[n]
+[long *]			[ln]
+[long long *]		[lln]
+
+faire un itoa qui fonctionne pour les long int
+faire un uitoa qui fonctionne pour les unsigned long int
+comme ca [d i c] et [ld li] sont traites pareil, et
+[u x X p] et [lu lx lX s] aussi
+
+*/
+
 char	*ft_convert(va_list ap, char *type)
 {
-	long int	i;
+	char	*print;
 
-	if (!ft_strchr(type, 'e') || !ft_strchr(type, 'f') || !ft_strchr(type, 'g') || !ft_strchr(type, 'n'))
-		i = va_arg(ap, long int);
+	if (ft_strchr(type, 'h') || ft_strchr(type, 'l'))
+		return (NULL);
+	if (ft_strchr("diuxXcspefgn", type[0]))
+		print = ft_itoa((int)va_arg(ap, int));
+	printf("%s\n", print);
 	return (NULL);
 }
 
@@ -217,7 +266,7 @@ int		ft_printf_test(char *string, ...)
 		if (*string == 'i')
 			printf("%i", (int)va_arg(ap, long int));
 		if (*string == 'u')
-			printf("%u", (unsigned int)va_arg(ap, long int));
+			printf("%u", (unsigned int)va_arg(ap, int));
 		if (*string == 'x')
 			printf("%x", (unsigned int)va_arg(ap, long int));
 		if (*string == 'X')
@@ -264,14 +313,16 @@ int		main(int ac, char **av)
 	long int			i3 = 9223372036854775807;
 	long int			i4 = -9223372036854775807;
 	unsigned int		i5 = 4294967295;
-	unsigned long int	i6 = 18446744073709551615;
+//	long unsigned int	i6 = 18446744073709551615;
+	long unsigned int	i6 = 8446744073709551615;
 
 	if (ac == 1)
 	{
-		printf("%s : %d : %i : %u : %x : %X : %c : %s : %e : %f : %g\n", str, d, i, u, x, X, c, s, e, f, g);
-		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
-		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
-		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
+//		printf("%s : %d : %i : %u : %x : %X : %c : %s : %e : %f : %g\n", str, d, i, u, x, X, c, s, e, f, g);
+//		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
+//		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
+		ft_printf("%i", -23);
+//		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
 	}
 	if (ac == 2)
 	{
@@ -376,10 +427,10 @@ long long	8bytes	64bits
           4294967295           -2147483648 - +2147483647            02 [int]				[d, i]					[int]
 18446744073709551615  -9223372036854775808 - +9223372036854775807   04 [long]				[ld, li]				[long]			[d(l ,ll), i(l, ll)]
 18446744073709551615  -9223372036854775808 - +9223372036854775807   04 [long long]			[lld, lli]				[long]
-                 256                     0 - +255                   05 [unsigned char]		[hhu, hhx, hhX]			[unsigned long]	[s, u( , h, hh, l, ll), x( , h, hh, l, ll), X( , h, hh, l, ll), p]
-               65536                     0 - +65536                 06 [unsigned short]		[hu, hx, hX]			[unsigned long]
-          4294967296                     0 - +4294967296            07 [unsigned int]		[u, x, X, p]			[unsigned long]
-18446744073709551616                     0 - +18446744073709551616  09 [unsigned long]		[lu, lx, lX]			[unsigned long]
+                 256                     0 - +255                   05 [unsigned char]		[hhu, hhx, hhX]			[unsigned int]	[u( , h, hh), x( , h, hh), X( , h, hh), p]
+               65536                     0 - +65536                 06 [unsigned short]		[hu, hx, hX]			[unsigned int]
+          4294967296                     0 - +4294967296            07 [unsigned int]		[u, x, X, p]			[unsigned int]
+18446744073709551616                     0 - +18446744073709551616  09 [unsigned long]		[lu, lx, lX]			[unsigned long]	[s, u(l, ll), x(l, ll), X(l, ll)]
 18446744073709551616                     0 - +18446744073709551616  09 [unsigned long long]	[llu, llx, llX]			[unsigned long]
 18446744073709551616                     0 - +18446744073709551616  10 [char *]				[s, hhn]				[unsigned long]
 
