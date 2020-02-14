@@ -156,12 +156,6 @@ ll ll ll ll ll .  .  .  .  .  .  .
 [int *]				[n]
 [long *]			[ln]
 [long long *]		[lln]
-
-faire un itoa qui fonctionne pour les long int
-faire un uitoa qui fonctionne pour les unsigned long int
-comme ca [d i c] et [ld li] sont traites pareil, et
-[u x X p] et [lu lx lX s] aussi
-
 */
 
 char	*ft_convert(va_list ap, char *type)
@@ -170,10 +164,11 @@ char	*ft_convert(va_list ap, char *type)
 
 	if (ft_strchr(type, 'h') || ft_strchr(type, 'l'))
 		return (NULL);
-	if (ft_strchr("diuxXcspefgn", type[0]))
+	if (ft_strchr("efgn", type[0]))
+		return (NULL);
+	if (ft_strchr("diuxXcsp", type[0]))
 		print = ft_itoa((int)va_arg(ap, int));
-	printf("%s\n", print);
-	return (NULL);
+	return (print);
 }
 
 int		ft_printf(char *string, ...)
@@ -196,6 +191,7 @@ int		ft_printf(char *string, ...)
 				if (!(ft_expand_star(va_arg(ap, int), &s)))
 					return (-1);
 			print = ft_convert(ap, type);
+			printf("= %s | %s\n",s,print);
 		//	print = ft_flag_transform(s, print);
 		//	length += ft_put_word(print);
 		}
@@ -324,10 +320,10 @@ int		main(int ac, char **av)
 		ft_printf("%i", -23);
 //		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
 	}
-	if (ac == 2)
+	if (ac > 1)
 	{
-		printf("[%s]\n", av[1]);
-		ft_printf(av[1]);
+		printf("\"%s\",%s,%s,%s\n", av[1], av[2], av[3], av[4]);
+		ft_printf(av[1],av[2],av[3],av[4]);
 	}
 	return (0);
 }

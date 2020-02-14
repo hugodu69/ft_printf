@@ -10,7 +10,7 @@ IDIR   = .
 _DEPS  = ft_printf.h
 DEPS   = $(_DEPS:%.h=$(IDIR)/%.h)
 
-LDIR   = ./libft.c/
+LDIR   = ./libft/
 _LIBS  = libft.a
 LIBS   = $(_LIBS:lib%.a=%)
 
