@@ -83,8 +83,53 @@ int		ft_expand_star(int nbr, char **string)
 	}
 	free(*string);
 	*string = s;
-	printf("%s-%s\n",s, *string);
 	return (1);
+}
+
+/*
+** -convert the next argument into a string according to the following
+**  correspondances for diuxXcspefgn : 
+**  [char]				[hhd, hhi, c]			[long]		  	[d i c]
+**  [short]				[hd, hi]				[long]
+**  [int]				[d, i]					[long]
+**  [long]				[ld, li]				[long]
+**  [long long]			[lld, lli]				[long]
+**  [unsigned char]		[hhu, hhx, hhX]			[unsigned long]	[u x X p s]
+**  [unsigned short]	[hu, hx, hX]			[unsigned long]
+**  [unsigned int]		[u, x, X, p]			[unsigned long]
+**  [unsigned long]		[lu, lx, lX]			[unsigned long]
+**  [unsigned long long][llu, llx, llX]			[unsigned long]
+**  [char *]			[s, hhn]
+**  [double]			[e, le, f, lf, g, lg]
+**  [wint_t]			[lc]
+**  [wchar_t]			[ls]
+**  [short *]			[hn]
+**  [int *]				[n]
+**  [long *]			[ln]
+**  [long long *]		[lln]
+** -'h', 'hh', 'l' and 'll' are traited just like regular size
+*/
+
+char	*ft_convert(va_list ap, char *type)
+{
+	char	*print;
+
+	if (ft_strchr(type, 'c'))
+	{
+		print = strdup("0");
+		print[0] = (char)va_arg(ap, long int);
+	}
+	else if (ft_strchr(type, 's'))
+		print = strdup((char *)va_arg(ap, long int));
+	else if (ft_strchrset(type, "di"))
+		print = ft_itoa(va_arg(ap, long int));
+	else if (ft_strchrset(type, "uxXp"))
+		print = ft_utoa(va_arg(ap, unsigned long int));
+	else if (ft_strchrset(type, "efgn"))
+		return (NULL);
+	else
+		return (NULL);
+	return (print);
 }
 
 /*
@@ -118,59 +163,6 @@ int		ft_expand_star(int nbr, char **string)
 ** char *ft_flag_transform(char *s, char *print);
 */
 
-/*
-** d int
-** i int
-** u unsigned int
-** x unsigned int
-** X unsigned int
-** c char
-** s char*
-** p unsigned int
-** e double
-** f double
-** g double
-** n
-
-d  i  u  x  X  c  s  p  e  f  g  n 
-h  h  h  h  h  .  .  .  .  .  .  h 
-hh hh hh hh hh .  .  .  .  .  .  hh
-l  l  l  l  l  l  l  .  l  l  l  l 
-ll ll ll ll ll .  .  .  .  .  .  . 
-
-[char]				[hhd, hhi, c]			[int]		  	[d i c]
-[short]				[hd, hi]				[int]
-[int]				[d, i]					[int]
-[long]				[ld, li]				[long]			[ld li]
-[long long]			[lld, lli]				[long]
-[unsigned char]		[hhu, hhx, hhX]			[unsigned int]	[u x X p]
-[unsigned short]	[hu, hx, hX]			[unsigned int]
-[unsigned int]		[u, x, X, p]			[unsigned int]
-[unsigned long]		[lu, lx, lX]			[unsigned long]	[lu lx lX s]
-[unsigned long long][llu, llx, llX]			[unsigned long]
-[char *]			[s, hhn]				[unsigned long]
-[double]			[e, le, f, lf, g, lg]
-[wint_t]			[lc]
-[wchar_t]			[ls]
-[short *]			[hn]
-[int *]				[n]
-[long *]			[ln]
-[long long *]		[lln]
-*/
-
-char	*ft_convert(va_list ap, char *type)
-{
-	char	*print;
-
-	if (ft_strchr(type, 'h') || ft_strchr(type, 'l'))
-		return (NULL);
-	if (ft_strchr("efgn", type[0]))
-		return (NULL);
-	if (ft_strchr("diuxXcsp", type[0]))
-		print = ft_itoa((int)va_arg(ap, int));
-	return (print);
-}
-
 int		ft_printf(char *string, ...)
 {
 	char	*s;
@@ -184,14 +176,19 @@ int		ft_printf(char *string, ...)
 	while ((s = next_word(&string)) != NULL)
 	{
 		if ((type = specifier(s)) == NULL)
+		{
 			length += ft_put_word(s);
+			write(1, "|", 1);
+		}
 		else
 		{
 			while (ft_strchr(s, '*'))
 				if (!(ft_expand_star(va_arg(ap, int), &s)))
 					return (-1);
 			print = ft_convert(ap, type);
-			printf("= %s | %s\n",s,print);
+			ft_putstr(print);
+			write(1, "|", 1);
+//			printf("= %s | %s\n",s,print);
 		//	print = ft_flag_transform(s, print);
 		//	length += ft_put_word(print);
 		}
@@ -320,10 +317,30 @@ int		main(int ac, char **av)
 		ft_printf("%i", -23);
 //		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
 	}
-	if (ac > 1)
+	if (ac == 2)
 	{
-		printf("\"%s\",%s,%s,%s\n", av[1], av[2], av[3], av[4]);
+		printf("(\"%s\")\n", av[1]);
+		ft_printf(av[1]);
+	}
+	if (ac == 3)
+	{
+		printf("(\"%s\",%s)\n", av[1], av[2]);
+		ft_printf(av[1],av[2]);
+	}
+	if (ac == 4)
+	{
+		printf("(\"%s\",%i,%i)\n", av[1], atoi(av[2]), atoi(av[3]));
+		ft_printf(av[1],atoi(av[2]),atoi(av[3]));
+	}
+	if (ac == 5)
+	{
+		printf("(\"%s\",%s,%s,%s)\n", av[1], av[2], av[3], av[4]);
 		ft_printf(av[1],av[2],av[3],av[4]);
+	}
+	if (ac == 6)
+	{
+		printf("(\"%s\",%s,%s,%s,%s)\n", av[1], av[2], av[3], av[4], av[5]);
+		ft_printf(av[1],av[2],av[3],av[4],av[5]);
 	}
 	return (0);
 }
