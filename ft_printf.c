@@ -122,8 +122,18 @@ char	*ft_convert(va_list ap, char *type)
 	else if (ft_strchr(type, 's'))
 		print = strdup((char *)va_arg(ap, long int));
 	else if (ft_strchrset(type, "di"))
+		print = ft_itoa((long int)va_arg(ap, long int));
+	else if (ft_strchr(type, 'u'))
+		print = ft_utoa(va_arg(ap, unsigned long int));
+	else if (ft_strchrset(type, "xX"))
+	{
 		print = ft_itoa(va_arg(ap, long int));
-	else if (ft_strchrset(type, "uxXp"))
+		if (ft_strchr(type, 'x'))
+			print = ft_convertbase(print, "0123456789", "0123456789abcdef");
+		if (ft_strchr(type, 'X'))
+			print = ft_convertbase(print, "0123456789", "0123456789ABCDEF");
+	}
+	else if (ft_strchr(type, 'p'))
 		print = ft_utoa(va_arg(ap, unsigned long int));
 	else if (ft_strchrset(type, "efgn"))
 		return (NULL);
@@ -176,10 +186,7 @@ int		ft_printf(char *string, ...)
 	while ((s = next_word(&string)) != NULL)
 	{
 		if ((type = specifier(s)) == NULL)
-		{
 			length += ft_put_word(s);
-			write(1, "|", 1);
-		}
 		else
 		{
 			while (ft_strchr(s, '*'))
@@ -187,7 +194,6 @@ int		ft_printf(char *string, ...)
 					return (-1);
 			print = ft_convert(ap, type);
 			ft_putstr(print);
-			write(1, "|", 1);
 //			printf("= %s | %s\n",s,print);
 		//	print = ft_flag_transform(s, print);
 		//	length += ft_put_word(print);
@@ -314,33 +320,9 @@ int		main(int ac, char **av)
 //		printf("%s : %d : %i : %u : %x : %X : %c : %s : %e : %f : %g\n", str, d, i, u, x, X, c, s, e, f, g);
 //		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
 //		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
-		ft_printf("%i", -23);
+		ft_printf("sdf\n\n");
+		ft_printf("%i\n\n", -23);
 //		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
-	}
-	if (ac == 2)
-	{
-		printf("(\"%s\")\n", av[1]);
-		ft_printf(av[1]);
-	}
-	if (ac == 3)
-	{
-		printf("(\"%s\",%s)\n", av[1], av[2]);
-		ft_printf(av[1],av[2]);
-	}
-	if (ac == 4)
-	{
-		printf("(\"%s\",%i,%i)\n", av[1], atoi(av[2]), atoi(av[3]));
-		ft_printf(av[1],atoi(av[2]),atoi(av[3]));
-	}
-	if (ac == 5)
-	{
-		printf("(\"%s\",%s,%s,%s)\n", av[1], av[2], av[3], av[4]);
-		ft_printf(av[1],av[2],av[3],av[4]);
-	}
-	if (ac == 6)
-	{
-		printf("(\"%s\",%s,%s,%s,%s)\n", av[1], av[2], av[3], av[4], av[5]);
-		ft_printf(av[1],av[2],av[3],av[4],av[5]);
 	}
 	return (0);
 }
