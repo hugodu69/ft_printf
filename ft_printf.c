@@ -110,36 +110,50 @@ int		ft_expand_star(int nbr, char **string)
 ** -'h', 'hh', 'l' and 'll' are traited just like regular size
 */
 
+char	*conv_li(char c, long int i)
+{
+	char	*s;
+
+	if (c == 'c')
+	{
+		s = ft_strdup("0");
+		s[0] = i;
+		return (s);
+	}
+	if (c == 'd' || c == 'i')
+		return (ft_itoa(i));
+	return (NULL);
+}
+
+char	*conv_lu(char c, unsigned long int i)
+{
+	char	*s;
+
+	s = ft_utoa(i);
+	if (c == 's')
+		return (strdup((char *)i));
+	if (c == 'u')
+		return (s);
+	if (c == 'x')
+		return (ft_convertbase(s, "0123456789", "0123456789abcdef"));
+	if (c == 'X')
+		return (ft_convertbase(s, "0123456789", "0123456789ABCDEF"));
+	if (c == 'p')
+		return (ft_utoa(i));
+	return (NULL);
+}
+
 char	*ft_convert(va_list ap, char *type)
 {
-	char	*print;
+	char	*s;
 
-	if (ft_strchr(type, 'c'))
-	{
-		print = strdup("0");
-		print[0] = (char)va_arg(ap, long int);
-	}
-	else if (ft_strchr(type, 's'))
-		print = strdup((char *)va_arg(ap, long int));
-	else if (ft_strchrset(type, "di"))
-		print = ft_itoa((long int)va_arg(ap, long int));
-	else if (ft_strchr(type, 'u'))
-		print = ft_utoa(va_arg(ap, unsigned long int));
-	else if (ft_strchrset(type, "xX"))
-	{
-		print = ft_itoa(va_arg(ap, long int));
-		if (ft_strchr(type, 'x'))
-			print = ft_convertbase(print, "0123456789", "0123456789abcdef");
-		if (ft_strchr(type, 'X'))
-			print = ft_convertbase(print, "0123456789", "0123456789ABCDEF");
-	}
-	else if (ft_strchr(type, 'p'))
-		print = ft_utoa(va_arg(ap, unsigned long int));
-	else if (ft_strchrset(type, "efgn"))
+	if ((s = ft_strchrset(type, "dic")) != NULL)
+		return (conv_li(s[0], va_arg(ap, long int)));
+	if ((s = ft_strchrset(type, "uxXps")) != NULL)
+		return (conv_lu(s[0], va_arg(ap, unsigned long int)));
+	if (ft_strchrset(type, "efgn"))
 		return (NULL);
-	else
-		return (NULL);
-	return (print);
+	return (NULL);
 }
 
 /*
@@ -320,9 +334,19 @@ int		main(int ac, char **av)
 //		printf("%s : %d : %i : %u : %x : %X : %c : %s : %e : %f : %g\n", str, d, i, u, x, X, c, s, e, f, g);
 //		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
 //		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
-		ft_printf("sdf\n\n");
-		ft_printf("%i\n\n", -23);
 //		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
+		   printf("sdf\n");
+		ft_printf("sdf\n\n");
+		   printf("%i\n", -23);
+		ft_printf("%i\n\n", -23);
+		   printf("%c\n", 'f');
+		ft_printf("%c\n\n", 'f');
+		   printf("%s\n", "sdffhk");
+		ft_printf("%s\n\n", "sdffhk");
+		   printf("%u\n", 1221879);
+		ft_printf("%u\n\n", 1221879);
+		   printf("%x\n", 3287);
+		ft_printf("%x\n\n", 3287);
 	}
 	return (0);
 }
