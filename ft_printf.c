@@ -2,161 +2,6 @@
 #include "ft_printf.h"
 
 /*
-** -if s is a string, or is a single '%'
-**  return NULL (to print is as a string)
-** -if s is a double '%%', remove one '%', and
-**  return NULL (to print is as a string)
-** -then s is a conversion, go to the length and specifier
-** -copy them in 'string'
-** -and remove them from s
-** -return the length and specifier in a string
-*/
-
-char	*specifier(char *s)
-{
-	char	*string;
-	int		i;
-
-	if (s[0] != '%' || s[1] == '\0')
-		return (NULL);
-	if (s[1] == '%')
-	{
-		s[1] = '\0';
-		return (NULL);
-	}
-	i = 1;
-	while (ft_strchr("#0- +'0123456789.*", s[i]) != NULL)
-		i++;
-	string = ft_strdup(s + i);
-	while (s[i] != '\0')
-	{
-		s[i] = '\0';
-		i++;
-	}
-	return (string);
-}
-
-/*
-** print the string
-*/
-
-int		ft_put_word(char *s)
-{
-	int		i;
-
-	i = ft_strlen(s);
-	ft_putstr(s);
-	return (i);
-}
-
-/*
-** receive 'i' the number in which '*' will expand
-** turn it into a string
-** calculate the total lentgh of the string '%...' for nbr replacing '*'
-** allocate a new string with this length
-** copy the original str with first '*' expanded into it's corresponding  nbr
-*/
-
-int		ft_expand_star(int nbr, char **string)
-{
-	char	*s;
-	char	*strnbr;
-	int		i;
-	int		j;
-
-	strnbr = ft_itoa(nbr);
-	i = ft_strlen(strnbr) + ft_strlen(*string) - 1;
-	if (!(s = (char *)malloc(sizeof(char) * (i + 1))))
-		return (0);
-	s[i] = '\0';
-	i = 0;
-	j = 0;
-	while ((*string)[i] != '\0')
-	{
-		s[j] = (*string)[i];
-		if (s[j] == '*')
-			while (*strnbr != '\0')
-				s[j++] = *(strnbr++);
-		else
-			j++;
-		i++;
-	}
-	free(*string);
-	*string = s;
-	return (1);
-}
-
-/*
-** -convert the next argument into a string according to the following
-**  correspondances for diuxXcspefgn : 
-**  [char]				[hhd, hhi, c]			[long]		  	[d i c]
-**  [short]				[hd, hi]				[long]
-**  [int]				[d, i]					[long]
-**  [long]				[ld, li]				[long]
-**  [long long]			[lld, lli]				[long]
-**  [unsigned char]		[hhu, hhx, hhX]			[unsigned long]	[u x X p s]
-**  [unsigned short]	[hu, hx, hX]			[unsigned long]
-**  [unsigned int]		[u, x, X, p]			[unsigned long]
-**  [unsigned long]		[lu, lx, lX]			[unsigned long]
-**  [unsigned long long][llu, llx, llX]			[unsigned long]
-**  [char *]			[s, hhn]
-**  [double]			[e, le, f, lf, g, lg]
-**  [wint_t]			[lc]
-**  [wchar_t]			[ls]
-**  [short *]			[hn]
-**  [int *]				[n]
-**  [long *]			[ln]
-**  [long long *]		[lln]
-** -'h', 'hh', 'l' and 'll' are traited just like regular size
-*/
-
-char	*conv_li(char c, long int i)
-{
-	char	*s;
-
-	if (c == 'c')
-	{
-		s = ft_strdup("0");
-		s[0] = i;
-		return (s);
-	}
-	if (c == 'd' || c == 'i')
-		return (ft_itoa(i));
-	return (NULL);
-}
-
-char	*conv_lu(char c, unsigned long int i)
-{
-	char	*s;
-
-	s = ft_utoa(i);
-	if (c == 's')
-		return (strdup((char *)i));
-	if (c == 'u')
-		return (s);
-	if (c == 'x')
-		return (ft_convertbase(s, "0123456789", "0123456789abcdef"));
-	if (c == 'X')
-		return (ft_convertbase(s, "0123456789", "0123456789ABCDEF"));
-	if (c == 'p')
-		return (ft_utoa(i));
-	return (NULL);
-}
-
-char	*ft_convert(va_list ap, char *type)
-{
-	char	*s;
-
-	if ((s = ft_strchrset(type, "dic")) != NULL)
-		return (conv_li(s[0], va_arg(ap, long int)));
-	if ((s = ft_strchrset(type, "uxXps")) != NULL)
-		return (conv_lu(s[0], va_arg(ap, unsigned long int)));
-	if (ft_strchrset(type, "efgn"))
-		return (NULL);
-	return (NULL);
-}
-
-/*
 ** FT_PRINTF :
 **	va_list	ap;
 **	int		length;
@@ -178,13 +23,6 @@ char	*ft_convert(va_list ap, char *type)
 **			ft_flag_transform()	| -proceed all modification according to flags
 **			ft_put_word(print)	| -print the string fully converted
 **	return (length)				| -return the length of what was printed
-**
-** char *next_word(char *s);
-** char *specifier(char **s);
-** int  ft_put_words(char *s);
-** void ft_expand_star(int i, char **s);
-** char *ft_convert(va_list ap, char *type);
-** char *ft_flag_transform(char *s, char *print);
 */
 
 int		ft_printf(char *string, ...)
@@ -207,10 +45,8 @@ int		ft_printf(char *string, ...)
 				if (!(ft_expand_star(va_arg(ap, int), &s)))
 					return (-1);
 			print = ft_convert(ap, type);
-			ft_putstr(print);
-//			printf("= %s | %s\n",s,print);
 		//	print = ft_flag_transform(s, print);
-		//	length += ft_put_word(print);
+			length += ft_put_word(print);
 		}
 	}
 	return (length);
@@ -245,25 +81,27 @@ int		ft_printf(char *string, ...)
 ** char *ft_lpadd(int i, char *print, char c);
 */
 
-//	ft_flag_transform()
-//	{
-//		if ((i = flag_p(&s)))
-//			print = ft_precision(i, print);
-//		if ((i = flag_w(s)))
-//		{
-//			if (flag_-(&s))
-//				print = ft_rpadd(i, print);
-//			else if (flag_0(&s))
-//				print = ft_lpadd(i, print, '0');
-//			else
-//				print = ft_lpadd(i, print, ' ');
-//		}
-	//	if (flag_+(s))								//
-	//	else if (flag_space(s))						//
-	//	if (flag_'(s))								//
-	//	if (flag_#(s))								//
-	//		print = ft_alternate_form(print)		//                                           
-	//	}
+/*
+char	*ft_flag_transform(char *s, char *print)
+{
+	if ((i = flag_p(&s)))
+		print = ft_precision(i, print);
+	if ((i = flag_w(s)))
+	{
+		if (flag_-(&s))
+			print = ft_rpadd(i, print);
+		else if (flag_0(&s))
+			print = ft_lpadd(i, print, '0');
+		else
+			print = ft_lpadd(i, print, ' ');
+	}
+//	if (flag_+(s))								//
+//	else if (flag_space(s))						//
+//	if (flag_'(s))								//
+//	if (flag_#(s))								//
+//		print = ft_alternate_form(print)		//                                           
+}
+*/
 
 int		ft_printf_test(char *string, ...)
 {
@@ -335,10 +173,18 @@ int		main(int ac, char **av)
 //		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
 //		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
 //		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
+
 		   printf("sdf\n");
 		ft_printf("sdf\n\n");
-		   printf("%i\n", -23);
-		ft_printf("%i\n\n", -23);
+		   printf("%i\n", 23);
+		ft_printf("%i\n\n", 23);
+		   long int k = -23;
+		   printf("%li\n", k);
+		ft_printf("%li\n\n", k);
+		   printf("%i\n", -32);
+		ft_printf("%i\n\n", -32);
+		   printf("%li\n", 9223372036854775807);
+		ft_printf("%li\n\n", 9223372036854775807);
 		   printf("%c\n", 'f');
 		ft_printf("%c\n\n", 'f');
 		   printf("%s\n", "sdffhk");
@@ -347,6 +193,10 @@ int		main(int ac, char **av)
 		ft_printf("%u\n\n", 1221879);
 		   printf("%x\n", 3287);
 		ft_printf("%x\n\n", 3287);
+		   printf("%lX\n", 9223372036854775807);
+		ft_printf("%lX\n\n", 9223372036854775807);
+		   printf("%p\n", "dfgdf");
+		ft_printf("%p\n\n", "dfgdf");
 	}
 	return (0);
 }
