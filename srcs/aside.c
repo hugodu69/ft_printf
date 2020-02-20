@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 16:23:01 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/19 18:44:21 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/02/20 13:03:34 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** SPECIFIER :
 **  receive a word as a string, check if it start by '%', and return the
-**  specifier (diuxXspefgn) and th length (h hh l ll)
+**  specifier (diuxXspefgn) and the length (h hh l ll)
 ** -if s is a string, or is a single '%'
 **  return NULL (to print is as a string)
 ** -if s is a double '%%', remove one '%', and

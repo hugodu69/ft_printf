@@ -17,7 +17,8 @@ LIBS   = $(_LIBS:lib%.a=%)
 SRCS   = ft_printf.c \
          ft_next_word.c \
 		 aside.c \
-		 ft_convert.c
+		 ft_convert.c \
+		 main.c
 
 ODIR   = ./builds
 OBJS   = $(SRCS:%.c=$(ODIR)/%.o)
