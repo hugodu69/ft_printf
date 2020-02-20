@@ -43,6 +43,7 @@ fclean: clean
 	/bin/rm -f $(NAME)
 re: fclean all
 lib:
-	make fclean -C $(LDIR)
 	make -C $(LDIR)
+cleanlib: lib
+	make fclean -C $(LDIR)
 .PHONY: all clean fclean re lib

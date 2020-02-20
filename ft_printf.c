@@ -45,7 +45,7 @@ int		ft_printf(char *string, ...)
 				if (!(ft_expand_star(va_arg(ap, int), &s)))
 					return (-1);
 			print = ft_convert(ap, type);
-		//	print = ft_flag_transform(s, print);
+			print = ft_flag_transform(s, print);
 			length += ft_put_word(print);
 		}
 	}
@@ -81,24 +81,24 @@ int		ft_printf(char *string, ...)
 ** char *ft_lpadd(int i, char *print, char c);
 */
 
-/*
 char	*ft_flag_transform(char *s, char *print)
 {
-	if ((i = flag_p(&s)))
-		print = ft_precision(i, print);
-	if ((i = flag_w(s)))
-	{
-		if (flag_-(&s))
-			print = ft_rpadd(i, print);
-		else if (flag_0(&s))
-			print = ft_lpadd(i, print, '0');
-		else
-			print = ft_lpadd(i, print, ' ');
-	}
+
+	return (NULL);
+//	if ((i = flag_p(&s)))
+//		print = ft_precision(i, print);
+//	if ((i = flag_w(s)))
+//	{
+//		if (flag_-(&s))
+//			print = ft_rpadd(i, print);
+//		else if (flag_0(&s))
+//			print = ft_lpadd(i, print, '0');
+//		else
+//			print = ft_lpadd(i, print, ' ');
+//	}
 //	if (flag_+(s))								//
 //	else if (flag_space(s))						//
 //	if (flag_'(s))								//
 //	if (flag_#(s))								//
 //		print = ft_alternate_form(print)		//                                           
 }
-*/
