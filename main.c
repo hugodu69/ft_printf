@@ -1,5 +1,5 @@
 #include "ft_printf.h"
-#include <libc.h>
+#include <stdio.h> // for printf
 #include <locale.h>
 
 int		ft_printf_test(char *string, ...)

@@ -2,6 +2,59 @@
 #include "ft_printf.h"
 
 /*
+** FT_FLAG_TRANSFORM :
+** 	if i = flag_p(&s)			| -precision is calculated before width,
+** 								|  on str, if < length(str), cuts it,
+** 		print = ft_precision()	|  on nbr, if > length(nbr), add '0' before,
+** 								|  then add '-' if negatif
+** 								|  (if precision given with flags '-' or '0'
+** 								|  they're ignored and cuted from s)
+** 	if i = flag_w(s)			| -width is caculated
+** 		if flag_-(&s)			| -if flag '-', rm '-' and width from s
+** 			print = ft_rpadd()	| -put extra width as ' ' to right,
+** 		else if flag_0(&s)		| -if flag '0', rm '0' and width from s
+** 			print = ft_lpadd()	| -put extra width as '0' to left
+** 		else					| -if just width
+** 			print = ft_lpadd()	|  put extra width as ' ' to left
+** //	if flag_+(s)			|
+** //	else if flag_space(s)	|
+** //	if flag_'(s)			|
+** //	if flag_#(s)			|
+** //		print = ft_altfrm() |
+**
+** int  flag_p(char **s);
+** char *ft_precision(int i, char *print);
+** int  flag_w(char *s);
+** void flag_-(char **s);
+** char *ft_rpadd(int i, char *print);
+** char *ft_lpadd(int i, char *print, char c);
+*/
+
+char	*ft_flag_transform(char *s, char *print)
+{
+	(void)s;
+//	int	i;
+//
+//	if ((i = flag_p(&s)))
+//		print = ft_precision(i, print);
+//	if ((i = flag_w(s)))
+//	{
+//		if (flag_-(&s))
+//			print = ft_rpadd(i, print);
+//		else if (flag_0(&s))
+//			print = ft_lpadd(i, print, '0');
+//		else
+//			print = ft_lpadd(i, print, ' ');
+//	}
+//	if (flag_+(s))								//
+//	else if (flag_space(s))						//
+//	if (flag_'(s))								//
+//	if (flag_#(s))								//
+//		print = ft_alternate_form(print)		//                                           
+	return (print);
+}
+
+/*
 ** FT_PRINTF :
 **	va_list	ap;
 **	int		length;
@@ -44,61 +97,12 @@ int		ft_printf(char *string, ...)
 			while (ft_strchr(s, '*'))
 				if (!(ft_expand_star(va_arg(ap, int), &s)))
 					return (-1);
-			print = ft_convert(ap, type);
-			print = ft_flag_transform(s, print);
+			if (!(print = ft_convert(ap, type)))
+				return (-1);
+			if (!(print = ft_flag_transform(s, print)))
+				return (-1);
 			length += ft_put_word(print);
 		}
 	}
 	return (length);
-}
-
-/*
-** FT_FLAG_TRANSFORM :
-** 	if i = flag_p(&s)			| -precision is calculated before width,
-** 								|  on str, if < length(str), cuts it,
-** 		print = ft_precision()	|  on nbr, if > length(nbr), add '0' before,
-** 								|  then add '-' if negatif
-** 								|  (if precision given with flags '-' or '0'
-** 								|  they're ignored and cuted from s)
-** 	if i = flag_w(s)			| -width is caculated
-** 		if flag_-(&s)			| -if flag '-', rm '-' and width from s
-** 			print = ft_rpadd()	| -put extra width as ' ' to right,
-** 		else if flag_0(&s)		| -if flag '0', rm '0' and width from s
-** 			print = ft_lpadd()	| -put extra width as '0' to left
-** 		else					| -if just width
-** 			print = ft_lpadd()	|  put extra width as ' ' to left
-** //	if flag_+(s)			|
-** //	else if flag_space(s)	|
-** //	if flag_'(s)			|
-** //	if flag_#(s)			|
-** //		print = ft_altfrm() |
-**
-** int  flag_p(char **s);
-** char *ft_precision(int i, char *print);
-** int  flag_w(char *s);
-** void flag_-(char **s);
-** char *ft_rpadd(int i, char *print);
-** char *ft_lpadd(int i, char *print, char c);
-*/
-
-char	*ft_flag_transform(char *s, char *print)
-{
-
-	return (NULL);
-//	if ((i = flag_p(&s)))
-//		print = ft_precision(i, print);
-//	if ((i = flag_w(s)))
-//	{
-//		if (flag_-(&s))
-//			print = ft_rpadd(i, print);
-//		else if (flag_0(&s))
-//			print = ft_lpadd(i, print, '0');
-//		else
-//			print = ft_lpadd(i, print, ' ');
-//	}
-//	if (flag_+(s))								//
-//	else if (flag_space(s))						//
-//	if (flag_'(s))								//
-//	if (flag_#(s))								//
-//		print = ft_alternate_form(print)		//                                           
 }
