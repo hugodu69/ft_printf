@@ -7,8 +7,8 @@
 ** 								|  on str, if < length(str), cuts it,
 ** 		print = ft_precision()	|  on nbr, if > length(nbr), add '0' before,
 ** 								|  then add '-' if negatif
-** 								|  (if precision given with flags '-' or '0'
-** 								|  they're ignored and cuted from s)
+** 								|  (if precision given with flag '0', it's
+** 								|  ignored and cuted from s)
 ** 	if i = flag_w(s)			| -width is caculated
 ** 		if flag_-(&s)			| -if flag '-', rm '-' and width from s
 ** 			print = ft_rpadd()	| -put extra width as ' ' to right,
@@ -33,6 +33,44 @@
 char	*ft_flag_transform(char *s, char *print)
 {
 	(void)s;
+	printf("|%i| - |%.0i| - |%.0i| - |%.i|\n",0,0,1,0);
+	printf("|%i| - |%i| - |%.4i| - |%.4i|\n",10,-10,10,-10);
+	printf("|%i| - |%05i| - |%05.4i| - |%.4i|\n",10,10,10,10);
+	printf("|%i| - |%-5i| - |%-5.4i| - |%-.4i|\n",10,10,10,10);
+	char * t = "trois";
+	printf("|%s| - |%.0s| - |%.2s| - |%.10s|\n",t,t,t,t);
+	char y = 'y';
+	printf("|%c| - |%.0c| - |%.2c| - |%.10c|\n",y,y,y,y);
+
+//	print = ft_precision
+//				(print, s, type);	// -regarde s'il y a un '.' suivit de
+									//  chiffres, donc une precision
+									// -si oui transforme les chiffres en
+									//  un int 'precision'
+									// -s'il y a un '.' sans chiffres,
+									//  donner la valeur 0 a 'precision'
+									// -virer ces chiffres et le '.' de s
+									// -si flag '0', l'enlever de s aussi
+									// -transformer print en fonction de
+									//  cette precision :
+									// -1 si type vaut s:
+									//   -si length(s) > a precision
+									//    raboter la fin de s pour afficher
+									//    uniquement au max la longueur de
+									//    precision
+									//   -sinon laisser print tel quel
+									// -2 si type de s est "diouxX":
+									//   -si length(s) < a precision
+									//    ajouter des '0' avant le nombre
+									//    mais apres le signe '-' si c'est
+									//    un nombre negatif
+									// -3 si type de s est "aAeEfF":
+									//   -non traite
+									// -4 si type de s est "gG":
+									//   -non traite
+									// -5 sinon:
+									//   -erreur
+
 //	int	i;
 //
 //	if ((i = flag_p(&s)))
@@ -46,6 +84,7 @@ char	*ft_flag_transform(char *s, char *print)
 //		else
 //			print = ft_lpadd(i, print, ' ');
 //	}
+
 //	if (flag_+(s))								//
 //	else if (flag_space(s))						//
 //	if (flag_'(s))								//
