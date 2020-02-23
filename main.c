@@ -109,6 +109,12 @@ int		main(int ac, char **av)
 		ft_printf("%lX\n\n", 9223372036854775807);
 		   printf("%p\n", "dfgdf");
 		ft_printf("%p\n\n", "dfgdf");
+		ft_printf("%.i\n", 123);
+		ft_printf("%.2i\n", 123);
+		ft_printf("%.252653i\n", 123);
+		ft_printf("%0.6i\n", 123);
+		ft_printf("%- 032.6i\n", 123);
+		ft_printf("%0-0 32.6i\n", 123);
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */

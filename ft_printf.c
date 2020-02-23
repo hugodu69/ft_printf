@@ -30,19 +30,52 @@
 ** char *ft_lpadd(int i, char *print, char c);
 */
 
+char	*ft_precision(char *s, char *print)
+{												char	*test;
+	char	*tmp;
+	int		i;									test = s;
+
+	if ((tmp = ft_strchr(s, '.')))
+	{											ft_putstr("(");ft_putstr(s);ft_putstr(")");
+		i = ft_atoi(tmp + 1);
+		while (*tmp)
+			*(tmp++) = '\0';
+		while (ft_strchr("#- +'0", *(++s)))
+			if (*s == '0')
+				*s = '.';
+//		tmp = s;
+//		while (ft_strchr("%#- +'0", *s))
+//		{
+//			if (*s == '0')
+//				s++;
+//			*tmp = *s;
+//			tmp++;
+//			s++;
+//		}
+//		while (*s)
+//		{
+//			*tmp = *s;
+//			s++;
+//			tmp++;
+//		}
+/*		*tmp = '\0';*/							s = test;ft_putstr("[");ft_putnbr(i);ft_putstr("]");ft_putstr("(");ft_putstr(s);ft_putstr(")");
+//		return (precision_trsf);
+	}
+	return (print);
+}
+
 char	*ft_flag_transform(char *s, char *print)
 {
-	(void)s;
-	printf("|%i| - |%.0i| - |%.0i| - |%.i|\n",0,0,1,0);
-	printf("|%i| - |%i| - |%.4i| - |%.4i|\n",10,-10,10,-10);
-	printf("|%i| - |%05i| - |%05.4i| - |%.4i|\n",10,10,10,10);
-	printf("|%i| - |%-5i| - |%-5.4i| - |%-.4i|\n",10,10,10,10);
-	char * t = "trois";
-	printf("|%s| - |%.0s| - |%.2s| - |%.10s|\n",t,t,t,t);
-	char y = 'y';
-	printf("|%c| - |%.0c| - |%.2c| - |%.10c|\n",y,y,y,y);
+//	printf("|%i| - |%.0i| - |%.0i| - |%.i|\n",0,0,1,0);
+//	printf("|%i| - |%i| - |%.4i| - |%.4i|\n",10,-10,10,-10);
+//	printf("|%i| - |%05i| - |%05.4i| - |%.4i|\n",10,10,10,10);
+//	printf("|%i| - |%-5i| - |%-5.4i| - |%-.4i|\n",10,10,10,10);
+//	char * t = "trois";
+//	printf("|%s| - |%.0s| - |%.2s| - |%.10s|\n",t,t,t,t);
+//	char y = 'y';
+//	printf("|%c| - |%.0c| - |%.2c| - |%.10c|\n",y,y,y,y);
 
-//	print = ft_precision
+	print = ft_precision(s, print);
 //				(print, s, type);	// -regarde s'il y a un '.' suivit de
 									//  chiffres, donc une precision
 									// -si oui transforme les chiffres en

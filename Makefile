@@ -23,7 +23,7 @@ SRCS   = ft_printf.c \
 ODIR   = ./builds
 OBJS   = $(SRCS:%.c=$(ODIR)/%.o)
 
-CFLAGS = -I$(IDIR)
+CFLAGS = -I$(IDIR) -g
 LFLAGS = -L$(LDIR) -l$(LIBS)
 
 # - - - - - - - - - - - #
