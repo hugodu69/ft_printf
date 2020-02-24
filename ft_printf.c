@@ -84,18 +84,81 @@ char	*ft_precision(char *s, char *print, char *type)
 
 /*
 **
+** 	if i = flag_w(s)			| -width is caculated
+** 		if flag_-(&s)			| -if flag '-', rm '-' and width from s
+** 			print = ft_rpadd()	| -put extra width as ' ' to right,
+** 		else if flag_0(&s)		| -if flag '0', rm '0' and width from s
+** 			print = ft_lpadd()	| -put extra width as '0' to left
+** 		else					| -if just width
+** 			print = ft_lpadd()	|  put extra width as ' ' to left
 */
 
-char	*ft_width(char *s, char *print, char *type)
+char	*ft_width(char *s, char *print)
 {
-	int		i;
+	char	*tmp;
+	int		i;																		ft_putstr("[");ft_putstr(s);ft_putstr("|");
 
-	ft_putstr("[");ft_putstr(s);ft_putstr("|");
-	while (*s != '\0' && ft_strchr("%#- +'0.", *s))
-		s++;
-	i = ft_atoi(s);
-	(void)type;
-	ft_putnbr(i);ft_putstr("]");
+	tmp = s;
+	while (*tmp != '\0' && ft_strchr("%#- +'0.", *tmp))
+		tmp++;
+	i = ft_atoi(tmp);																ft_putnbr(i);ft_putstr("|");
+	tmp[0] = '\0';																	ft_putstr(s);ft_putstr("]");
+	if (i > ft_strlen(print))
+	{
+		if (!(tmp = (char *)malloc(sizeof(char) * (i + 1))))
+			return (NULL);
+		tmp[i] = '\0';
+		if (ft_strchr(s, '-'))
+		{
+			while (*print)
+			{
+				*tmp = *print;
+				tmp++;
+				print++;
+				i--;
+			}
+			while (i)
+			{
+				*tmp = ' ';
+				tmp++;
+				i--;
+			}
+		}
+		else if (ft_strchr(s, '0'))
+		{
+			i -= ft_strlen(print);
+			while (i)
+			{
+				*tmp = '0';
+				tmp++;
+				i--;
+			}
+			while (*print)
+			{
+				*tmp = *print;
+				tmp++;
+				print++;
+			}
+		}
+		else
+		{
+			i -= ft_strlen(print);
+			while (i)
+			{
+				*tmp = ' ';
+				tmp++;
+				i--;
+			}
+			while (*print)
+			{
+				*tmp = *print;
+				tmp++;
+				print++;
+			}
+		}
+//		ft_putstr(tmp);
+		print = tmp;
+	}
 	return (print);
 }
 
@@ -129,9 +192,9 @@ char	*ft_width(char *s, char *print, char *type)
 */
 
 char	*ft_flag_transform(char *s, char *print, char *type)
-{
+{																					ft_putstr("[");ft_putstr(s);ft_putstr("]");
 	print = ft_precision(s, print, type);
-	print = ft_width(s, print, type);
+	print = ft_width(s, print);
 //	if ((i = flag_w(s)))
 //	{
 //		if (flag_-(&s))

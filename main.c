@@ -135,21 +135,35 @@ int		main(int ac, char **av)
 		ft_printf("'%.s'\n\n", "string");
 		   printf("'%.7i'\n", -123456);
 		ft_printf("'%.7i'\n\n", -123456);
+		   printf("'%2i'\n", -123);
+		ft_printf("'%2i'\n\n", -123);
+		   printf("'%0i'\n", -123);
+		ft_printf("'%0i'\n\n", -123);
+		   printf("'%10i'\n", -123);
+		ft_printf("'%10i'\n\n", -123);
+		   printf("'%*i'\n", 0,-123);
+		ft_printf("'%*i'\n\n", 0,-123);
+		   printf("'%0s'\n", "string");
+		ft_printf("'%0s'\n\n", "string");
+		   printf("'%10s'\n", "string");
+		ft_printf("'%10s'\n\n", "string");
+		   printf("'%010s'\n", "string");
+		ft_printf("'%010s'\n\n", "string");
 
-//	#include <fcntl.h>
-//	ft_printf("Hi file\n");
-//	int out = open("out.txt", O_WRONLY);
-//	int save = dup(1);
-//	dup2(out, 1);
-//	ft_printf("Ho fole\n");
-//	dup2(save, 1);
-//	ft_printf("Ha fale\n");
-//	dup2(out, 1);
-//	ft_printf("Hu fule\n");
-//	dup2(save, 1);
-//	ft_printf("He fele\n");
-//	close(save);
-//	close(out);
+	//	#include <fcntl.h>
+	//	ft_printf("Hi file\n");
+	//	int out = open("out.txt", O_WRONLY);
+	//	int save = dup(1);
+	//	dup2(out, 1);
+	//	ft_printf("Ho fole\n");
+	//	dup2(save, 1);
+	//	ft_printf("Ha fale\n");
+	//	dup2(out, 1);
+	//	ft_printf("Hu fule\n");
+	//	dup2(save, 1);
+	//	ft_printf("He fele\n");
+	//	close(save);
+	//	close(out);
 
 	}
 
