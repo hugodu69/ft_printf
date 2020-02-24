@@ -2,6 +2,105 @@
 #include "ft_printf.h"
 
 /*
+** -function that modify the string 'print' according to the precision flag :
+**  if length(s) < precision, add x '0' bfr nbr, but after '-' if negative
+*/
+
+char	*precision_int(char *print, int precision)
+{
+	int		i;
+	char	*tmp;
+
+	i = ft_strlen(print);
+	if (print[0] == '-')
+		precision++;
+	if (precision > i)
+	{
+		if (!(tmp = (char *)malloc(sizeof(char) * (precision + 1))))
+			return (NULL);
+		tmp[precision] = '\0';
+		if (print[0] == '-')
+			tmp[0] = '-';
+		while (i)
+			tmp[--precision] = print[--i];
+		if (print[0] == '-')
+			precision++;
+		while (precision)
+			tmp[--precision] = '0';
+		if (print[0] == '-')
+			tmp[0] = '-';
+		free(print);
+		print = tmp;
+	}
+	return (print);
+}
+
+/*
+** -it first verify if there is a precision point, and if so, it execute a
+**  serie of action listed below, otherwise return print as it is
+**  ACTIONS :
+** -look for a '.'
+** -if followed by numbers, extract an int version of those numbers
+** -if the '.' is alone, gives value '0' to the int
+** -then removes the '.' and the numbers from the %string
+** -if flag '0' is present in %string, removes it (actually turn each occurence
+**  in a '.')
+** -and transform 'print' according to the precision :
+** -1 if type is s: if length(s) > precision, removes end of 'print' to print
+**    only x chars, with x = precision
+** -2 if type is "diouxX": call fonction 'precision_int' that return :
+**    if length(s) < precision, add x '0' bfr nbr, but after '-' if negative
+** -3 if type is "aAeEfF": not covered
+** -4 si type is "gG": not covered
+** -5 else: error
+*/
+
+char	*ft_precision(char *s, char *print, char *type)
+{
+	char	*tmp;
+	int		precision;
+	int		i;
+
+	if ((tmp = ft_strchr(s, '.')))
+	{
+		precision = ft_atoi(tmp + 1);
+		*tmp = '\0';
+		while (ft_strchr("#- +'0", *(++s)))
+			if (*s == '0')
+				*s = '.';
+		i = 0;
+		if (ft_strchr(type, 's'))
+		{
+			while (i < precision && print[i])
+				i++;
+			if (print[i])
+				print[i] = '\0';
+		}
+		if (ft_strchrset(type, "diouxX"))
+			print = precision_int(print, precision);
+	}
+	return (print);
+}
+
+/*
+**
+*/
+
+char	*ft_width(char *s, char *print, char *type)
+{
+	int		i;
+
+	ft_putstr("[");ft_putstr(s);ft_putstr("|");
+	while (ft_strchr("%#- +'0.", *s))
+		s++;
+	ft_putstr(s);ft_putstr("|");
+	i = ft_atoi(s);
+	(void)type;
+	ft_putnbr(i);ft_putstr("]");
+	return (print);
+}
+
+/*
 ** FT_FLAG_TRANSFORM :
 ** 	if i = flag_p(&s)			| -precision is calculated before width,
 ** 								|  on str, if < length(str), cuts it,
@@ -30,84 +129,12 @@
 ** char *ft_lpadd(int i, char *print, char c);
 */
 
-char	*ft_precision(char *s, char *print)
-{												char	*test;
-	char	*tmp;
-	int		i;									test = s;
-
-	if ((tmp = ft_strchr(s, '.')))
-	{											ft_putstr("(");ft_putstr(s);ft_putstr(")");
-		i = ft_atoi(tmp + 1);
-		while (*tmp)
-			*(tmp++) = '\0';
-		while (ft_strchr("#- +'0", *(++s)))
-			if (*s == '0')
-				*s = '.';
-//		tmp = s;
-//		while (ft_strchr("%#- +'0", *s))
-//		{
-//			if (*s == '0')
-//				s++;
-//			*tmp = *s;
-//			tmp++;
-//			s++;
-//		}
-//		while (*s)
-//		{
-//			*tmp = *s;
-//			s++;
-//			tmp++;
-//		}
-/*		*tmp = '\0';*/							s = test;ft_putstr("[");ft_putnbr(i);ft_putstr("]");ft_putstr("(");ft_putstr(s);ft_putstr(")");
-//		return (precision_trsf);
-	}
-	return (print);
-}
-
-char	*ft_flag_transform(char *s, char *print)
+char	*ft_flag_transform(char *s, char *print, char *type)
 {
-//	printf("|%i| - |%.0i| - |%.0i| - |%.i|\n",0,0,1,0);
-//	printf("|%i| - |%i| - |%.4i| - |%.4i|\n",10,-10,10,-10);
-//	printf("|%i| - |%05i| - |%05.4i| - |%.4i|\n",10,10,10,10);
-//	printf("|%i| - |%-5i| - |%-5.4i| - |%-.4i|\n",10,10,10,10);
-//	char * t = "trois";
-//	printf("|%s| - |%.0s| - |%.2s| - |%.10s|\n",t,t,t,t);
-//	char y = 'y';
-//	printf("|%c| - |%.0c| - |%.2c| - |%.10c|\n",y,y,y,y);
-
-	print = ft_precision(s, print);
-//				(print, s, type);	// -regarde s'il y a un '.' suivit de
-									//  chiffres, donc une precision
-									// -si oui transforme les chiffres en
-									//  un int 'precision'
-									// -s'il y a un '.' sans chiffres,
-									//  donner la valeur 0 a 'precision'
-									// -virer ces chiffres et le '.' de s
-									// -si flag '0', l'enlever de s aussi
-									// -transformer print en fonction de
-									//  cette precision :
-									// -1 si type vaut s:
-									//   -si length(s) > a precision
-									//    raboter la fin de s pour afficher
-									//    uniquement au max la longueur de
-									//    precision
-									//   -sinon laisser print tel quel
-									// -2 si type de s est "diouxX":
-									//   -si length(s) < a precision
-									//    ajouter des '0' avant le nombre
-									//    mais apres le signe '-' si c'est
-									//    un nombre negatif
-									// -3 si type de s est "aAeEfF":
-									//   -non traite
-									// -4 si type de s est "gG":
-									//   -non traite
-									// -5 sinon:
-									//   -erreur
-
-//	int	i;
-//
-//	if ((i = flag_p(&s)))
-//		print = ft_precision(i, print);
+	ft_putstr(s);ft_putstr("|");
+	print = ft_precision(s, print, type);
+	ft_putstr(s);ft_putstr("|");
+	print = ft_width(s, print, type);
 //	if ((i = flag_w(s)))
 //	{
 //		if (flag_-(&s))
@@ -171,7 +198,7 @@ int		ft_printf(char *string, ...)
 					return (-1);
 			if (!(print = ft_convert(ap, type)))
 				return (-1);
-			if (!(print = ft_flag_transform(s, print)))
+			if (!(print = ft_flag_transform(s, print, type)))
 				return (-1);
 			length += ft_put_word(print);
 		}

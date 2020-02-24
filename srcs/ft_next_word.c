@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:58:30 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/10 16:36:35 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/02/24 14:33:47 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ int		width_precision(char *s)
 	i = 0;
 	if (ft_strchr("*", s[i]) != NULL)
 		i++;
-	else if (ft_strchr("123456789", s[i]) != NULL)
-	{
+	while (ft_strchr("0123456789", s[i]) != NULL)
 		i++;
-		while (ft_strchr("0123456789", s[i]) != NULL)
-			i++;
-	}
 	return (i);
 }
 
