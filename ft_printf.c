@@ -91,9 +91,8 @@ char	*ft_width(char *s, char *print, char *type)
 	int		i;
 
 	ft_putstr("[");ft_putstr(s);ft_putstr("|");
-	while (ft_strchr("%#- +'0.", *s))
+	while (*s != '\0' && ft_strchr("%#- +'0.", *s))
 		s++;
-	ft_putstr(s);ft_putstr("|");
 	i = ft_atoi(s);
 	(void)type;
 	ft_putnbr(i);ft_putstr("]");
@@ -131,9 +130,7 @@ char	*ft_width(char *s, char *print, char *type)
 
 char	*ft_flag_transform(char *s, char *print, char *type)
 {
-	ft_putstr(s);ft_putstr("|");
 	print = ft_precision(s, print, type);
-	ft_putstr(s);ft_putstr("|");
 	print = ft_width(s, print, type);
 //	if ((i = flag_w(s)))
 //	{

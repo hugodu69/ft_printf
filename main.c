@@ -135,6 +135,22 @@ int		main(int ac, char **av)
 		ft_printf("'%.s'\n\n", "string");
 		   printf("'%.7i'\n", -123456);
 		ft_printf("'%.7i'\n\n", -123456);
+
+//	#include <fcntl.h>
+//	ft_printf("Hi file\n");
+//	int out = open("out.txt", O_WRONLY);
+//	int save = dup(1);
+//	dup2(out, 1);
+//	ft_printf("Ho fole\n");
+//	dup2(save, 1);
+//	ft_printf("Ha fale\n");
+//	dup2(out, 1);
+//	ft_printf("Hu fule\n");
+//	dup2(save, 1);
+//	ft_printf("He fele\n");
+//	close(save);
+//	close(out);
+
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
