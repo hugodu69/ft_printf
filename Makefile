@@ -18,6 +18,7 @@ SRCS   = ft_printf.c \
          ft_next_word.c \
 		 aside.c \
 		 ft_convert.c \
+		 ft_width_n_precision.c \
 		 main.c
 
 ODIR   = ./builds
