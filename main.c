@@ -1,6 +1,7 @@
 #include "ft_printf.h"
 #include <stdio.h> // for printf
 #include <locale.h>
+#include <fcntl.h> // for dup() and dup2()
 
 
 // macro to print :
@@ -8,10 +9,70 @@
 // then the result of real printf,
 // then the result of ft_printf,
 // and finally redirect the output into a file to compare
-#define PRINT(string, args...)		printf("(%s, %s)", #string, #args); \
-									printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
-									printf("'" string "'\n", args); \
-									ft_printf("%45s" string "'\n\n", ": '", args);
+
+//#define PRINT(string, args...)		\
+//									printf("(%s, %s)", #string, #args); \
+//									printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
+//									printf("'" string "'\n", ##args); \
+//									ft_printf("%45s" string "'\n\n", ": '", ##args); \
+//									dup2(outf, 1); \
+//									printf(string "\n", ##args); \
+//									dup2(outft, 1); \
+//									ft_printf(string "\n", ##args); \
+//									dup2(save, 1); \
+//									ft_compare(outf, outft);
+
+#define PRINT(string, args...)		\
+									printf("zero"); \
+									write(1, "\n", 1); \
+									dup2(outf, 1); \
+									write(1, "\n", 1); \
+									dup2(save, 1);
+							//		printf("un\n"); \
+									dup2(outft, 1); \
+									ft_printf("deux\n"); \
+									dup2(save, 1); \
+									printf("trois");
+
+	//	#include <fcntl.h>
+	//	ft_printf("Hi file\n");
+	//	int out = open("out.txt", O_WRONLY);
+	//	int save = dup(1);
+	//	dup2(out, 1);
+	//	ft_printf("Ho fole\n");
+	//	dup2(save, 1);
+	//	ft_printf("Ha fale\n");
+	//	dup2(out, 1);
+	//	ft_printf("Hu fule\n");
+	//	dup2(save, 1);
+	//	ft_printf("He fele\n");
+	//	close(save);
+	//	close(out);
+
+char	*ft_compare(int fd1, int fd2)
+{
+	int		ret1 = 1;
+	int		ret2 = 1;
+	char	*line1 = NULL;
+	char	*line2 = NULL;
+
+	while (ret1 > 0 && ret2 > 0)
+	{
+		if ((ret1 = get_next_line(fd1, &line1)) > 0)
+		{
+			if ((ret2 = get_next_line(fd2, &line2)) > 0)
+			{
+				if (ft_strcmp(line1, line2) == 0)
+					return ("JACKPOT");
+				else
+					return ("HO HO..");
+			}
+		}
+	}
+	if (ret1 == ret2)
+		return ("JACKPOT");
+	return ("HO HO..");
+}
 
 int		ft_printf_test(char *string, ...)
 {
@@ -55,6 +116,10 @@ int		ft_printf_test(char *string, ...)
 
 int		main(int ac, char **av)
 {
+	int	outf = open("outf.txt", O_WRONLY);
+	int	outft = open("outft.txt", O_WRONLY);
+	int	save = dup(1);
+
 	/* ////////////////////////////////////////////////////////////////// */
 	/* PREMISES TESTS WITH AV_ARG BASED ON MAN EXEMPLE                    */
 	/* ////////////////////////////////////////////////////////////////// */
@@ -97,8 +162,9 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "test"))
 	{
-		long int k = -23;
+		PRINT("sdf");
 		PRINT("%i", 23);
+		long int k = -23;
 		PRINT("%li", k);
 		PRINT("%i", -32);
 		PRINT("%li", 9223372036854775807);
@@ -112,9 +178,9 @@ int		main(int ac, char **av)
 		PRINT("%.2i", 122);
 		PRINT("%.25i", 123);
 		PRINT("%0.6i", 124);
-		PRINT("%-032.6i", 125);
-		PRINT("%0-032.6i", 126);
-		PRINT("%0-0.6i", 127);
+//		PRINT("%-032.6i", 125);
+//		PRINT("%0-032.6i", 126);
+//		PRINT("%0-0.6i", 127);
 		PRINT("%s", "string");
 		PRINT("%.7s", "strong");
 		PRINT("%.2s", "strung");
@@ -125,25 +191,10 @@ int		main(int ac, char **av)
 		PRINT("%0i", -129);
 		PRINT("%10i", -130);
 		PRINT("%*i", 0,-131);
-		PRINT("%0s", "stryng");
+//		PRINT("%0s", "stryng");
 		PRINT("%10s", "strxng");
-		PRINT("%010s", "strzng");
-		PRINT("%010s" "__TEST__", "strzng");
-
-	//	#include <fcntl.h>
-	//	ft_printf("Hi file\n");
-	//	int out = open("out.txt", O_WRONLY);
-	//	int save = dup(1);
-	//	dup2(out, 1);
-	//	ft_printf("Ho fole\n");
-	//	dup2(save, 1);
-	//	ft_printf("Ha fale\n");
-	//	dup2(out, 1);
-	//	ft_printf("Hu fule\n");
-	//	dup2(save, 1);
-	//	ft_printf("He fele\n");
-	//	close(save);
-	//	close(out);
+//		PRINT("%010s", "strzng");
+//		PRINT("%010s" "__TEST__", "strzng");
 
 	}
 
@@ -709,6 +760,9 @@ int		main(int ac, char **av)
 	/* 557gk                                                              */
 	/* ////////////////////////////////////////////////////////////////// */
 
+	close(save);
+	close(outf);
+	close(outft);
 	return (0);
 }
 
