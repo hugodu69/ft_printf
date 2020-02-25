@@ -2,6 +2,17 @@
 #include <stdio.h> // for printf
 #include <locale.h>
 
+
+// macro to print :
+// first the string,
+// then the result of real printf,
+// then the result of ft_printf,
+// and finally redirect the output into a file to compare
+#define PRINT(string, args...)		printf("(%s, %s)", #string, #args); \
+									printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
+									printf("'" string "'\n", args); \
+									ft_printf("%45s" string "'\n\n", ": '", args);
+
 int		ft_printf_test(char *string, ...)
 {
 	va_list	ap;
@@ -86,77 +97,38 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "test"))
 	{
-
-//#define PRINT(string, args...)		printf("(%s, %s)\n", #string, #args); \
-//									printf("'" string "'\n", args); \
-//									ft_printf("'" string "'\n", args);
-//			PRINT("%*i", 5, 123)
-
-		   printf("sdf\n");
-		ft_printf("sdf\n\n");
-		   printf("'%i'\n", 23);
-		ft_printf("'%i'\n\n", 23);
-		   long int k = -23;
-		   printf("'%li'\n", k);
-		ft_printf("'%li'\n\n", k);
-		   printf("'%i'\n", -32);
-		ft_printf("'%i'\n\n", -32);
-		   printf("'%li'\n", 9223372036854775807);
-		ft_printf("'%li'\n\n", 9223372036854775807);
-		   printf("'%c'\n", 'f');
-		ft_printf("'%c'\n\n", 'f');
-		   printf("'%s'\n", "sdffhk");
-		ft_printf("'%s'\n\n", "sdffhk");
-		   printf("'%u'\n", 1221879);
-		ft_printf("'%u'\n\n", 1221879);
-		   printf("'%x'\n", 3287);
-		ft_printf("'%x'\n\n", 3287);
-		   printf("'%lX'\n", 9223372036854775807);
-		ft_printf("'%lX'\n\n", 9223372036854775807);
-		   printf("'%p'\n", "dfgdf");
-		ft_printf("'%p'\n\n", "dfgdf");
-		   printf("'%.i'\n", 121);
-		ft_printf("'%.i'\n\n", 121);
-		   printf("'%.2i'\n", 122);
-		ft_printf("'%.2i'\n\n", 122);
-		   printf("'%.25i'\n", 123);
-		ft_printf("'%.25i'\n\n", 123);
-		   printf("'%0.6i'\n", 124);
-		ft_printf("'%0.6i'\n\n", 124);
-		   printf("'%-032.6i'\n", 125);
-		ft_printf("'%-032.6i'\n\n", 125);
-		   printf("'%0-032.6i'\n", 126);
-		ft_printf("'%0-032.6i'\n\n", 126);
-		   printf("'%0-0.6i'\n", 127);
-		ft_printf("'%0-0.6i'\n\n", 127);
-		   printf("'%s'\n", "string");
-		ft_printf("'%s'\n\n", "string");
-		   printf("'%.7s'\n", "strong");
-		ft_printf("'%.7s'\n\n", "strong");
-		   printf("'%.2s'\n", "strung");
-		ft_printf("'%.2s'\n\n", "strung");
-		   printf("'%.0s'\n", "strang");
-		ft_printf("'%.0s'\n\n", "strang");
-		   printf("'%.s'\n", "streng");
-		ft_printf("'%.s'\n\n", "streng");
-		   printf("'%.7i'\n", -123456);
-		ft_printf("'%.7i'\n\n", -123456);
-		   printf("'%2i'\n", -128);
-		ft_printf("'%2i'\n\n", -128);
-		   printf("'%0i'\n", -129);
-		ft_printf("'%0i'\n\n", -129);
-		   printf("'%10i'\n", -130);
-		ft_printf("'%10i'\n\n", -130);
-		   printf("'%*i'\n", 0,-131);
-		ft_printf("'%*i'\n\n", 0,-131);
-		   printf("'%0s'\n", "stryng");
-		ft_printf("'%0s'\n\n", "stryng");
-		   printf("'%10s'\n", "strxng");
-		ft_printf("'%10s'\n\n", "strxng");
-		   printf("'%010s'\n", "strzng");
-		ft_printf("'%010s'\n\n", "strzng");
-		   printf("'%010s'" "__TEST__\n", "strzng");
-		ft_printf("'%010s'" "__TEST__\n\n", "strzng");
+		long int k = -23;
+		PRINT("%i", 23);
+		PRINT("%li", k);
+		PRINT("%i", -32);
+		PRINT("%li", 9223372036854775807);
+		PRINT("%c", 'f');
+		PRINT("%s", "sdffhk");
+		PRINT("%u", 1221879);
+		PRINT("%x", 3287);
+		PRINT("%lX", 9223372036854775807);
+		PRINT("%p", "dfgdf");
+		PRINT("%.i", 121);
+		PRINT("%.2i", 122);
+		PRINT("%.25i", 123);
+		PRINT("%0.6i", 124);
+		PRINT("%-032.6i", 125);
+		PRINT("%0-032.6i", 126);
+		PRINT("%0-0.6i", 127);
+		PRINT("%s", "string");
+		PRINT("%.7s", "strong");
+		PRINT("%.2s", "strung");
+		PRINT("%.0s", "strang");
+		PRINT("%.s", "streng");
+		PRINT("%.7i", -123456);
+		PRINT("%2i", -128);
+		PRINT("%0i", -129);
+		PRINT("%10i", -130);
+		PRINT("%*i", 0,-131);
+		PRINT("%0s", "stryng");
+		PRINT("%10s", "strxng");
+		PRINT("%010s", "strzng");
+		PRINT("%010s" "__TEST__", "strzng");
 
 	//	#include <fcntl.h>
 	//	ft_printf("Hi file\n");
