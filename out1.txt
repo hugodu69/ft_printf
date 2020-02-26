@@ -1,2 +1,0 @@
-printf :test1
-printf :test2

@@ -9,70 +9,75 @@
 // then the result of real printf,
 // then the result of ft_printf,
 // and finally redirect the output into a file to compare
-
-//#define PRINT(string, args...)		\
-//									printf("(%s, %s)", #string, #args); \
-//									printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
-//									printf("'" string "'\n", ##args); \
-//									ft_printf("%45s" string "'\n\n", ": '", ##args); \
-//									dup2(outf, 1); \
-//									printf(string "\n", ##args); \
-//									dup2(outft, 1); \
-//									ft_printf(string "\n", ##args); \
-//									dup2(save, 1); \
-//									ft_compare(outf, outft);
-
 #define PRINT(string, args...)		\
-									printf("zero"); \
-									write(1, "\n", 1); \
+									outf = open("outf.txt", O_WRONLY | O_TRUNC); \
+									outft = open("outft.txt", O_WRONLY | O_TRUNC); \
+									\
 									dup2(outf, 1); \
-									write(1, "\n", 1); \
-									dup2(save, 1);
-							//		printf("un\n"); \
+									printf(string "\n", ##args); \
+									fflush(stdout); \
+									\
 									dup2(outft, 1); \
-									ft_printf("deux\n"); \
+									ft_printf(string "\n", ##args); \
+									fflush(stdout); \
+									\
+									close(outf); \
+									close(outft); \
+									outf = open("outf.txt", O_RDONLY); \
+									outft = open("outft.txt", O_RDONLY); \
+									\
 									dup2(save, 1); \
-									printf("trois");
+									printf("(%s, %s)", #string, #args); \
+									fflush(stdout); \
+									printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
+									fflush(stdout); \
+									printf("'" string "'\n", ##args); \
+									fflush(stdout); \
+									printf("%s", ft_compare(outf, outft, &error)); \
+									fflush(stdout); \
+									ft_printf("%38s" string "'\n\n", ": '", ##args); \
+									fflush(stdout); \
+									\
+									close(outf); \
+									close(outft);
 
-	//	#include <fcntl.h>
-	//	ft_printf("Hi file\n");
-	//	int out = open("out.txt", O_WRONLY);
-	//	int save = dup(1);
-	//	dup2(out, 1);
-	//	ft_printf("Ho fole\n");
-	//	dup2(save, 1);
-	//	ft_printf("Ha fale\n");
-	//	dup2(out, 1);
-	//	ft_printf("Hu fule\n");
-	//	dup2(save, 1);
-	//	ft_printf("He fele\n");
-	//	close(save);
-	//	close(out);
+/*
+** this fucntion look into the two files outf.txt and outft.txt in which
+** the return values of printf and ft_printf are saved for one call
+** (the content is emptied each time there are reopened by the macro)
+** and it read them and compare them
+*/
 
-char	*ft_compare(int fd1, int fd2)
+char	*ft_compare(int fd1, int fd2, int *error)
 {
 	int		ret1 = 1;
 	int		ret2 = 1;
-	char	*line1 = NULL;
-	char	*line2 = NULL;
+	char	*line = NULL;
+	char	*tmp = NULL;
 
 	while (ret1 > 0 && ret2 > 0)
 	{
-		if ((ret1 = get_next_line(fd1, &line1)) > 0)
-		{
-			if ((ret2 = get_next_line(fd2, &line2)) > 0)
-			{
-				if (ft_strcmp(line1, line2) == 0)
-					return ("JACKPOT");
-				else
-					return ("HO HO..");
-			}
-		}
+		ret1 = get_next_line(fd1, &line);
+		tmp = line;
+		ret2 = get_next_line(fd2, &line);
+  		if (ft_strcmp(tmp, line) != 0)
+  		{
+  			(*error)++;
+  			return ("\033[91mHO HO..\033[0m");
+  		}
 	}
-	if (ret1 == ret2)
-		return ("JACKPOT");
-	return ("HO HO..");
+	if (ret1 != ret2)
+	{
+		(*error)++;
+		return ("\033[91mHO HO..\033[0m");
+	}
+	return ("JACKPOT");
 }
+
+/*
+** this function was usefull at the very beginning to understand how va_arg
+** works, it's an extension of the exemple code found in the man page
+*/
 
 int		ft_printf_test(char *string, ...)
 {
@@ -114,10 +119,22 @@ int		ft_printf_test(char *string, ...)
 	return (0);
 }
 
+/*
+** this is the main function of tests, with a loooooot of tests, enjoy ;)
+** if you call the executable without arguments, it will print the rules
+** otherwise you can add one of three keywords :
+** "man" for the very beginner tests
+** "test" for the debug tests while building the programm
+** "all" for the huge amount of possibly complete tests
+*/
+
 int		main(int ac, char **av)
 {
-	int	outf = open("outf.txt", O_WRONLY);
-	int	outft = open("outft.txt", O_WRONLY);
+	int	outf;
+	int	outft;
+	open("outf.txt", O_CREAT, 0644);
+	open("outft.txt", O_CREAT, 0644);
+	static int error = 0;
 	int	save = dup(1);
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -162,7 +179,7 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "test"))
 	{
-		PRINT("sdf");
+		PRINT("s\ndf");
 		PRINT("%i", 23);
 		long int k = -23;
 		PRINT("%li", k);
@@ -178,9 +195,9 @@ int		main(int ac, char **av)
 		PRINT("%.2i", 122);
 		PRINT("%.25i", 123);
 		PRINT("%0.6i", 124);
-//		PRINT("%-032.6i", 125);
-//		PRINT("%0-032.6i", 126);
-//		PRINT("%0-0.6i", 127);
+	//	PRINT("%-032.6i", 125);
+	//	PRINT("%0-032.6i", 126);
+	//	PRINT("%0-0.6i", 127);
 		PRINT("%s", "string");
 		PRINT("%.7s", "strong");
 		PRINT("%.2s", "strung");
@@ -191,10 +208,10 @@ int		main(int ac, char **av)
 		PRINT("%0i", -129);
 		PRINT("%10i", -130);
 		PRINT("%*i", 0,-131);
-//		PRINT("%0s", "stryng");
+	//	PRINT("%0s", "stryng");
 		PRINT("%10s", "strxng");
-//		PRINT("%010s", "strzng");
-//		PRINT("%010s" "__TEST__", "strzng");
+	//	PRINT("%010s", "strzng");
+	//	PRINT("%010s" "__TEST__", "strzng");
 
 	}
 
@@ -761,8 +778,8 @@ int		main(int ac, char **av)
 	/* ////////////////////////////////////////////////////////////////// */
 
 	close(save);
-	close(outf);
-	close(outft);
+	if (error != 0)
+		printf("\033[91m%i ERRORS\033[0m\n", error);
 	return (0);
 }
 
