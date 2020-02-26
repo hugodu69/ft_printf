@@ -121,7 +121,7 @@ int		ft_printf_test(char *string, ...)
 
 /*
 ** this is the main function of tests, with a loooooot of tests, enjoy ;)
-** if you call the executable without arguments, it will print the rules
+** if you call the executable without arguments, it will print the usage
 ** otherwise you can add one of three keywords :
 ** "man" for the very beginner tests
 ** "test" for the debug tests while building the programm
@@ -140,6 +140,17 @@ int		main(int ac, char **av)
 	/* ////////////////////////////////////////////////////////////////// */
 	/* PREMISES TESTS WITH AV_ARG BASED ON MAN EXEMPLE                    */
 	/* ////////////////////////////////////////////////////////////////// */
+
+	if (ac == 1)
+	{
+		printf("USAGE:\n");
+		printf("call ./ft_printf with arguments to launch tests\n");
+		printf("./ft_printf man       [launch the tests found in the man page]\n");
+		printf("./ft_printf test      [launch the tests used to debug]\n");
+		printf("./ft_printf all       [launch the exhaustive tests]\n");
+		printf("./ft_printf all basic [launch the basic part of exhaustive tests]\n");
+		printf("./ft_printf all basic [launch the basic part of exhaustive tests]\n");
+	}
 
 	if (ac == 2 && !strcmp(av[1], "man"))
 	{
@@ -231,14 +242,11 @@ int		main(int ac, char **av)
 		i = 6;
 	
 			printf("-----------------------------------------------\n");
-			printf("-                   BASICS                    -\n");
-			printf("-                                             -\n");
-			printf("- %%[flag][width][.precision][length]specifier -\n");
-			printf("-                                             -\n");
-			printf("- conversions : cspdiuxX%%                     -\n");
-			printf("-       flags : -,0,.,*                       -\n");
-			printf("- taille de champ minimale                    -\n");
-			printf("-                                             -\n");
+			printf("BASICS\n\n");
+			printf("%%[flag][width][.precision][length]specifier\n");
+			printf("conversions : cspdiuxX%%\n");
+			printf("      flags : -,0,.,*\n");
+			printf("taille de champ minimale\n");
 			printf("-----------------------------------------------\n");
 			printf("-----------------------------------------------\n");
 			printf("- conversions : cspdiuxX%%                     -\n");
