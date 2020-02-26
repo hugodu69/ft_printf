@@ -35,7 +35,11 @@
 									fflush(stdout); \
 									printf("%s", ft_compare(outf, outft, &error)); \
 									fflush(stdout); \
-									ft_printf("%38s" string "'\n\n", ": '", ##args); \
+									printf("%38s", ": '"); \
+									fflush(stdout); \
+									ft_printf(string, ##args); \
+									fflush(stdout); \
+									printf("'\n\n"); \
 									fflush(stdout); \
 									\
 									close(outf); \
@@ -130,12 +134,15 @@ int		ft_printf_test(char *string, ...)
 
 int		main(int ac, char **av)
 {
+	setlocale(LC_ALL, "en_US.UTF-8");
+
 	int	outf;
 	int	outft;
 	open("outf.txt", O_CREAT, 0644);
 	open("outft.txt", O_CREAT, 0644);
 	static int error = 0;
 	int	save = dup(1);
+
 
 	/* ////////////////////////////////////////////////////////////////// */
 	/* PREMISES TESTS WITH AV_ARG BASED ON MAN EXEMPLE                    */
@@ -144,12 +151,41 @@ int		main(int ac, char **av)
 	if (ac == 1)
 	{
 		printf("USAGE:\n");
-		printf("call ./ft_printf with arguments to launch tests\n");
-		printf("./ft_printf man       [launch the tests found in the man page]\n");
-		printf("./ft_printf test      [launch the tests used to debug]\n");
-		printf("./ft_printf all       [launch the exhaustive tests]\n");
-		printf("./ft_printf all basic [launch the basic part of exhaustive tests]\n");
-		printf("./ft_printf all basic [launch the basic part of exhaustive tests]\n");
+		printf("call ./ft_printf with arguments to launch tests :\n");
+		printf("./ft_printf  'man'               \n");
+		printf("             'test'              \n");
+		printf("             'all'               \n");
+		printf("                     'noflag'    \n");
+		printf("                     '0'         \n");
+		printf("                     '-'         \n");
+		printf("                     'width'     \n");
+		printf("                     'precision' \n");
+		printf("                     '*'         \n");
+		printf("                     'd'         \n");
+		printf("                     'i'         \n");
+		printf("                     'u'         \n");
+		printf("                     'x'         \n");
+		printf("                     'X'         \n");
+		printf("                     'c'         \n");
+		printf("                     's'         \n");
+		printf("                     'p'         \n");
+		printf("                     '%%'         \n");
+		printf("                     'repetition'\n");
+		printf("             'bonus'             \n");
+		printf("                     '#'         \n");
+		printf("                     '''         \n");
+		printf("                     ' '         \n");
+		printf("                     '+'         \n");
+		printf("                     'e'         \n");
+		printf("                     'f'         \n");
+		printf("                     'g'         \n");
+		printf("                     'n'         \n");
+		printf("                     'h'         \n");
+		printf("                     'hh'        \n");
+		printf("                     'l'         \n");
+		printf("                     'll'        \n");
+		printf("                     'repetition'\n");
+		printf("             'error'             \n");
 	}
 
 	if (ac == 2 && !strcmp(av[1], "man"))
@@ -190,69 +226,62 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "test"))
 	{
-		PRINT("s\ndf");
-		PRINT("%i", 23);
-		long int k = -23;
-		PRINT("%li", k);
-		PRINT("%i", -32);
-		PRINT("%li", 9223372036854775807);
-		PRINT("%c", 'f');
-		PRINT("%s", "sdffhk");
-		PRINT("%u", 1221879);
-		PRINT("%x", 3287);
-		PRINT("%lX", 9223372036854775807);
-		PRINT("%p", "dfgdf");
-		PRINT("%.i", 121);
-		PRINT("%.2i", 122);
-		PRINT("%.25i", 123);
-		PRINT("%0.6i", 124);
-	//	PRINT("%-032.6i", 125);
-	//	PRINT("%0-032.6i", 126);
-	//	PRINT("%0-0.6i", 127);
-		PRINT("%s", "string");
-		PRINT("%.7s", "strong");
-		PRINT("%.2s", "strung");
-		PRINT("%.0s", "strang");
-		PRINT("%.s", "streng");
-		PRINT("%.7i", -123456);
-		PRINT("%2i", -128);
-		PRINT("%0i", -129);
-		PRINT("%10i", -130);
-		PRINT("%*i", 0,-131);
-	//	PRINT("%0s", "stryng");
-		PRINT("%10s", "strxng");
-	//	PRINT("%010s", "strzng");
-	//	PRINT("%010s" "__TEST__", "strzng");
+//		PRINT("sdf");
+//		PRINT("%i", 23);
+//		long int k = -23;
+//		PRINT("%li", k);
+//		PRINT("%i", -32);
+//		PRINT("%li", 9223372036854775807);
+//		PRINT("%c", 'f');
+//		PRINT("%s", "sdffhk");
+//		PRINT("%u", 1221879);
+//		PRINT("%x", 3287);
+//		PRINT("%lX", 9223372036854775807);
+//  		PRINT("%p", "dfgdf");
+//		PRINT("%.i", 121);
+//		PRINT("%.2i", 122);
+//		PRINT("%.25i", 123);
+//		PRINT("%0.6i", 124);
+//	//	PRINT("%-032.6i", 125);
+//	//	PRINT("%0-032.6i", 126);
+//	//	PRINT("%0-0.6i", 127);
+//		PRINT("%s", "string");
+//		PRINT("%.7s", "strong");
+//		PRINT("%.2s", "strung");
+//		PRINT("%.0s", "strang");
+//		PRINT("%.s", "streng");
+//		PRINT("%.7i", -123456);
+//		PRINT("%2i", -128);
+//		PRINT("%0i", -129);
+//		PRINT("%10i", -130);
+//		PRINT("%*i", 0,-131);
+//	//	PRINT("%0s", "stryng");
+//		PRINT("%10s", "strxng");
+//	//	PRINT("%010s", "strzng");
+//	//	PRINT("%010s" "__TEST__", "strzng");
+			PRINT("%%");
+			PRINT("%.10%");
+			PRINT("%10%");
+			PRINT("%-10%");
+			PRINT("%010%");
+			PRINT("%-010%");
 
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
 	/* COMPLETE TESTS SERIES                                              */
-	/* 295gj                                                              */
 	/* ////////////////////////////////////////////////////////////////// */
 
-	if (ac == 2 && !strcmp(av[1], "all"))
+	if (ac >= 2 && ac <= 3 && !strcmp(av[1], "all"))
 	{
-		char	*str;
-		char	c;
-		int		i;
-	
-		setlocale(LC_ALL, "en_US.UTF-8");
-		c = 'c';
-		i = 6;
-	
-			printf("-----------------------------------------------\n");
-			printf("BASICS\n\n");
-			printf("%%[flag][width][.precision][length]specifier\n");
-			printf("conversions : cspdiuxX%%\n");
-			printf("      flags : -,0,.,*\n");
-			printf("taille de champ minimale\n");
-			printf("-----------------------------------------------\n");
-			printf("-----------------------------------------------\n");
-			printf("- conversions : cspdiuxX%%                     -\n");
-			printf("-----------------------------------------------\n\n");
-	
-			PRINT("%%\n");
+		if (ac == 2 || !strcmp(av[2], "noflag"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("conversions sans flags : cspdiuxX%%\n");
+			printf("----------------------------------------------------------------\n\n");
+
+			char *str = "bravo";
+			PRINT("%%");
 			PRINT("%.10%");
 			PRINT("%10%");
 			PRINT("%-10%");
@@ -261,7 +290,6 @@ int		main(int ac, char **av)
 			PRINT("\"");
 			PRINT("%c", 'c');
 			PRINT("%s", "str");
-			str = "bravo";
 			PRINT("%s", str);
 			PRINT("%p", "bravo");
 			PRINT("%p", str);
@@ -274,14 +302,42 @@ int		main(int ac, char **av)
 			PRINT("%X", 123456);
 			PRINT("%X", 0x1E240);
 			PRINT("%i", 0x1E240);
-	
-			printf("-----------------------------------------------\n");
-			printf("- flags : -0.*                                -\n");
-			printf("- taille de champ minimale                    -\n");
-			printf("-----------------------------------------------\n\n");
-	
-			printf("- taille de champ minimale --------------------\n\n");
-	
+		}
+
+		if (ac == 2 || !strcmp(av[2], "0"))
+		{
+			printf("----------------------------------------------------------------\n");
+			printf("flag '0' (diouxX%%)\n");
+			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%03i", 1);
+			PRINT("%03u", 1);
+			PRINT("%03x", 1);
+			PRINT("%03%");
+			PRINT("%0%");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "-"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag '-'\n");
+			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%-3s", "a");
+			PRINT("%-9s", "a");
+			PRINT("%-1s", "ab");
+			PRINT("%-2s", "ab");
+			PRINT("%-3s", "ab");
+			PRINT("%-3i", 3);
+			PRINT("%-3i", 123456);
+		}
+
+		if (ac == 2 || !strcmp(av[2], "width"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("taille de champ minimale\n");
+			printf("----------------------------------------------------------------\n\n");
+
 			PRINT("%3s", "a");
 			PRINT("%3s", "abcd");
 			PRINT("%3i", 12);
@@ -290,36 +346,25 @@ int		main(int ac, char **av)
 			PRINT("%0i", 0);
 			PRINT("%6i", -456);
 			PRINT("%6%");
-	
-			printf("- flag - --------------------------------------\n\n");
-	
-			PRINT("%-3s", "a");
-			PRINT("%-9s", "a");
-			PRINT("%-1s", "ab");
-			PRINT("%-2s", "ab");
-			PRINT("%-3s", "ab");
-			PRINT("%-3i", 3);
-			PRINT("%-3i", 123456);
-	
-			printf("- flag 0 (diouxX%%)------------------------------\n");
-	
-			PRINT("%03i", 1);
-			PRINT("%03u", 1);
-			PRINT("%03x", 1);
-			PRINT("%03%");
-			PRINT("%0%");
-	
-			printf("- flag . (diouxXs) ----------------------------------------------------------\n");
-			printf("-        if the . is not followed by a number, the value is 0 ---------------\n");
-			printf("-        with arg value of 0, precision of 0 print nothing ------------------\n");
-			printf("-        with numbers (diouxX), gives the minimum number of digit to appear -\n");
-			printf("-          if precision > nbr, it's preceded by '0' -------------------------\n");
-			printf("-          if nbr < 0, '-' is not counted in precision ----------------------\n");
-			printf("-          (length with '-' is (length(nbr or precision) + 1)' --------------\n");
-			printf("-          if 0 flag is given (for width or precision) it's ignored ---------\n");
-			printf("-        with strings (s), gives the maximum number of characters to be print\n");
-			printf("-          if precision > length(s), it's not preceded by '0' ---------------\n");
-			printf("-        precision is calculated before width -------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "precision"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag '.precision' (diouxXs)\n");
+			printf("----------------------------------------------------------------\n");
+
+			printf("-if the . is not followed by a number, the value is 0\n");
+			printf("-with arg value of 0, precision of 0 print nothing\n");
+			printf("-with numbers (diouxX), gives the minimum number of digit to appear\n");
+			printf(" if precision > nbr, it's preceded by '0'\n");
+			printf(" if nbr < 0, '-' is not counted in precision\n");
+			printf(" (length with '-' is (length(nbr or precision) + 1)'\n");
+			printf(" if 0 flag is given (for width or precision) it's ignored\n");
+			printf("-with strings (s), gives the maximum number of characters to be print\n");
+			printf(" if precision > length(s), it's not preceded by '0'\n");
+			printf("-precision is calculated before width\n");
+			printf("----------------------------------------------------------------\n\n");
 	
 			PRINT("%.5s", "12");
 			PRINT("%.5s", "12345678");
@@ -341,9 +386,14 @@ int		main(int ac, char **av)
 			PRINT("%.7i", -8645);
 			PRINT("%.07i", 8645);
 			PRINT("%.7%");
-	
-			printf("- flag * --------------------------------------\n\n");
-	
+		}
+
+		if (ac == 2 || !strcmp(av[2], "*"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag '*' with .precision or width\n");
+			printf("----------------------------------------------------------------\n\n");
+
 			PRINT("%*i", 3, 1);
 			PRINT("%-*i", 3, 1);
 			PRINT("%*i-%*i", 1, 2, 3, 4);
@@ -351,63 +401,102 @@ int		main(int ac, char **av)
 			PRINT("%.*i-%.*i", 0, 1, 2, 3);
 			PRINT("%3.2i", 1);
 			PRINT("%*.*i", 3, 2, 1);
-	
-			printf("-----------------------------------------------\n");
-			printf("-              TESTS REPETITIONS              -\n");
-			printf("-               nbr of [#0-+ ']               -\n");
-			printf("-----------------------------------------------\n\n");
-	
+		}
+
+		if (ac == 2 || !strcmp(av[2], "d"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'd'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "i"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'i'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "u"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'u'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "x"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'x'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "X"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'X'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "c"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'c'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "s"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 's'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "p"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'p'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "%"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier '%%'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "repetition"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("tests repetitions of flags [0-]\n");
+			printf("----------------------------------------------------------------\n\n");
+
 			PRINT("%i", 33333);
 			PRINT("%.0f", 33333.0);
-			PRINT("%#.0f", 33333.0);
 			PRINT("%08i", 33333);
 			PRINT("%-8i", 33333);
-			PRINT("%+i", 33333);
-			PRINT("% i", 33333);
-			PRINT("%'i", 33333);
-	
-			printf("- repetition with ''' -------------------------\n");
-			printf("- (repeatable additionable unordered) rau -----\n\n");
-	
-			PRINT("%''''i", 33333);
-			PRINT("%'#.0f", 33333.0);
-			PRINT("%#'.0f", 33333.0);
-			PRINT("%'#'.0f", 33333.0);
-			PRINT("%'08i", 33333);
-			PRINT("%0'8i", 33333);
-			PRINT("%'0'8i", 33333);
-			PRINT("%'-8i", 33333);
-			PRINT("%-'8i", 33333);
-			PRINT("%'-'8i", 33333);
-			PRINT("%'+i", 33333);
-			PRINT("%+'i", 33333);
-			PRINT("%'+'i", 33333);
-			PRINT("%' i", 33333);
-			PRINT("% 'i", 33333);
-			PRINT("%' 'i", 33333);
-	
-			printf("- repetition with ' ' -------------------------\n");
-			printf("- '+' and ' ' not compatible ------------------\n");
-			printf("- rau -----------------------------------------\n\n");
-	
-			PRINT("%    i", 33333);
-			PRINT("% #.0f", 33333.0);
-			PRINT("%# .0f", 33333.0);
-			PRINT("% # .0f", 33333.0);
-			PRINT("% 08i", 33333);
-			PRINT("%0 8i", 33333);
-			PRINT("% 0 8i", 33333);
-			PRINT("% -8i", 33333);
-			PRINT("%- 8i", 33333);
-			PRINT("% - 8i", 33333);
-			PRINT("% 'i", 33333);
-			PRINT("%' i", 33333);
-			PRINT("% ' i", 33333);
-	
-			printf("- repetition with '-' -------------------------\n");
-			printf("- '0' and '-' not compatible ------------------\n");
-			printf("- rau -----------------------------------------\n\n");
-	
+
+			printf("\nrepetition of flag '0' --------------------------------------------\n");
+			printf("'0' and '-' not compatible ----------------------------------------\n\n");
+
+			PRINT("%0000i", 33333);
+			PRINT("%0#.0f", 33333.0);
+			PRINT("%#0.0f", 33333.0);
+			PRINT("%0#0.0f", 33333.0);
+			PRINT("%0+8i", 33333);
+			PRINT("%+08i", 33333);
+			PRINT("%0+08i", 33333);
+			PRINT("%0 i", 33333);
+			PRINT("% 0i", 33333);
+			PRINT("%0 0i", 33333);
+			PRINT("%0'i", 33333);
+			PRINT("%'0i", 33333);
+			PRINT("%0'0i", 33333);
+
+			printf("\nrepetition of flag '-' --------------------------------------------\n");
+			printf("'0' and '-' not compatible ----------------------------------------\n\n");
+
 			PRINT("%----i", 33333);
 			PRINT("%-#.0f", 33333.0);
 			PRINT("%#-.0f", 33333.0);
@@ -421,28 +510,128 @@ int		main(int ac, char **av)
 			PRINT("%-'i", 33333);
 			PRINT("%'-i", 33333);
 			PRINT("%-'-i", 33333);
+		}
+	}
 	
-			printf("- repetition with '+' -------------------------\n");
-			printf("- '+' and ' ' not compatible ------------------\n");
-			printf("- rau -----------------------------------------\n\n");
+	if (ac >= 2 && ac <= 3 && !strcmp(av[1], "bonus"))
+	{
+		printf("----------------------------------------------------------------\n");
+		printf("%% flags   width   .precision  length      specifier            \n");
+		printf("%% 0-#' +  * 0..9  .* 0..9     hhhlllLjtz  diuxXcsp%%efgnEFGaACSo\n");
+		printf("%% 0-      * 0..9  .* 0..9                 diuxXcsp%%            \n");
+		printf("%%   #' +                      hhhlll               efgn        \n");
+		printf("----------------------------------------------------------------\n\n");
+
+		if (ac == 2 || !strcmp(av[2], "#"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag '#'\n");
+			printf("----------------------------------------------------------------\n\n");
 	
-			PRINT("%++++i", 33333);
-			PRINT("%+#.0f", 33333.0);
-			PRINT("%#+.0f", 33333.0);
-			PRINT("%+#+.0f", 33333.0);
-			PRINT("%+08i", 33333);
-			PRINT("%0+8i", 33333);
-			PRINT("%+0+8i", 33333);
-			PRINT("%+-8i", 33333);
-			PRINT("%-+8i", 33333);
-			PRINT("%+-+8i", 33333);
-			PRINT("%+'i", 33333);
-			PRINT("%'+i", 33333);
-			PRINT("%+'+i", 33333);
-	
-			printf("- repetition with '#' -------------------------\n");
-			printf("- rau -----------------------------------------\n\n");
-	
+			PRINT("%#X", 8645);
+			PRINT("%#.7X", 8645);
+			PRINT("%#010.7X", 8645);
+			PRINT("%#10.7X", 8645);
+			PRINT("%#10X", 8645);
+			PRINT("%#.10X", 8645);
+			PRINT("%#10.10X", 8645);
+			PRINT("%#010X", 8645);
+		}
+
+		if (ac == 2 || !strcmp(av[2], "'"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag '''\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], " "))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag ' '\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "+"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("flag '+'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "e"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'e'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "f"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'f'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "g"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'g'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "n"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("specifier 'n'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "h"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("length 'h'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "hh"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("length 'hh'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "l"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("length 'l'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "ll"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("length 'll'\n");
+			printf("----------------------------------------------------------------\n\n");
+		}
+
+		if (ac == 2 || !strcmp(av[2], "repetition"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("tests repetitions of flags [#' +]\n");
+			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%i", 33333);
+			PRINT("%.0f", 33333.0);
+			PRINT("%#.0f", 33333.0);
+			PRINT("%08i", 33333);
+			PRINT("%-8i", 33333);
+			PRINT("%+i", 33333);
+			PRINT("% i", 33333);
+			PRINT("%'i", 33333);
+
+			printf("\nrepetition of flag '#' --------------------------------------------\n");
+
 			PRINT("%####f", 33333.0);
 			PRINT("%#+.0f", 33333.0);
 			PRINT("%+#.0f", 33333.0);
@@ -459,69 +648,87 @@ int		main(int ac, char **av)
 			PRINT("%# f", 33333.0);
 			PRINT("% #f", 33333.0);
 			PRINT("%# #f", 33333.0);
-	
-			printf("- repetition with '0' -------------------------\n");
-			printf("- '0' and '-' not compatible ------------------\n");
-			printf("- rau -----------------------------------------\n\n");
-	
-			PRINT("%0000i", 33333);
-			PRINT("%0#.0f", 33333.0);
-			PRINT("%#0.0f", 33333.0);
-			PRINT("%0#0.0f", 33333.0);
-			PRINT("%0+8i", 33333);
+
+			printf("\nrepetition of flag ''' --------------------------------------------\n\n");
+
+			PRINT("%''''i", 33333);
+			PRINT("%'#.0f", 33333.0);
+			PRINT("%#'.0f", 33333.0);
+			PRINT("%'#'.0f", 33333.0);
+			PRINT("%'08i", 33333);
+			PRINT("%0'8i", 33333);
+			PRINT("%'0'8i", 33333);
+			PRINT("%'-8i", 33333);
+			PRINT("%-'8i", 33333);
+			PRINT("%'-'8i", 33333);
+			PRINT("%'+i", 33333);
+			PRINT("%+'i", 33333);
+			PRINT("%'+'i", 33333);
+			PRINT("%' i", 33333);
+			PRINT("% 'i", 33333);
+			PRINT("%' 'i", 33333);
+
+			printf("\nrepetition of flag ' ' --------------------------------------------\n");
+			printf("'+' and ' ' not compatible ----------------------------------------\n\n");
+
+			PRINT("%    i", 33333);
+			PRINT("% #.0f", 33333.0);
+			PRINT("%# .0f", 33333.0);
+			PRINT("% # .0f", 33333.0);
+			PRINT("% 08i", 33333);
+			PRINT("%0 8i", 33333);
+			PRINT("% 0 8i", 33333);
+			PRINT("% -8i", 33333);
+			PRINT("%- 8i", 33333);
+			PRINT("% - 8i", 33333);
+			PRINT("% 'i", 33333);
+			PRINT("%' i", 33333);
+			PRINT("% ' i", 33333);
+
+			printf("\nrepetition of flag '+' --------------------------------------------\n");
+			printf("'+' and ' ' not compatible ----------------------------------------\n\n");
+
+			PRINT("%++++i", 33333);
+			PRINT("%+#.0f", 33333.0);
+			PRINT("%#+.0f", 33333.0);
+			PRINT("%+#+.0f", 33333.0);
 			PRINT("%+08i", 33333);
-			PRINT("%0+08i", 33333);
-			PRINT("%0 i", 33333);
-			PRINT("% 0i", 33333);
-			PRINT("%0 0i", 33333);
-			PRINT("%0'i", 33333);
-			PRINT("%'0i", 33333);
-			PRINT("%0'0i", 33333);
-	
-	
-			printf("-----------------------------------------------\n");
-			printf("-                    BONUS                    -\n");
-			printf("- conversions : nfge                          -\n");
-			printf("-       flags : l,ll,h,hh,#,', ,+             -\n");
-			printf("-----------------------------------------------\n\n");
-	
-		//	PRINT("%#X", 8645);
-		//	PRINT("%#.7X", 8645);
-		//	PRINT("%#010.7X", 8645);
-		//	PRINT("%#10.7X", 8645);
-		//	PRINT("%#10X", 8645);
-		//	PRINT("%#.10X", 8645);
-		//	PRINT("%#10.10X", 8645);
-		//	PRINT("%#010X", 8645);
-	
-			printf("-----------------------------------------------\n");
-			printf("-                     ADD                     -\n");
-			printf("-       flags : $                             -\n");
-			printf("-----------------------------------------------\n\n");
-	
-		//	PRINT("%1$*2$i", 3, 2);
-		//	PRINT("%2$*1$i", 3, 2);
-	
+			PRINT("%0+8i", 33333);
+			PRINT("%+0+8i", 33333);
+			PRINT("%+-8i", 33333);
+			PRINT("%-+8i", 33333);
+			PRINT("%+-+8i", 33333);
+			PRINT("%+'i", 33333);
+			PRINT("%'+i", 33333);
+			PRINT("%+'+i", 33333);
+		}
+	}
+
+	if (ac == 2 && !strcmp(av[1], "error"))
+	{
 			printf("-----------------------------------------------\n");
 			printf("- errors                                      -\n");
 			printf("-----------------------------------------------\n\n");
 	
-			printf("(\"%%i\",3,2)           : ");	printf("'%i'", 3, 2);		printf(" too much argments\n\n");
-			printf("(\"%%i-%%i\",3)         : ");	printf("'%i-%i'", 3);		printf(" not enough arguments\n\n");
-	  		printf("(\"%%-03i\",1)          : ");	printf("'%-03i'", 1);		printf(" flag 0 is ignored when - is present\n\n");
-			printf("(\"%%010s\",str)        : ");	printf("'%010s'", str);		printf(" flag 0 has undefined behavior with s specifier\n\n");
-			printf("(\"%%010c\",c)          : ");	printf("'%010c'", c);		printf(" flag 0 has undefined behavior with c specifier\n\n");
-			printf("(\"%%03p\",str)         : ");	printf("'%03p'\n", str);	printf(" flag 0 has undefined behavior with p specifier\n\n");
-			printf("(\"%%.-7X\",8645)       : ");	printf("'%.-7X'", 8645);	printf(" invalid flag - for .precision\n\n");
-			printf("(\"%%\",8645)           : ");	printf("'%'", 8645);		printf(" missing conversion specifier\n\n");
-			printf("(\"%%2$i-%%i\",3,2)     : ");	printf("'%2$i-%i'", 3, 2);	printf(" cannot mix positioned and non-positioned args\n\n");
-			printf("(\"%% +i\", 33          : ");	printf("'% +i'\n", 33);		printf(" flag ' ' is ignored when '+' is present\n\n");
-			printf("(\"%%-0i\", 33          : ");	printf("'%-0i'\n", 33);		printf(" flag '0' is ignored when '-' is present\n\n");
+			printf("(\"%%i\",3,2)           : ");	ft_printf("'%i'", 3, 2);		printf(" too much argments\n\n");
+			printf("(\"%%i-%%i\",3)         : ");	ft_printf("'%i-%i'", 3);		printf(" not enough arguments\n\n");
+	  		printf("(\"%%-03i\",1)          : ");	ft_printf("'%-03i'", 1);		printf(" flag 0 is ignored when - is present\n\n");
+			printf("(\"%%010s\",\"str\")    : ");	ft_printf("'%010s'", "str");	printf(" flag 0 has undefined behavior with s specifier\n\n");
+			printf("(\"%%010c\",'c')        : ");	ft_printf("'%010c'", 'c');		printf(" flag 0 has undefined behavior with c specifier\n\n");
+			printf("(\"%%03p\",\"str\")     : ");	ft_printf("'%03p'\n", "str");	printf(" flag 0 has undefined behavior with p specifier\n\n");
+			printf("(\"%%.-7X\",8645)       : ");	ft_printf("'%.-7X'", 8645);		printf(" invalid flag - for .precision\n\n");
+			printf("(\"%%\",8645)           : ");	ft_printf("'%'", 8645);			printf(" missing conversion specifier\n\n");
+			printf("(\"%%2$i-%%i\",3,2)     : ");	ft_printf("'%2$i-%i'", 3, 2);	printf(" cannot mix positioned and non-positioned args\n\n");
+			printf("(\"%% +i\", 33          : ");	ft_printf("'% +i'\n", 33);		printf(" flag ' ' is ignored when '+' is present\n\n");
+			printf("(\"%%-0i\", 33          : ");	ft_printf("'%-0i'\n", 33);		printf(" flag '0' is ignored when '-' is present\n\n");
 	}
 
-	/* ////////////////////////////////////////////////////////////////// */
-	/* 295gk                                                              */
-	/* ////////////////////////////////////////////////////////////////// */
+	printf("\n----------------------------------------------------------------\n");
+	printf("%% flags   width   .precision  length      specifier            \n");
+	printf("%% 0-#' +  * 0..9  .* 0..9     hhhlllLjtz  diuxXcsp%%efgnEFGaACSo\n");
+	printf("%% 0-      * 0..9  .* 0..9                 diuxXcsp%%            \n");
+	printf("%%   #' +                      hhhlll               efgn        \n");
+	printf("----------------------------------------------------------------\n\n");
 
 	close(save);
 	if (error != 0)
