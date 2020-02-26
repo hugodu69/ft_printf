@@ -68,9 +68,13 @@ char	*ft_compare(int fd1, int fd2, int *error)
 		ret2 = get_next_line(fd2, &line);
   		if (ft_strcmp(tmp, line) != 0)
   		{
+			free(line);
+			free(tmp);
   			(*error)++;
   			return ("\033[91mHO HO..\033[0m");
   		}
+		free(line);
+		free(tmp);
 	}
 	if (ret1 != ret2)
 	{

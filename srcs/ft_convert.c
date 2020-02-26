@@ -46,15 +46,15 @@ char	*conv_u(char c, unsigned long int i)
 {
 	char	*s;
 
-	s = ft_utoa(i);
 	if (c == 's')
 		return (strdup((char *)i));
+	s = ft_utoa(i);
 	if (c == 'u')
 		return (s);
 	if (c == 'x' || c == 'p')
-		return (ft_convertbase(s, "0123456789", "0123456789abcdef"));
+		return (ft_convertbase_free(s, "0123456789", "0123456789abcdef"));
 	if (c == 'X')
-		return (ft_convertbase(s, "0123456789", "0123456789ABCDEF"));
+		return (ft_convertbase_free(s, "0123456789", "0123456789ABCDEF"));
 	return (NULL);
 }
 

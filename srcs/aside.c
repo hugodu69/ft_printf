@@ -74,27 +74,27 @@ int		ft_put_word(char *s)
 int		ft_expand_star(int nbr, char **string)
 {
 	char	*s;
-	char	*strnbr;
+	char	*n;
 	int		i;
 	int		j;
+	int		k;
 
-	strnbr = ft_itoa(nbr);
-	i = ft_strlen(strnbr) + ft_strlen(*string) - 1;
-	if (!(s = (char *)malloc(sizeof(char) * (i + 1))))
+	n = ft_itoa(nbr);
+	if (!(s = ft_memalloc(sizeof(char) * (ft_strlen(n) + ft_strlen(*string)))))
 		return (0);
-	s[i] = '\0';
-	i = 0;
+	i = -1;
 	j = 0;
-	while ((*string)[i] != '\0')
+	k = 0;
+	while ((*string)[++i] != '\0')
 	{
 		s[j] = (*string)[i];
 		if (s[j] == '*')
-			while (*strnbr != '\0')
-				s[j++] = *(strnbr++);
+			while (n[k] != '\0')
+				s[j++] = n[k++];
 		else
 			j++;
-		i++;
 	}
+	free(n);
 	free(*string);
 	*string = s;
 	return (1);

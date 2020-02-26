@@ -91,7 +91,11 @@ int		ft_printf(char *string, ...)
 			if (!(print = ft_flag_transform(s, print, type)))
 				return (-1);
 			length += ft_put_word(print);
+			free(print);
 		}
+		free(s);
+		free(type);
 	}
+	free(s);
 	return (length);
 }
