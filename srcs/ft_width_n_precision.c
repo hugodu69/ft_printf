@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 14:48:55 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/25 15:12:32 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/02/26 19:24:18 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ char	*precision_int(char *print, int precision)
 ** -if flag '0' is present in %string, removes it (actually turn each occurence
 **  in a '.')
 ** -and transform 'print' according to the precision :
+** -0 if .precision == 0 and print == "0": return (print[0] = '\0') (print nothing)
 ** -1 if type is s: if length(s) > precision, removes end of 'print' to print
 **    only x chars, with x = precision
 ** -2 if type is "diouxX": call fonction 'precision_int' that return :
 **    if length(s) < precision, add x '0' bfr nbr, but after '-' if negative
 ** -3 if type is "aAeEfF": not covered
-** -4 si type is "gG": not covered
+** -4 if type is "gG": not covered
 ** -5 else: error
 */
 
@@ -80,14 +81,16 @@ char	*ft_precision(char *s, char *print, char *type)
 			if (*s == '0')
 				*s = '.';
 		i = 0;
-		if (ft_strchr(type, 's'))
+		if (precision == 0 && !ft_strcmp(print, "0"))
+			print[0] = '\0';
+		else if (ft_strchr(type, 's'))
 		{
 			while (i < precision && print[i])
 				i++;
 			if (print[i])
 				print[i] = '\0';
 		}
-		if (ft_strchrset(type, "diouxX"))
+		else if (ft_strchrset(type, "diouxX"))
 			print = precision_int(print, precision);
 	}
 	return (print);

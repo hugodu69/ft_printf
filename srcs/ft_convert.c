@@ -72,6 +72,8 @@ char	*ft_convert(va_list ap, char *type)
 		return (conv_u(s[0], va_arg(ap, unsigned int)));
 	if ((s = ft_strchrset(type, "s")))
 		return (conv_u(s[0], va_arg(ap, unsigned long int)));
+	if (ft_strchr(type, '%'))
+		return(ft_strdup("%"));
 	if (ft_strchrset(type, "efgn"))
 		return (NULL);
 	return (NULL);
