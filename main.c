@@ -232,40 +232,39 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "test"))
 	{
-//		PRINT("sdf");
-//		PRINT("%i", 23);
-//		long int k = -23;
-//		PRINT("%li", k);
-//		PRINT("%i", -32);
-//		PRINT("%li", 9223372036854775807);
-//		PRINT("%c", 'f');
-//		PRINT("%s", "sdffhk");
-//		PRINT("%u", 1221879);
-//		PRINT("%x", 3287);
-//		PRINT("%lX", 9223372036854775807);
-//  		PRINT("%p", "dfgdf");
-//		PRINT("%.i", 121);
-//		PRINT("%.2i", 122);
-//		PRINT("%.25i", 123);
-//		PRINT("%0.6i", 124);
-//		//PRINT("%-032.6i", 125);			// '0' and '-' not compatible
-//		//PRINT("%0-032.6i", 126);			// '0' and '-' not compatible
-//		//PRINT("%0-0.6i", 127);			// '0' and '-' not compatible
-//		PRINT("%s", "string");
-//		PRINT("%.7s", "strong");
-//		PRINT("%.2s", "strung");
-//		PRINT("%.0s", "strang");
-//		PRINT("%.s", "streng");
-//		PRINT("%.7i", -123456);
-//		PRINT("%2i", -128);
-//		PRINT("%0i", -129);
-//		PRINT("%10i", -130);
-//		PRINT("%*i", 0,-131);
-//		//PRINT("%0s", "stryng");			// '0' not compatible with string
-//		PRINT("%10s", "strxng");
-//		//PRINT("%010s", "strzng");			// '0' not compatible with string
-//		PRINT("%s" "__TEST__", "strzng");
-			PRINT("%.0X", 0);
+		PRINT("sdf");
+		PRINT("%i", 23);
+		long int k = -23;
+		PRINT("%li", k);
+		PRINT("%i", -32);
+		PRINT("%li", 9223372036854775807);
+		PRINT("%c", 'f');
+		PRINT("%s", "sdffhk");
+		PRINT("%u", 1221879);
+		PRINT("%x", 3287);
+		PRINT("%lX", 9223372036854775807);
+  		PRINT("%p", "dfgdf");
+		PRINT("%.i", 121);
+		PRINT("%.2i", 122);
+		PRINT("%.25i", 123);
+		PRINT("%0.6i", 124);
+		//PRINT("%-032.6i", 125);			// '0' and '-' not compatible
+		//PRINT("%0-032.6i", 126);			// '0' and '-' not compatible
+		//PRINT("%0-0.6i", 127);			// '0' and '-' not compatible
+		PRINT("%s", "string");
+		PRINT("%.7s", "strong");
+		PRINT("%.2s", "strung");
+		PRINT("%.0s", "strang");
+		PRINT("%.s", "streng");
+		PRINT("%.7i", -123456);
+		PRINT("%2i", -128);
+		PRINT("%0i", -129);
+		PRINT("%10i", -130);
+		PRINT("%*i", 0,-131);
+		//PRINT("%0s", "stryng");			// '0' not compatible with string
+		PRINT("%10s", "strxng");
+		//PRINT("%010s", "strzng");			// '0' not compatible with string
+		PRINT("%s" "__TEST__", "strzng");
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -458,6 +457,12 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 'p'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			char *s;
+			PRINT("%p", "test")
+			PRINT("%p", s)
+			s = "truc";
+			PRINT("%p", s)
 		}
 
 		if (ac == 2 || !strcmp(av[2], "%"))
