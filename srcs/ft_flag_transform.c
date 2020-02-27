@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_width_n_precision.c                             :+:      :+:    :+:   */
+/*   ft_flag_transform.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/25 14:48:55 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/26 19:24:18 by hulamy           ###   ########.fr       */
+/*   Created: 2020/02/27 11:55:43 by hulamy            #+#    #+#             */
+/*   Updated: 2020/02/27 11:55:45 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,3 +154,14 @@ char	*ft_width(char *s, char *print)
 	return (print);
 }
 
+
+/*
+** go through all the transformation flags needs
+*/
+
+char	*ft_flag_transform(char *s, char *print, char *type)
+{
+	print = ft_precision(s, print, type);
+	print = ft_width(s, print);
+	return (print);
+}
