@@ -46,4 +46,6 @@ lib:
 	make -C $(LDIR)
 cleanlib: lib
 	make fclean -C $(LDIR)
-.PHONY: all clean fclean re lib
+fsanitize: $(ODIR) $(OBJS) $(DEPS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LFLAGS) -fsanitize=address
+.PHONY: all clean fclean re lib fsanitize
