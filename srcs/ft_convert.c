@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_convert.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/27 12:03:28 by hulamy            #+#    #+#             */
+/*   Updated: 2020/02/27 12:03:38 by hulamy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
 /*
 ** FT_CONVERT :
 ** -convert the next argument into a string according to the following
-**  correspondances for diuxXcspefgn : 
+**  correspondances for diuxXcspefgn :
 **  [char]				[hhd, hhi, c]			[int]			[d i c]
 **  [short]				[hd, hi]				[int]
 **  [int]				[d, i]					[int]
@@ -73,7 +84,7 @@ char	*ft_convert(va_list ap, char *type)
 	if ((s = ft_strchrset(type, "s")))
 		return (conv_u(s[0], va_arg(ap, unsigned long int)));
 	if (ft_strchr(type, '%'))
-		return(ft_strdup("%"));
+		return (ft_strdup("%"));
 	if (ft_strchrset(type, "efgn"))
 		return (NULL);
 	return (NULL);

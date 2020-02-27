@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 11:55:43 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/27 11:55:45 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/02/27 12:07:22 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*precision_int(char *print, int precision)
 ** -if flag '0' is present in %string, removes it (actually turn each occurence
 **  in a '.')
 ** -and transform 'print' according to the precision :
-** -0 if .precision == 0 and print == "0": return (print[0] = '\0') (print nothing)
+** -0 if .precision is 0 && print is "0": print nothing
 ** -1 if type is s: if length(s) > precision, removes end of 'print' to print
 **    only x chars, with x = precision
 ** -2 if type is "diouxX": call fonction 'precision_int' that return :
@@ -119,7 +119,7 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 	}
 	else
 	{
-		c = (ft_strchr(s, '0')) ? '0' : ' ' ;
+		c = (ft_strchr(s, '0')) ? '0' : ' ';
 		while (i < (width - ft_strlen(print)))
 			tmp[i++] = c;
 		while (print[j])
@@ -153,7 +153,6 @@ char	*ft_width(char *s, char *print)
 	}
 	return (print);
 }
-
 
 /*
 ** go through all the transformation flags needs

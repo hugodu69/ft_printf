@@ -1,2 +1,0 @@
-printf2:test1
-printf2:test2
