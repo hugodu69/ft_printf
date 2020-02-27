@@ -2,7 +2,7 @@
 #  variables names  #
 # - - - - - - - - - #
 
-NAME   = ft_printf
+NAME   = libftprintf.a
 CC     = gcc
 VPATH  = srcs
 
@@ -30,22 +30,41 @@ LFLAGS = -L$(LDIR) -l$(LIBS)
 #   rules to execute    #
 # - - - - - - - - - - - #
 
-all: $(ODIR) $(NAME)
-$(NAME): $(OBJS) $(DEPS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LFLAGS)
+all: $(NAME)
+
+$(NAME): $(ODIR) $(OBJS) $(DEPS)
+	cp $(LDIR)$(_LIBS) ./
+	mv $(_LIBS) $(NAME)
+	ar -rc $@ $(OBJS)
+	ranlib $@
+
 $(ODIR):
 	mkdir -p $@
+
 $(ODIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
+
 clean:
 	/bin/rm -rf $(ODIR)
+
 fclean: clean
 	/bin/rm -f $(NAME)
+
 re: fclean all
+
+# - - - - - - - - - - - #
+#    rules to test      #
+#         with          #
+#    main and libft     #
+# - - - - - - - - - - - #
+
 lib:
 	make -C $(LDIR)
 cleanlib: lib
 	make fclean -C $(LDIR)
-fsanitize: $(ODIR) $(OBJS) $(DEPS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LFLAGS) -fsanitize=address
-.PHONY: all clean fclean re lib fsanitize
+main: $(ODIR) $(OBJS) $(DEPS)
+	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -fsanitize=address
+mainfclean: fclean
+	/bin/rm -f out*.txt a.out
+
+.PHONY: all clean fclean re lib cleanlib main mainfclean
