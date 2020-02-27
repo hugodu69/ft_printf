@@ -265,6 +265,8 @@ int		main(int ac, char **av)
 		PRINT("%10s", "strxng");
 		//PRINT("%010s", "strzng");			// '0' not compatible with string
 		PRINT("%s" "__TEST__", "strzng");
+		char *s = "hess";
+		PRINT("%s", s)
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -463,6 +465,11 @@ int		main(int ac, char **av)
 			PRINT("%p", s)
 			s = "truc";
 			PRINT("%p", s)
+			unsigned int u = 4;
+			PRINT("%p", &u)
+			PRINT("%s-%p", s, s)
+			PRINT("%u-%p", u, &u)
+			PRINT("%up", u)
 		}
 
 		if (ac == 2 || !strcmp(av[2], "%"))
@@ -517,6 +524,10 @@ int		main(int ac, char **av)
 			PRINT("%#.10X", 8645);
 			PRINT("%#10.10X", 8645);
 			PRINT("%#010X", 8645);
+			unsigned int uu = 4;
+			PRINT("%#X", (unsigned int)&uu)
+			PRINT("%#x", (unsigned int)&uu)
+			PRINT("%#lx", (unsigned long int)&uu)
 		}
 
 		if (ac == 2 || !strcmp(av[2], "'"))

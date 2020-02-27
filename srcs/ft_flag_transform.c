@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 11:55:43 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/27 12:07:22 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/02/27 18:17:34 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,12 +155,15 @@ char	*ft_width(char *s, char *print)
 }
 
 /*
-** go through all the transformation flags needs
+** -go through all the transformation flags needs
+** -the case of 'p' is treated without any subtelness because i don't care
 */
 
 char	*ft_flag_transform(char *s, char *print, char *type)
 {
 	print = ft_precision(s, print, type);
 	print = ft_width(s, print);
+	if (ft_strchr(type, 'p'))
+		print = ft_concat_free(ft_strdup("0x"), print);
 	return (print);
 }
