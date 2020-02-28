@@ -63,8 +63,10 @@ lib:
 cleanlib: lib
 	make fclean -C $(LDIR)
 main: $(ODIR) $(OBJS) $(DEPS)
+	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS)
+fsanitize: $(ODIR) $(OBJS) $(DEPS)
 	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -fsanitize=address
 mainfclean: fclean
 	/bin/rm -f out*.txt a.out
 
-.PHONY: all clean fclean re lib cleanlib main mainfclean
+.PHONY: all clean fclean re lib cleanlib main fsanitize mainfclean
