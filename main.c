@@ -158,40 +158,41 @@ int		main(int ac, char **av)
 	{
 		printf("USAGE:\n");
 		printf("call ./ft_printf with arguments to launch tests :\n");
-		printf("./ft_printf  'man'               \n");
-		printf("...........  'test'              \n");
-		printf("...........  'all'               \n");
-		printf("...........   ...    'noflag'    \n");
-		printf("...........   ...    '0'         \n");
-		printf("...........   ...    '-'         \n");
-		printf("...........   ...    'width'     \n");
-		printf("...........   ...    'precision' \n");
-		printf("...........   ...    '*'         \n");
-		printf("...........   ...    'd'         \n");
-		printf("...........   ...    'i'         \n");
-		printf("...........   ...    'u'         \n");
-		printf("...........   ...    'x'         \n");
-		printf("...........   ...    'X'         \n");
-		printf("...........   ...    'c'         \n");
-		printf("...........   ...    's'         \n");
-		printf("...........   ...    'p'         \n");
-		printf("...........   ...    '%%'         \n");
-		printf("...........   ...    'repetition'\n");
-		printf("...........  'bonus'             \n");
-		printf("...........   .....  '#'         \n");
-		printf("...........   .....  '''         \n");
-		printf("...........   .....  ' '         \n");
-		printf("...........   .....  '+'         \n");
-		printf("...........   .....  'e'         \n");
-		printf("...........   .....  'f'         \n");
-		printf("...........   .....  'g'         \n");
-		printf("...........   .....  'n'         \n");
-		printf("...........   .....  'h'         \n");
-		printf("...........   .....  'hh'        \n");
-		printf("...........   .....  'l'         \n");
-		printf("...........   .....  'll'        \n");
-		printf("...........   .....  'repetition'\n");
-		printf("...........  'error'             \n");
+		printf("./ft_printf  'man'                \n");
+		printf("...........  'test'               \n");
+		printf("...........  'special'            \n");
+		printf("...........  'all'                \n");
+		printf("...........   ...     'noflag'    \n");
+		printf("...........   ...     '0'         \n");
+		printf("...........   ...     '-'         \n");
+		printf("...........   ...     'width'     \n");
+		printf("...........   ...     'precision' \n");
+		printf("...........   ...     '*'         \n");
+		printf("...........   ...     'd'         \n");
+		printf("...........   ...     'i'         \n");
+		printf("...........   ...     'u'         \n");
+		printf("...........   ...     'x'         \n");
+		printf("...........   ...     'X'         \n");
+		printf("...........   ...     'c'         \n");
+		printf("...........   ...     's'         \n");
+		printf("...........   ...     'p'         \n");
+		printf("...........   ...     '%%'        \n");
+		printf("...........   ...     'repetition'\n");
+		printf("...........  'bonus'              \n");
+		printf("...........   .....   '#'         \n");
+		printf("...........   .....   '''         \n");
+		printf("...........   .....   ' '         \n");
+		printf("...........   .....   '+'         \n");
+		printf("...........   .....   'e'         \n");
+		printf("...........   .....   'f'         \n");
+		printf("...........   .....   'g'         \n");
+		printf("...........   .....   'n'         \n");
+		printf("...........   .....   'h'         \n");
+		printf("...........   .....   'hh'        \n");
+		printf("...........   .....   'l'         \n");
+		printf("...........   .....   'll'        \n");
+		printf("...........   .....   'repetition'\n");
+		printf("...........  'error'              \n");
 	}
 
 	if (ac == 2 && !strcmp(av[1], "man"))
@@ -275,7 +276,12 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "special"))
 	{
-		PRINT("\\!/%16c\\!/", (char)0)
+		PRINT("%16c", (char)0)
+		PRINT("%-16c", (char)0)
+		PRINT("%16c", 'a')
+		PRINT("%-16c", 'a')
+		PRINT("%16c", (char)7)
+		PRINT("!%37c!", (char)0)
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -356,6 +362,8 @@ int		main(int ac, char **av)
 			PRINT("%0i", 0);
 			PRINT("%6i", -456);
 			PRINT("%6%");
+			PRINT("%16c", 'a');
+			PRINT("%16c", (char)97);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "precision"))

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_flag_transform.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/27 11:55:43 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/27 18:17:34 by hulamy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "ft_printf.h"
 
@@ -112,7 +101,7 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 	j = 0;
 	if (ft_strchr(s, '-'))
 	{
-		while (print[j])
+		while (print[j] != '\0')
 			tmp[i++] = print[j++];
 		while (i < width)
 			tmp[i++] = ' ';
@@ -122,7 +111,7 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 		c = (ft_strchr(s, '0')) ? '0' : ' ';
 		while (i < (width - ft_strlen(print)))
 			tmp[i++] = c;
-		while (print[j])
+		while (print[j] != '\0')
 			tmp[i++] = print[j++];
 	}
 	free(print);
@@ -132,6 +121,7 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 /*
 ** -if there is a minimal width field, calculate it and add it to print
 **  according to the flags '-' and '0' if present
+** -if print[0] value 0
 */
 
 char	*ft_width(char *s, char *print)
@@ -142,8 +132,12 @@ char	*ft_width(char *s, char *print)
 	tmp = s;
 	while (*tmp != '\0' && ft_strchr("%#- +'0.", *tmp))
 		tmp++;
+	if (*tmp == '\0')
+		return (print);
 	width = ft_atoi(tmp);
 	tmp[0] = '\0';
+	if (print[0] == '\0')
+		width--;
 	if (width > ft_strlen(print))
 	{
 		if (!(tmp = (char *)malloc(sizeof(char) * (width + 1))))
