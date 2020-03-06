@@ -58,6 +58,9 @@ char	*conv_u(char c, unsigned long int i)
 }
 
 /*
+** -first a loop to expand all the stars from width and .precision
+**  they always expand into int type
+**  it's done first because those are the first next args on the va_list
 ** -for each kind of specifier there is finally four kinds of conversion :
 **  int / long int / unsigned int / unsingned long int
 ** -the conversion 'uxX' associated with 'l' are converted with lu, but
@@ -68,18 +71,21 @@ char	*conv_u(char c, unsigned long int i)
 **  or for 'p' and again for 'p', or 's' twice similarly
 */
 
-char	*ft_convert(va_list ap, char *type)
+char	*ft_convert(va_list ap, char *type, char **s)
 {
-	char	*s;
+	char	*tmp;
 
-	if ((s = ft_strchrset(type, "dic")) && ft_strchr(type, 'l'))
-		return (conv_i(s[0], va_arg(ap, long int)));
-	if ((s = ft_strchrset(type, "dic")))
-		return (conv_i(s[0], va_arg(ap, int)));
-	if ((s = ft_strchrset(type, "uxXps")) && ft_strchrset(type, "lps"))
-		return (conv_u(s[0], va_arg(ap, unsigned long int)));
-	if ((s = ft_strchrset(type, "uxX")))
-		return (conv_u(s[0], va_arg(ap, unsigned int)));
+	while (ft_strchr(*s, '*'))
+		if (!(ft_expand_star(va_arg(ap, int), s)))
+			return (NULL);
+	if ((tmp = ft_strchrset(type, "dic")) && ft_strchr(type, 'l'))
+		return (conv_i(tmp[0], va_arg(ap, long int)));
+	if ((tmp = ft_strchrset(type, "dic")))
+		return (conv_i(tmp[0], va_arg(ap, int)));
+	if ((tmp = ft_strchrset(type, "uxXps")) && ft_strchrset(type, "lps"))
+		return (conv_u(tmp[0], va_arg(ap, unsigned long int)));
+	if ((tmp = ft_strchrset(type, "uxX")))
+		return (conv_u(tmp[0], va_arg(ap, unsigned int)));
 	if (ft_strchr(type, '%'))
 		return (ft_strdup("%"));
 	if (ft_strchrset(type, "efgn"))

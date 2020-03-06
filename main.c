@@ -10,42 +10,42 @@
 // then the result of ft_printf,
 // and finally redirect the output into a file to compare
 #define PRINT(string, args...)		\
-									outf = open("outf.txt", O_WRONLY | O_TRUNC); \
-									outft = open("outft.txt", O_WRONLY | O_TRUNC); \
-									\
-									dup2(outf, 1); \
-									printf(string "\n", ##args); \
-									fflush(stdout); \
-									\
-									dup2(outft, 1); \
-									if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
-									fflush(stdout); \
-									printf("\n"); \
-									fflush(stdout); \
-									\
-									close(outf); \
-									close(outft); \
-									outf = open("outf.txt", O_RDONLY); \
-									outft = open("outft.txt", O_RDONLY); \
-									\
-									dup2(save, 1); \
-									printf("(%s, %s)", #string, #args); \
-									fflush(stdout); \
-									printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
-									fflush(stdout); \
-									printf("'" string "'\n", ##args); \
-									fflush(stdout); \
-									printf("%s", ft_compare(outf, outft, &error)); \
-									fflush(stdout); \
-									printf("%38s", ": '"); \
-									fflush(stdout); \
-									if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
-									fflush(stdout); \
-									printf("'\n\n"); \
-									fflush(stdout); \
-									\
-									close(outf); \
-									close(outft);
+	outf = open("outf.txt", O_WRONLY | O_TRUNC); \
+	outft = open("outft.txt", O_WRONLY | O_TRUNC); \
+	\
+	dup2(outf, 1); \
+	printf(string "\n", ##args); \
+	fflush(stdout); \
+	\
+	dup2(outft, 1); \
+	if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
+	fflush(stdout); \
+	printf("\n"); \
+	fflush(stdout); \
+	\
+	close(outf); \
+	close(outft); \
+	outf = open("outf.txt", O_RDONLY); \
+	outft = open("outft.txt", O_RDONLY); \
+	\
+	dup2(save, 1); \
+	printf("(%s, %s)", #string, #args); \
+	fflush(stdout); \
+	printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
+	fflush(stdout); \
+	printf("'" string "'\n", ##args); \
+	fflush(stdout); \
+	printf("%s", ft_compare(outf, outft, &error)); \
+	fflush(stdout); \
+	printf("%38s", ": '"); \
+	fflush(stdout); \
+	if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
+	fflush(stdout); \
+	printf("'\n\n"); \
+	fflush(stdout); \
+	\
+	close(outf); \
+	close(outft);
 
 /*
 ** this fucntion look into the two files outf.txt and outft.txt in which

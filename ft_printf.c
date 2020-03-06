@@ -81,26 +81,36 @@ int		ft_expand_star(int nbr, char **string)
 ** because of lake of space, it also free 'type'
 */
 
-int		ft_put_word(char *s, char *type)
+int		ft_put_word(char *s, char *type, int size)
 {
 	int		i;
 
+	i = 0;
+	while (i < size)
+		write(1, &(s[i++]), 1);
 	free(type);
-	i = ft_strlen(s);
-	ft_putstr(s);
 	free(s);
 	return (i);
 }
 
 /*
-** print the string
-** because of lake of space, it also free 'type'
+** because of lake of space...
+** -1 expand the specifier according to its type and its length
+**    and put in a string 'print'
+** -2 transform 'print' according to the flags
 */
 
-int		length_n_free(int length, char *s)
+char	*convert_with_flags(char *s, va_list ap, char *type, int *size)
 {
+	char	*print;
+
+	if (!(print = ft_convert(ap, type, &s)))
+		return (NULL);
+	if (!(print = ft_flag_transform(s, print, type, size)))
+		return (NULL);
 	free(s);
-	return (length);
+	s = print;
+	return(print);
 }
 
 /*
@@ -108,21 +118,18 @@ int		length_n_free(int length, char *s)
 ** -it will go in a loop through each 'words'
 ** -a word is either a string containing no '%' or a conversion starting by '%'
 ** -if it's a string it's printed right away
-** -if it's a conversion it will go through some actions :
-** -1 expand all the stars from width and .precision
-**    they always expand into int type
-**    it's done first because those are the first next args on the va_list
-** -2 expand the specifier according to its type and its length
+** -if it's a conversion it will call convert_with_flags for some actions :
+** -1 expand the specifier according to its type and its length
 **    and put in a string 'print'
-** -3 transform 'print' according to the flags
+** -2 transform 'print' according to the flags
 */
 
 int		ft_printf(char *string, ...)
 {
 	char	*s;
-	char	*print;
 	char	*type;
 	int		length;
+	int		size;
 	va_list	ap;
 
 	length = 0;
@@ -130,18 +137,15 @@ int		ft_printf(char *string, ...)
 	while ((s = next_word(&string)) != NULL)
 	{
 		if ((type = specifier(s)) == NULL)
-			length += ft_put_word(s, type);
+			length += ft_put_word(s, type, ft_strlen(s));
 		else
 		{
-			while (ft_strchr(s, '*'))
-				if (!(ft_expand_star(va_arg(ap, int), &s)))
-					return (-1);
-			if (!(print = ft_convert(ap, type)))
+			size = 0;
+			if (!(s = convert_with_flags(s, ap, type, &size)))
 				return (-1);
-			if (!(print = ft_flag_transform(s, print, type)))
-				return (-1);
-			length += ft_put_word(print, type);
+			length += ft_put_word(s, type, size);
 		}
 	}
-	return (length_n_free(length, s));
+	free(s);
+	return (length);
 }

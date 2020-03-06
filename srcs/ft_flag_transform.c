@@ -91,7 +91,7 @@ char	*ft_precision(char *s, char *print, char *type)
 ** -else, put extra width as ' ' to left of 'print'
 */
 
-char	*width_flags(char *print, char *tmp, char *s, int width)
+char	*width_flags(char *print, char *tmp, char *s, int width, int zero)
 {
 	char	c;
 	int		i;
@@ -101,6 +101,8 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 	j = 0;
 	if (ft_strchr(s, '-'))
 	{
+		if (print[j] == '\0')
+			tmp[i++] = '\0';
 		while (print[j] != '\0')
 			tmp[i++] = print[j++];
 		while (i < width)
@@ -109,8 +111,10 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 	else
 	{
 		c = (ft_strchr(s, '0')) ? '0' : ' ';
-		while (i < (width - ft_strlen(print)))
+		while (i < (width - ft_strlen(print) - zero))
 			tmp[i++] = c;
+		if (print[j] == '\0')
+			tmp[i++] = '\0';
 		while (print[j] != '\0')
 			tmp[i++] = print[j++];
 	}
@@ -121,30 +125,41 @@ char	*width_flags(char *print, char *tmp, char *s, int width)
 /*
 ** -if there is a minimal width field, calculate it and add it to print
 **  according to the flags '-' and '0' if present
-** -if print[0] value 0
+** -in details :
+**  1 loop through s, the string starting by '%' and ending by a converter,
+**    until it has passed all the flags that are not a potentiel width field
+**  2 then if it's the end of s, there is no width and print isn't changed,
+**    otherwise the int 'width' take the value returned by atoi
+**  3 if print[0] value 0, as it happens for type c with (char)0,
 */
 
-char	*ft_width(char *s, char *print)
+char	*ft_width(char *s, char *print, int *size)
 {
 	char	*tmp;
-	int		width;
+	int		zero;
 
 	tmp = s;
+	zero = 0;
 	while (*tmp != '\0' && ft_strchr("%#- +'0.", *tmp))
 		tmp++;
 	if (*tmp == '\0')
+	{
+		*size = ft_strlen(print);
 		return (print);
-	width = ft_atoi(tmp);
+	}
+	*size = ft_atoi(tmp);
 	tmp[0] = '\0';
 	if (print[0] == '\0')
-		width--;
-	if (width > ft_strlen(print))
+		zero = 1;
+	if (*size > ft_strlen(print) + zero)
 	{
-		if (!(tmp = (char *)malloc(sizeof(char) * (width + 1))))
+		if (!(tmp = (char *)malloc(sizeof(char) * (*size + 1))))
 			return (NULL);
-		tmp[width] = '\0';
-		print = width_flags(print, tmp, s, width);
+		tmp[*size] = '\0';
+		print = width_flags(print, tmp, s, *size, zero);
 	}
+	else
+		*size = ft_strlen(print);
 	return (print);
 }
 
@@ -153,11 +168,14 @@ char	*ft_width(char *s, char *print)
 ** -the case of 'p' is treated without any subtelness because i don't care
 */
 
-char	*ft_flag_transform(char *s, char *print, char *type)
+char	*ft_flag_transform(char *s, char *print, char *type, int *size)
 {
 	print = ft_precision(s, print, type);
-	print = ft_width(s, print);
+	print = ft_width(s, print, size);
 	if (ft_strchr(type, 'p'))
+	{
 		print = ft_concat_free(ft_strdup("0x"), print);
+		*size += 2;
+	}
 	return (print);
 }
