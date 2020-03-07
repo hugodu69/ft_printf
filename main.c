@@ -10,42 +10,53 @@
 // then the result of ft_printf,
 // and finally redirect the output into a file to compare
 #define PRINT(string, args...)		\
-	outf = open("outf.txt", O_WRONLY | O_TRUNC); \
-	outft = open("outft.txt", O_WRONLY | O_TRUNC); \
-	\
-	dup2(outf, 1); \
-	printf(string "\n", ##args); \
-	fflush(stdout); \
-	\
-	dup2(outft, 1); \
-	if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
-	fflush(stdout); \
-	printf("\n"); \
-	fflush(stdout); \
-	\
-	close(outf); \
-	close(outft); \
-	outf = open("outf.txt", O_RDONLY); \
-	outft = open("outft.txt", O_RDONLY); \
-	\
-	dup2(save, 1); \
-	printf("(%s, %s)", #string, #args); \
-	fflush(stdout); \
-	printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
-	fflush(stdout); \
-	printf("'" string "'\n", ##args); \
-	fflush(stdout); \
-	printf("%s", ft_compare(outf, outft, &error)); \
-	fflush(stdout); \
-	printf("%38s", ": '"); \
-	fflush(stdout); \
-	if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
-	fflush(stdout); \
-	printf("'\n\n"); \
-	fflush(stdout); \
-	\
-	close(outf); \
-	close(outft);
+		\
+		outf = open("outf.txt", O_WRONLY | O_TRUNC); \
+		outft = open("outft.txt", O_WRONLY | O_TRUNC); \
+		\
+		dup2(outf, 1); \
+		pout = printf(string, ##args); \
+		fflush(stdout); \
+		printf("\n"); \
+		fflush(stdout); \
+		\
+		dup2(outft, 1); \
+		ftpout = ft_printf(string, ##args); \
+		if (ftpout == -1) printf("\033[91mERROR\033[0m"); \
+		fflush(stdout); \
+		printf("\n"); \
+		fflush(stdout); \
+		\
+		close(outf); \
+		close(outft); \
+		outf = open("outf.txt", O_RDONLY); \
+		outft = open("outft.txt", O_RDONLY); \
+		\
+		dup2(save, 1); \
+		printf("(%s, %s)", #string, #args); \
+		fflush(stdout); \
+		printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
+		fflush(stdout); \
+		printf("'"); \
+		fflush(stdout); \
+		printf(string, ##args); \
+		fflush(stdout); \
+		printf("' [%i]\n", pout); \
+		fflush(stdout); \
+		printf("%s", ft_compare(outf, outft, &error, (ftpout == pout))); \
+		fflush(stdout); \
+		printf("%38s", ": '"); \
+		fflush(stdout); \
+		if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
+		fflush(stdout); \
+		if (ftpout != pout) \
+		printf("' \033[91m[%i]\033[0m\n\n", ftpout); \
+		else \
+		printf("' [%i]\n\n", ftpout); \
+		fflush(stdout); \
+		\
+		close(outf); \
+		close(outft);
 
 /*
 ** this fucntion look into the two files outf.txt and outft.txt in which
@@ -54,13 +65,18 @@
 ** and it read them and compare them
 */
 
-char	*ft_compare(int fd1, int fd2, int *error)
+char	*ft_compare(int fd1, int fd2, int *error, int output)
 {
 	int		ret1 = 1;
 	int		ret2 = 1;
 	char	*line = NULL;
 	char	*tmp = NULL;
 
+	if (!output)
+	{
+  			(*error)++;
+  			return ("\033[91mHO HO..\033[0m");
+	}
 	while (ret1 > 0 && ret2 > 0)
 	{
 		ret1 = get_next_line(fd1, &line);
@@ -142,12 +158,20 @@ int		main(int ac, char **av)
 {
 	setlocale(LC_ALL, "en_US.UTF-8");
 
+	// those two ints will contain the fd for files that stores output
 	int	outf;
 	int	outft;
+	// this int save the fd of the standard output
+	int	save = dup(1);
+	// those two command create the two files to store the output
+	// 0644 are the permissions for the file
 	open("outf.txt", O_CREAT, 0644);
 	open("outft.txt", O_CREAT, 0644);
+	// error is used to count the total nbr of error
 	static int error = 0;
-	int	save = dup(1);
+	// those two ints saves the return value of printf and ft_printf
+	int pout;
+	int ftpout;
 
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -160,7 +184,6 @@ int		main(int ac, char **av)
 		printf("call ./ft_printf with arguments to launch tests :\n");
 		printf("./ft_printf  'man'                \n");
 		printf("...........  'test'               \n");
-		printf("...........  'special'            \n");
 		printf("...........  'all'                \n");
 		printf("...........   ...     'noflag'    \n");
 		printf("...........   ...     '0'         \n");
@@ -233,55 +256,51 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && !strcmp(av[1], "test"))
 	{
-		PRINT("sdf");
-		PRINT("%i", 23);
-		long int k = -23;
-		PRINT("%li", k);
-		PRINT("%i", -32);
-		PRINT("%li", 9223372036854775807);
-		PRINT("%c", 'f');
-		PRINT("%s", "sdffhk");
-		PRINT("%u", 1221879);
-		PRINT("%x", 3287);
-		PRINT("%lX", 9223372036854775807);
-  		PRINT("%p", "dfgdf");
-		PRINT("%.i", 121);
-		PRINT("%.2i", 122);
-		PRINT("%.25i", 123);
-		PRINT("%0.6i", 124);
-		//PRINT("%-032.6i", 125);			// '0' and '-' not compatible
-		//PRINT("%0-032.6i", 126);			// '0' and '-' not compatible
-		//PRINT("%0-0.6i", 127);			// '0' and '-' not compatible
-		PRINT("%s", "string");
-		PRINT("%.7s", "strong");
-		PRINT("%.2s", "strung");
-		PRINT("%.0s", "strang");
-		PRINT("%.s", "streng");
-		PRINT("%.7i", -123456);
-		PRINT("%2i", -128);
-		PRINT("%0i", -129);
-		PRINT("%10i", -130);
-		PRINT("%*i", 0,-131);
-		//PRINT("%0s", "stryng");			// '0' not compatible with string
-		PRINT("%10s", "strxng");
-		//PRINT("%010s", "strzng");			// '0' not compatible with string
-		PRINT("%s" "__TEST__", "strzng");
-		char *s = "hess";
-		PRINT("%s", s)
-	}
-
-	/* ////////////////////////////////////////////////////////////////// */
-	/* TESTS FROM THE PRINT UNIT TEST                                     */
-	/* ////////////////////////////////////////////////////////////////// */
-
-	if (ac == 2 && !strcmp(av[1], "special"))
-	{
-		PRINT("%16c", (char)0)
-		PRINT("%-16c", (char)0)
-		PRINT("%16c", 'a')
-		PRINT("%-16c", 'a')
-		PRINT("%16c", (char)7)
-		PRINT("!%37c!", (char)0)
+	//	PRINT("sdf");
+	//	PRINT("%i", 23);
+	//	long int k = -23;
+	//	PRINT("%li", k);
+	//	PRINT("%i", -32);
+	//	PRINT("%li", 9223372036854775807);
+	//	PRINT("%c", 'f');
+	//	PRINT("%s", "sdffhk");
+	//	PRINT("%u", 1221879);
+	//	PRINT("%x", 3287);
+	//	PRINT("%lX", 9223372036854775807);
+  	//	PRINT("%p", "dfgdf");
+	//	PRINT("%.i", 121);
+	//	PRINT("%.2i", 122);
+	//	PRINT("%.25i", 123);
+	//	PRINT("%0.6i", 124);
+	//	//PRINT("%-032.6i", 125);			// '0' and '-' not compatible
+	//	//PRINT("%0-032.6i", 126);			// '0' and '-' not compatible
+	//	//PRINT("%0-0.6i", 127);			// '0' and '-' not compatible
+	//	PRINT("%s", "string");
+	//	PRINT("%.7s", "strong");
+	//	PRINT("%.2s", "strung");
+	//	PRINT("%.0s", "strang");
+	//	PRINT("%.s", "streng");
+	//	PRINT("%.7i", -123456);
+	//	PRINT("%2i", -128);
+	//	PRINT("%0i", -129);
+	//	PRINT("%10i", -130);
+	//	PRINT("%*i", 0,-131);
+	//	//PRINT("%0s", "stryng");			// '0' not compatible with string
+	//	PRINT("%10s", "strxng");
+	//	//PRINT("%010s", "strzng");			// '0' not compatible with string
+	//	PRINT("%s" "__TEST__", "strzng");
+	//	char *s = "hess";
+	//	PRINT("%s", s)
+	//	PRINT("%16c", (char)0)
+	//	PRINT("%-16c", (char)0)
+	//	PRINT("%16c", 'a')
+	//	PRINT("%-16c", 'a')
+	//	PRINT("%16c", (char)7)
+	//	PRINT("!%37c!", (char)0)
+		PRINT("%.0i", 0);
+		PRINT("%.0i", 000);
+		PRINT("%.0X", 0);
+		PRINT("%.i", 0);
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */

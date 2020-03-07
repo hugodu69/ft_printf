@@ -51,7 +51,7 @@ char	*ft_convert(va_list ap, char *type, char **s);
 
 char	*precision_int(char *print, int precision);
 char	*ft_precision(char *s, char *print, char *type);
-char	*width_flags(char *print, char *tmp, char *s, int width, int zero);
+char	*width_flags(char *print, char *s, int width, int zero);
 char	*ft_width(char *s, char *print, int *size);
 char	*ft_flag_transform(char *s, char *print, char *type, int *size);
 

@@ -91,14 +91,17 @@ char	*ft_precision(char *s, char *print, char *type)
 ** -else, put extra width as ' ' to left of 'print'
 */
 
-char	*width_flags(char *print, char *tmp, char *s, int width, int zero)
+char	*width_flags(char *print, char *s, int width, int zero)
 {
+	char	*tmp;
 	char	c;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
+	if(!(tmp = ft_strnew(width)))
+		return (NULL);
 	if (ft_strchr(s, '-'))
 	{
 		if (print[j] == '\0')
@@ -126,11 +129,17 @@ char	*width_flags(char *print, char *tmp, char *s, int width, int zero)
 ** -if there is a minimal width field, calculate it and add it to print
 **  according to the flags '-' and '0' if present
 ** -in details :
+**  0 if print[0] value 0, as it happens for type c with (char)0, save it for
+**    later in 'zero'
 **  1 loop through s, the string starting by '%' and ending by a converter,
 **    until it has passed all the flags that are not a potentiel width field
 **  2 then if it's the end of s, there is no width and print isn't changed,
-**    otherwise the int 'width' take the value returned by atoi
-**  3 if print[0] value 0, as it happens for type c with (char)0,
+**    otherwise the int 'size' take the value returned by atoi
+**    in case print isn't changed, 'size' is the length of 'print'
+**  3 then if the size of the width shield is bigger than the size of print
+**    (plus zero in case print is a (char)0), call 'width_flags' that will
+**    create a new char* to contain the string to print after transformation
+**  4 otherwise 'size' is the length of print + zero
 */
 
 char	*ft_width(char *s, char *print, int *size)
@@ -140,26 +149,21 @@ char	*ft_width(char *s, char *print, int *size)
 
 	tmp = s;
 	zero = 0;
+	if (print[0] == '\0')
+		zero = 1;
 	while (*tmp != '\0' && ft_strchr("%#- +'0.", *tmp))
 		tmp++;
 	if (*tmp == '\0')
 	{
-		*size = ft_strlen(print);
+		*size = ft_strlen(print) + zero;
 		return (print);
 	}
 	*size = ft_atoi(tmp);
 	tmp[0] = '\0';
-	if (print[0] == '\0')
-		zero = 1;
 	if (*size > ft_strlen(print) + zero)
-	{
-		if (!(tmp = (char *)malloc(sizeof(char) * (*size + 1))))
-			return (NULL);
-		tmp[*size] = '\0';
-		print = width_flags(print, tmp, s, *size, zero);
-	}
+		print = width_flags(print, s, *size, zero);
 	else
-		*size = ft_strlen(print);
+		*size = ft_strlen(print) + zero;
 	return (print);
 }
 
