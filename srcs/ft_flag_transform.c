@@ -142,14 +142,14 @@ char	*width_flags(char *print, char *s, int width, int zero)
 **  4 otherwise 'size' is the length of print + zero
 */
 
-char	*ft_width(char *s, char *print, int *size)
+char	*ft_width(char *s, char *print, int *size, char *type)
 {
 	char	*tmp;
 	int		zero;
 
 	tmp = s;
 	zero = 0;
-	if (print[0] == '\0')
+	if (print[0] == '\0' && ft_strchr(type, 'c'))
 		zero = 1;
 	while (*tmp != '\0' && ft_strchr("%#- +'0.", *tmp))
 		tmp++;
@@ -175,7 +175,7 @@ char	*ft_width(char *s, char *print, int *size)
 char	*ft_flag_transform(char *s, char *print, char *type, int *size)
 {
 	print = ft_precision(s, print, type);
-	print = ft_width(s, print, size);
+	print = ft_width(s, print, size, type);
 	if (ft_strchr(type, 'p'))
 	{
 		print = ft_concat_free(ft_strdup("0x"), print);
