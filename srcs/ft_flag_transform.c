@@ -95,31 +95,21 @@ char	*width_flags(char *print, char *s, int width, int zero)
 {
 	char	*tmp;
 	char	c;
-	int		i;
-	int		j;
+	int		len;
 
-	i = 0;
-	j = 0;
+	len = ft_strlen(print) + zero;
 	if(!(tmp = ft_strnew(width)))
 		return (NULL);
 	if (ft_strchr(s, '-'))
 	{
-		if (print[j] == '\0')
-			tmp[i++] = '\0';
-		while (print[j] != '\0')
-			tmp[i++] = print[j++];
-		while (i < width)
-			tmp[i++] = ' ';
+		ft_memmove(tmp, print, len);
+		ft_memset(tmp + len, ' ', width - len);
 	}
 	else
 	{
 		c = (ft_strchr(s, '0')) ? '0' : ' ';
-		while (i < (width - ft_strlen(print) - zero))
-			tmp[i++] = c;
-		if (print[j] == '\0')
-			tmp[i++] = '\0';
-		while (print[j] != '\0')
-			tmp[i++] = print[j++];
+		ft_memset(tmp, c, width - len);
+		ft_memmove(ft_strchr(tmp, '\0') + zero, print, ft_strlen(print));
 	}
 	free(print);
 	return (tmp);
