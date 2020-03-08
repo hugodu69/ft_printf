@@ -108,6 +108,7 @@ char	*convert_with_flags(char *s, va_list ap, char *type, int *size)
 		return (NULL);
 	if (!(print = ft_flag_transform(s, print, type, size)))
 		return (NULL);
+//	ft_putstr(s);
 	free(s);
 	s = print;
 	return (print);
