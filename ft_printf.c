@@ -110,7 +110,7 @@ char	*convert_with_flags(char *s, va_list ap, char *type, int *size)
 		return (NULL);
 	free(s);
 	s = print;
-	return(print);
+	return (print);
 }
 
 /*

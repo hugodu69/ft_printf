@@ -33,6 +33,7 @@ LFLAGS = -L$(LDIR) -l$(LIBS)
 all: $(NAME)
 
 $(NAME): $(ODIR) $(OBJS) $(DEPS)
+	make -C $(LDIR)
 	cp $(LDIR)$(_LIBS) ./
 	mv $(_LIBS) $(NAME)
 	ar -rc $@ $(OBJS)

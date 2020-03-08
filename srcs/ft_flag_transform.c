@@ -98,7 +98,7 @@ char	*width_flags(char *print, char *s, int width, int zero)
 	int		len;
 
 	len = ft_strlen(print) + zero;
-	if(!(tmp = ft_strnew(width)))
+	if (!(tmp = ft_strnew(width)))
 		return (NULL);
 	if (ft_strchr(s, '-'))
 	{
