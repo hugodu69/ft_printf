@@ -447,6 +447,25 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 'd'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%d", 23);
+			long int k = -23;
+			PRINT("%ld", k);
+			PRINT("%d", -32);
+			PRINT("%ld", 9223372036854775807);
+			PRINT("%*d", 0,-131);
+			PRINT("%.7d", -123456);
+			PRINT("%2d", -128);
+			PRINT("%0d", -129);
+			PRINT("%10d", -130);
+			PRINT("%.d", 121);
+			PRINT("%.2d", 122);
+			PRINT("%.25d", 123);
+			PRINT("%0.6d", 124);
+			PRINT("%.0d", 0);
+			PRINT("%.0d", 000);
+			PRINT("%.d", 0);
+			PRINT("%08d", 33333);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "i"))
@@ -454,6 +473,25 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 'i'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%i", 23);
+			long int k = -23;
+			PRINT("%li", k);
+			PRINT("%i", -32);
+			PRINT("%li", 9223372036854775807);
+			PRINT("%*i", 0,-131);
+			PRINT("%.7i", -123456);
+			PRINT("%2i", -128);
+			PRINT("%0i", -129);
+			PRINT("%10i", -130);
+			PRINT("%.i", 121);
+			PRINT("%.2i", 122);
+			PRINT("%.25i", 123);
+			PRINT("%0.6i", 124);
+			PRINT("%.0i", 0);
+			PRINT("%.0i", 000);
+			PRINT("%.i", 0);
+			PRINT("%08i", 33333);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "u"))
@@ -461,6 +499,23 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 'u'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%u", 1221879);
+			PRINT("%u", 32);
+			PRINT("%lu", 9223372036854775807);
+			PRINT("%*u", 0, 131);
+			PRINT("%.7u", 123456);
+			PRINT("%2u", 128);
+			PRINT("%0u", 129);
+			PRINT("%10u", 130);
+			PRINT("%.u", 121);
+			PRINT("%.2u", 122);
+			PRINT("%.25u", 123);
+			PRINT("%0.6u", 124);
+			PRINT("%.0u", 0);
+			PRINT("%.0u", 000);
+			PRINT("%.u", 0);
+			PRINT("%08u", 33333);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "x"))
@@ -468,6 +523,10 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 'x'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%x", 3287);
+			PRINT("%lx", 9223372036854775807);
+			PRINT("%.0x", 0);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "X"))
@@ -475,6 +534,10 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 'X'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%X", 3287);
+			PRINT("%lX", 9223372036854775807);
+			PRINT("%.0X", 0);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "c"))
@@ -529,108 +592,108 @@ int		main(int ac, char **av)
 			PRINT("%c", (char)31)
 			PRINT("%c", (char)32)
 			PRINT("%c", (char)33)
-			PRINT("%c", (char)34)
-			PRINT("%c", (char)35)
-			PRINT("%c", (char)36)
-			PRINT("%c", (char)37)
-			PRINT("%c", (char)38)
-			PRINT("%c", (char)39)
-
+//			PRINT("%c", (char)34)
+//			PRINT("%c", (char)35)
+//			PRINT("%c", (char)36)
+//			PRINT("%c", (char)37)
+//			PRINT("%c", (char)38)
+//			PRINT("%c", (char)39)
+//
 			PRINT("%c", (char)40)
-			PRINT("%c", (char)41)
-			PRINT("%c", (char)42)
-			PRINT("%c", (char)43)
-			PRINT("%c", (char)44)
-			PRINT("%c", (char)45)
-			PRINT("%c", (char)46)
-			PRINT("%c", (char)47)
-			PRINT("%c", (char)48)
-			PRINT("%c", (char)49)
-
+//			PRINT("%c", (char)41)
+//			PRINT("%c", (char)42)
+//			PRINT("%c", (char)43)
+//			PRINT("%c", (char)44)
+//			PRINT("%c", (char)45)
+//			PRINT("%c", (char)46)
+//			PRINT("%c", (char)47)
+//			PRINT("%c", (char)48)
+//			PRINT("%c", (char)49)
+//
 			PRINT("%c", (char)50)
-			PRINT("%c", (char)51)
-			PRINT("%c", (char)52)
-			PRINT("%c", (char)53)
-			PRINT("%c", (char)54)
-			PRINT("%c", (char)55)
-			PRINT("%c", (char)56)
-			PRINT("%c", (char)57)
-			PRINT("%c", (char)58)
-			PRINT("%c", (char)59)
-
+//			PRINT("%c", (char)51)
+//			PRINT("%c", (char)52)
+//			PRINT("%c", (char)53)
+//			PRINT("%c", (char)54)
+//			PRINT("%c", (char)55)
+//			PRINT("%c", (char)56)
+//			PRINT("%c", (char)57)
+//			PRINT("%c", (char)58)
+//			PRINT("%c", (char)59)
+//
 			PRINT("%c", (char)60)
-			PRINT("%c", (char)61)
-			PRINT("%c", (char)62)
-			PRINT("%c", (char)63)
-			PRINT("%c", (char)64)
-			PRINT("%c", (char)65)
-			PRINT("%c", (char)66)
-			PRINT("%c", (char)67)
-			PRINT("%c", (char)68)
-			PRINT("%c", (char)69)
-
+//			PRINT("%c", (char)61)
+//			PRINT("%c", (char)62)
+//			PRINT("%c", (char)63)
+//			PRINT("%c", (char)64)
+//			PRINT("%c", (char)65)
+//			PRINT("%c", (char)66)
+//			PRINT("%c", (char)67)
+//			PRINT("%c", (char)68)
+//			PRINT("%c", (char)69)
+//
 			PRINT("%c", (char)70)
-			PRINT("%c", (char)71)
-			PRINT("%c", (char)72)
-			PRINT("%c", (char)73)
-			PRINT("%c", (char)74)
-			PRINT("%c", (char)75)
-			PRINT("%c", (char)76)
-			PRINT("%c", (char)77)
-			PRINT("%c", (char)78)
-			PRINT("%c", (char)79)
-
+//			PRINT("%c", (char)71)
+//			PRINT("%c", (char)72)
+//			PRINT("%c", (char)73)
+//			PRINT("%c", (char)74)
+//			PRINT("%c", (char)75)
+//			PRINT("%c", (char)76)
+//			PRINT("%c", (char)77)
+//			PRINT("%c", (char)78)
+//			PRINT("%c", (char)79)
+//
 			PRINT("%c", (char)80)
-			PRINT("%c", (char)81)
-			PRINT("%c", (char)82)
-			PRINT("%c", (char)83)
-			PRINT("%c", (char)84)
-			PRINT("%c", (char)85)
-			PRINT("%c", (char)86)
-			PRINT("%c", (char)87)
-			PRINT("%c", (char)88)
-			PRINT("%c", (char)89)
-
+//			PRINT("%c", (char)81)
+//			PRINT("%c", (char)82)
+//			PRINT("%c", (char)83)
+//			PRINT("%c", (char)84)
+//			PRINT("%c", (char)85)
+//			PRINT("%c", (char)86)
+//			PRINT("%c", (char)87)
+//			PRINT("%c", (char)88)
+//			PRINT("%c", (char)89)
+//
 			PRINT("%c", (char)90)
-			PRINT("%c", (char)91)
-			PRINT("%c", (char)92)
-			PRINT("%c", (char)93)
-			PRINT("%c", (char)94)
-			PRINT("%c", (char)95)
-			PRINT("%c", (char)96)
-			PRINT("%c", (char)97)
-			PRINT("%c", (char)98)
-			PRINT("%c", (char)99)
-
+//			PRINT("%c", (char)91)
+//			PRINT("%c", (char)92)
+//			PRINT("%c", (char)93)
+//			PRINT("%c", (char)94)
+//			PRINT("%c", (char)95)
+//			PRINT("%c", (char)96)
+//			PRINT("%c", (char)97)
+//			PRINT("%c", (char)98)
+//			PRINT("%c", (char)99)
+//
 			PRINT("%c", (char)100)
-			PRINT("%c", (char)101)
-			PRINT("%c", (char)102)
-			PRINT("%c", (char)103)
-			PRINT("%c", (char)104)
-			PRINT("%c", (char)105)
-			PRINT("%c", (char)106)
-			PRINT("%c", (char)107)
-			PRINT("%c", (char)108)
-			PRINT("%c", (char)109)
-
+//			PRINT("%c", (char)101)
+//			PRINT("%c", (char)102)
+//			PRINT("%c", (char)103)
+//			PRINT("%c", (char)104)
+//			PRINT("%c", (char)105)
+//			PRINT("%c", (char)106)
+//			PRINT("%c", (char)107)
+//			PRINT("%c", (char)108)
+//			PRINT("%c", (char)109)
+//
 			PRINT("%c", (char)110)
-			PRINT("%c", (char)111)
-			PRINT("%c", (char)112)
-			PRINT("%c", (char)113)
-			PRINT("%c", (char)114)
-			PRINT("%c", (char)115)
-			PRINT("%c", (char)116)
-			PRINT("%c", (char)117)
-			PRINT("%c", (char)118)
-			PRINT("%c", (char)119)
-
-			PRINT("%c", (char)120)
-			PRINT("%c", (char)121)
-			PRINT("%c", (char)122)
-			PRINT("%c", (char)123)
-			PRINT("%c", (char)124)
-			PRINT("%c", (char)125)
-			PRINT("%c", (char)126)
+//			PRINT("%c", (char)111)
+//			PRINT("%c", (char)112)
+//			PRINT("%c", (char)113)
+//			PRINT("%c", (char)114)
+//			PRINT("%c", (char)115)
+//			PRINT("%c", (char)116)
+//			PRINT("%c", (char)117)
+//			PRINT("%c", (char)118)
+//			PRINT("%c", (char)119)
+//
+//			PRINT("%c", (char)120)
+//			PRINT("%c", (char)121)
+//			PRINT("%c", (char)122)
+//			PRINT("%c", (char)123)
+//			PRINT("%c", (char)124)
+//			PRINT("%c", (char)125)
+//			PRINT("%c", (char)126)
 			PRINT("%c", (char)127)
 		}
 
@@ -639,6 +702,16 @@ int		main(int ac, char **av)
 			printf("\n----------------------------------------------------------------\n");
 			printf("specifier 's'\n");
 			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%s", "sdffhk");
+			PRINT("%.7s", "strong");
+			PRINT("%.2s", "strung");
+			PRINT("%.0s", "strang");
+			PRINT("%.s", "streng");
+			PRINT("%10s", "strxng");
+			PRINT("%s" "__TEST__", "strzng");
+			char *stringg = "hess";
+			PRINT("%s", stringg)
 		}
 
 		if (ac == 2 || !strcmp(av[2], "p"))
