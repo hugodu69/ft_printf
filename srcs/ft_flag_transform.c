@@ -94,6 +94,7 @@ char	*ft_precision(char *s, char *print, char *type)
 char	*width_flags(char *print, char *s, int width, int zero)
 {
 	char	*tmp;
+	char	*minus;
 	char	c;
 	int		len;
 
@@ -107,9 +108,16 @@ char	*width_flags(char *print, char *s, int width, int zero)
 	}
 	else
 	{
-		c = (ft_strchr(s, '0')) ? '0' : ' ';
-		ft_memset(tmp, c, width - len);
+//		c = (ft_strchr(s, '0')) ? '0' : ' ';
+//		ft_memset(tmp, c, width - len);
+		ft_memset(tmp, (ft_strchr(s, '0')) ? '0' : ' ', width - len);
 		ft_memmove(ft_strchr(tmp, '\0') + zero, print, ft_strlen(print));
+//		if (c == '0' && (minus = ft_strchr(tmp, '-')))
+		if (ft_strchr(s, '0') && (minus = ft_strchr(tmp, '-')))
+		{
+			minus[0] = '0';
+			tmp[0] = '-';
+		}
 	}
 	free(print);
 	return (tmp);

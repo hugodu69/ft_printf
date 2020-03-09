@@ -301,7 +301,26 @@ int		main(int ac, char **av)
 	//	PRINT("%.0i", 000);
 	//	PRINT("%.0X", 0);
 	//	PRINT("%08i", 33333);
-		PRINT("%.i", 0);
+	//	PRINT("%.i", 0);
+		PRINT("%+d", 12);
+		PRINT("%+d", -12);
+		PRINT("%+i", 12);
+		PRINT("%+i", -12);
+		PRINT("%+05i", -12);
+		PRINT("%05i", -12);
+		PRINT("%07.5i", -12);
+	//	PRINT("%+u", 12);
+	//	PRINT("%+u", -12);
+	//	PRINT("%+x", 12);
+	//	PRINT("%+x", -12);
+	//	PRINT("%+X", 12);
+	//	PRINT("%+X", -12);
+	//	PRINT("%+c", 12);
+	//	PRINT("%+c", -12);
+	//	PRINT("%+s", "12");
+	//	PRINT("%+s", "-12");
+	//	PRINT("%+p", 12);
+	//	PRINT("%+p", -12);
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -349,6 +368,7 @@ int		main(int ac, char **av)
 			PRINT("%03i", 1);
 			PRINT("%03u", 1);
 			PRINT("%03x", 1);
+			PRINT("%05i", -12);
 			PRINT("%03%");
 			PRINT("%0%");
 		}
@@ -384,6 +404,8 @@ int		main(int ac, char **av)
 			PRINT("%6%");
 			PRINT("%16c", 'a');
 			PRINT("%16c", (char)97);
+			PRINT("%5i", -12);
+			PRINT("%05i", -12);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "precision"))
