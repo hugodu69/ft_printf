@@ -66,7 +66,7 @@ char	*ft_precision(char *s, char *print, char *type)
 	{
 		precision = ft_atoi(tmp + 1);
 		*tmp = '\0';
-		while (ft_strchr("#- +'0", *(++s)))
+		while (*s && ft_strchr("#- +'0", *(++s)))
 			if (*s == '0')
 				*s = '.';
 		i = 0;
