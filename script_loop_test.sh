@@ -3,7 +3,7 @@
 # script to launch a lot of time a program to see if it always output the same result #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-let i=0
+i=0
 
 # launch the output, write it into the file temoin.txt, and echo the content
 ./a.out test > temoin.txt
@@ -31,7 +31,7 @@ done
 ./a.out test > exemple.txt
 while diff temoin.txt exemple.txt
 do
-	let i++
+	i=$((i+1))
 	echo '\033[1;34m'$i'\033[0m'
 	./a.out test > exemple.txt
 done
