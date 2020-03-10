@@ -108,15 +108,12 @@ char	*width_flags(char *print, char *s, int width, int zero)
 	}
 	else
 	{
-//		c = (ft_strchr(s, '0')) ? '0' : ' ';
-//		ft_memset(tmp, c, width - len);
 		ft_memset(tmp, (ft_strchr(s, '0')) ? '0' : ' ', width - len);
 		ft_memmove(ft_strchr(tmp, '\0') + zero, print, ft_strlen(print));
-//		if (c == '0' && (minus = ft_strchr(tmp, '-')))
-		if (ft_strchr(s, '0') && (minus = ft_strchr(tmp, '-')))
+		if (ft_strchr(s, '0') && (minus = ft_strchrset("+-", tmp)))
 		{
+			tmp[0] = (minus[0] == '+') ? '+' : '-';
 			minus[0] = '0';
-			tmp[0] = '-';
 		}
 	}
 	free(print);
@@ -167,13 +164,21 @@ char	*ft_width(char *s, char *print, int *size, char *type)
 
 /*
 ** -go through all the transformation flags needs
+** -first the precision
+** -then if type is int and nbr is positive, add a + to the left, it's flag '+'
+** -third the flag "#"
+** -fourth, the width
+** -then p
 ** -the case of 'p' is treated without any subtelness because i don't care
 */
 
 char	*ft_flag_transform(char *s, char *print, char *type, int *size)
 {
 	print = ft_precision(s, print, type);
+	print = ft_plus(s, print, type);
+	print = ft_sharp(s, print, type);
 	print = ft_width(s, print, size, type);
+	print = ft_sharp_again(s, print, type);
 	if (ft_strchr(type, 'p'))
 	{
 		print = ft_concat_free(ft_strdup("0x"), print);

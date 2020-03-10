@@ -18,6 +18,7 @@ SRCS   = ft_printf.c \
          ft_next_word.c \
 		 ft_convert.c \
 		 ft_flag_transform.c \
+		 ft_flag_transform_bonus.c \
 		 main.c
 
 ODIR   = ./builds

@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 12:07:47 by hulamy            #+#    #+#             */
-/*   Updated: 2020/02/27 12:08:40 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/03/10 16:26:47 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,13 @@ char	*ft_precision(char *s, char *print, char *type);
 char	*width_flags(char *print, char *s, int width, int zero);
 char	*ft_width(char *s, char *print, int *size, char *type);
 char	*ft_flag_transform(char *s, char *print, char *type, int *size);
+
+/*
+** ft_flag_transform_bonus.c
+*/
+
+char	*ft_plus(char *s, char *print, char *type);
+char	*ft_sharp(char *s, char *print, char *type);
+char	*ft_sharp_again(char *s, char *print, char *type);
 
 #endif
