@@ -11,15 +11,20 @@
 // and finally redirect the output into a file to compare
 #define PRINT(string, args...)		\
 		\
+		/* open the fd for both files outf and outft, and remove the content */\
 		outf = open("outf.txt", O_WRONLY | O_TRUNC); \
 		outft = open("outft.txt", O_WRONLY | O_TRUNC); \
 		\
+		/* redirect output to file outf, and write result of printf inside it */\
+		/* also save return of printf in int 'pout' */\
 		dup2(outf, 1); \
 		pout = printf(string, ##args); \
 		fflush(stdout); \
 		printf("\n"); \
 		fflush(stdout); \
 		\
+		/* redirect output to file outft, and write result of ft_printf inside it */\
+		/* also compare return of both printf and ft_printf, pout and ftpout */\
 		dup2(outft, 1); \
 		ftpout = ft_printf(string, ##args); \
 		if (ftpout == -1) printf("\033[91mERROR\033[0m"); \
@@ -27,34 +32,54 @@
 		printf("\n"); \
 		fflush(stdout); \
 		\
+		/* close then reoppen both files, but in read only, for get_next_line */\
 		close(outf); \
 		close(outft); \
 		outf = open("outf.txt", O_RDONLY); \
 		outft = open("outft.txt", O_RDONLY); \
 		\
+		/* redirect output to standard and start printing results */\
 		dup2(save, 1); \
+		/* first the exact content written inside printd and ft_printf */\
 		printf("(%s, %s)", #string, #args); \
 		fflush(stdout); \
+		/* then empty string for layout raisons */\
 		printf("%*s", (int)(40 - ft_strlen(#string) - ft_strlen(#args)), ": "); \
 		fflush(stdout); \
 		printf("'"); \
 		fflush(stdout); \
+		/* printf */\
 		printf(string, ##args); \
 		fflush(stdout); \
+		/* return value of printf */\
 		printf("' [%i]\n", pout); \
 		fflush(stdout); \
-		printf("%s", ft_compare(outf, outft, &error, (ftpout == pout))); \
+		/* compare the results saved in the two files before */\
+		/* also save if there was a difference in int 'onk' */\
+		onk = ft_compare(outf, outft, &error, (ftpout == pout)); \
 		fflush(stdout); \
-		printf("%38s", ": '"); \
+		/* if no diff */\
+		if (onk == 1) \
+			printf("%38s", ": '"); \
+		/* if diff, start red color */\
+		if (onk == 0) \
+			printf("%43s", ": '\033[91m"); \
 		fflush(stdout); \
-		if ((ft_printf(string, ##args)) == -1) printf("\033[91mERROR\033[0m"); \
+		/* print ft_printf, or error if ft_printf return an error */\
+		if ((ft_printf(string, ##args)) == -1) \
+			printf("\033[91mERROR\033[0m"); \
+		/* if diff, close red color */\
+		if (onk == 0) \
+			printf("\033[0m"); \
 		fflush(stdout); \
+		/* printf return value of ft_printf, in red if different from the one from printf */\
 		if (ftpout != pout) \
-		printf("' \033[91m[%i]\033[0m\n\n", ftpout); \
+			printf("' \033[91m[%i]\033[0m\n\n", ftpout); \
 		else \
-		printf("' [%i]\n\n", ftpout); \
+			printf("' [%i]\n\n", ftpout); \
 		fflush(stdout); \
 		\
+		/* */\
 		close(outf); \
 		close(outft);
 
@@ -65,7 +90,7 @@
 ** and it read them and compare them
 */
 
-char	*ft_compare(int fd1, int fd2, int *error, int output)
+int		ft_compare(int fd1, int fd2, int *error, int output)
 {
 	int		ret1 = 1;
 	int		ret2 = 1;
@@ -75,7 +100,8 @@ char	*ft_compare(int fd1, int fd2, int *error, int output)
 	if (!output)
 	{
   			(*error)++;
-  			return ("\033[91mHO HO..\033[0m");
+  			ft_putstr("\033[91mHO HO..\033[0m");
+			return (0);
 	}
 	while (ret1 > 0 && ret2 > 0)
 	{
@@ -87,7 +113,8 @@ char	*ft_compare(int fd1, int fd2, int *error, int output)
 			free(line);
 			free(tmp);
   			(*error)++;
-  			return ("\033[91mHO HO..\033[0m");
+  			ft_putstr("\033[91mHO HO..\033[0m");
+			return (0);
   		}
 		free(line);
 		free(tmp);
@@ -95,9 +122,11 @@ char	*ft_compare(int fd1, int fd2, int *error, int output)
 	if (ret1 != ret2)
 	{
 		(*error)++;
-		return ("\033[91mHO HO..\033[0m");
+		ft_putstr("\033[91mHO HO..\033[0m");
+		return (0);
 	}
-	return ("JACKPOT");
+	ft_putstr("JACKPOT");
+	return (1);
 }
 
 /*
@@ -169,6 +198,8 @@ int		main(int ac, char **av)
 	open("outft.txt", O_CREAT, 0644);
 	// error is used to count the total nbr of error
 	static int error = 0;
+	// to catch an error for one call of ft_printf
+	int	onk = 1;
 	// those two ints saves the return value of printf and ft_printf
 	int pout;
 	int ftpout;
@@ -304,11 +335,13 @@ int		main(int ac, char **av)
 	//	PRINT("%.i", 0);
 		PRINT("%+d", 12);
 		PRINT("%+d", -12);
-		PRINT("%+i", 12);
-		PRINT("%+i", -12);
-		PRINT("%+05i", -12);
-		PRINT("%05i", -12);
-		PRINT("%07.5i", -12);
+		PRINT("%+05d", 12);
+		PRINT("%+05d", -12);
+	//	PRINT("%+i", 12);
+	//	PRINT("%+i", -12);
+	//	PRINT("%+05i", -12);
+	//	PRINT("%05i", -12);
+	//	PRINT("%07.5i", -12);
 	//	PRINT("%+u", 12);
 	//	PRINT("%+u", -12);
 	//	PRINT("%+x", 12);
