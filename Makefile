@@ -68,7 +68,9 @@ main: $(ODIR) $(OBJS) $(DEPS)
 	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS)
 fsanitize: $(ODIR) $(OBJS) $(DEPS)
 	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -fsanitize=address
+gcc:
+	$(CC) $(CFLAGS) main.c -L. -lftprintf
 mainfclean: fclean
 	/bin/rm -f out*.txt a.out
 
-.PHONY: all clean fclean re lib cleanlib main fsanitize mainfclean
+.PHONY: all clean fclean re lib cleanlib main fsanitize mainfclean gcc
