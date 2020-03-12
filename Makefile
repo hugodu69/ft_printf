@@ -71,6 +71,6 @@ fsanitize: $(ODIR) $(OBJS) $(DEPS)
 gcc:
 	$(CC) $(CFLAGS) main.c -L. -lftprintf
 mainfclean: fclean
-	/bin/rm -f out*.txt a.out
+	/bin/rm -f out*.txt a.out temoin.txt exemple.txt
 
 .PHONY: all clean fclean re lib cleanlib main fsanitize mainfclean gcc
