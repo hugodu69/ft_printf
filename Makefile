@@ -18,8 +18,7 @@ SRCS   = ft_printf.c \
          ft_next_word.c \
 		 ft_convert.c \
 		 ft_flag_transform.c \
-		 ft_flag_transform_bonus.c \
-		 main.c
+		 ft_flag_transform_bonus.c
 
 ODIR   = ./builds
 OBJS   = $(SRCS:%.c=$(ODIR)/%.o)
@@ -65,9 +64,9 @@ lib:
 cleanlib: lib
 	make fclean -C $(LDIR)
 main: $(ODIR) $(OBJS) $(DEPS)
-	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) main.c
 fsanitize: $(ODIR) $(OBJS) $(DEPS)
-	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -fsanitize=address
+	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) main.c -fsanitize=address
 gcc:
 	$(CC) $(CFLAGS) main.c -L. -lftprintf
 mainfclean: fclean
