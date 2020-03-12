@@ -65,10 +65,10 @@ char	*ft_precision(char *s, char *print, char *type)
 	if ((tmp = ft_strchr(s, '.')))
 	{
 		precision = ft_atoi(tmp + 1);
-		*tmp = '\0';
+//		*tmp = '\0';
 		while (*s && ft_strchr("#- +'0", *(++s)))
 			if (*s == '0')
-				*s = '.';
+				*s = '/';
 		i = 0;
 		if (precision == 0 && !ft_strcmp(print, "0"))
 			print[0] = '\0';
@@ -146,9 +146,9 @@ char	*ft_width(char *s, char *print, int *size, char *type)
 	zero = 0;
 	if (print[0] == '\0' && ft_strchr(type, 'c'))
 		zero = 1;
-	while (*tmp != '\0' && ft_strchr("%#- +'0.", *tmp))
+	while (*tmp != '\0' && ft_strchr("%#- +'0/", *tmp))
 		tmp++;
-	if (*tmp == '\0')
+	if (*tmp == '\0' || *tmp == '.')
 	{
 		*size = ft_strlen(print) + zero;
 		return (print);
@@ -159,6 +159,7 @@ char	*ft_width(char *s, char *print, int *size, char *type)
 		print = width_flags(print, s, *size, zero);
 	else
 		*size = ft_strlen(print) + zero;
+	tmp[0] = '1';
 	return (print);
 }
 
@@ -179,6 +180,7 @@ char	*ft_flag_transform(char *s, char *print, char *type, int *size)
 	print = ft_sharp(s, print, type);
 	print = ft_width(s, print, size, type);
 	print = ft_sharp_again(s, print, type);
+	print = ft_space(s, print, type, size);
 	if (ft_strchr(type, 'p'))
 	{
 		print = ft_concat_free(ft_strdup("0x"), print);

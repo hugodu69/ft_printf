@@ -37,3 +37,27 @@ char	*ft_sharp_again(char *s, char *print, char *type)
 	return (print);
 }
 
+char	*ft_space(char *s, char *print, char *type, int *size)
+{
+	int i = 0;
+
+	if (print[0] == ' ' || !ft_strchr(s, ' ') || !ft_strchrset(type, "diuxX"))
+		return (print);
+	while (print[i] == ' ')
+		i++;
+	if (print[i] == '-' || print[i] == '+')
+		return (print);
+	if (ft_strchr(s, '.') || (i == 0 && print[i] != '0'))
+	{
+		print = ft_concat_free(ft_strdup(" "), print);
+		*size += 1;
+	}
+	else
+		print[i] = ' ';
+	if (ft_strchr(s, '-') && print[*size - 1] == ' ')
+	{
+		print[*size] = '\0';
+		*size -= 1;
+	}
+	return (print);
+}

@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 12:07:47 by hulamy            #+#    #+#             */
-/*   Updated: 2020/03/10 16:26:47 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/03/12 20:35:10 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ char	*ft_flag_transform(char *s, char *print, char *type, int *size);
 char	*ft_plus(char *s, char *print, char *type);
 char	*ft_sharp(char *s, char *print, char *type);
 char	*ft_sharp_again(char *s, char *print, char *type);
+char	*ft_space(char *s, char *print, char *type, int *size);
 
 #endif
