@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_convert.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/12 22:30:05 by hulamy            #+#    #+#             */
+/*   Updated: 2020/03/12 22:30:20 by hulamy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
@@ -81,10 +92,7 @@ char	*ft_convert(va_list ap, char *type, char **s)
 	if ((tmp = ft_strchrset(type, "dic")) && ft_strchr(type, 'l'))
 		return (conv_i(tmp[0], va_arg(ap, long int)));
 	if ((tmp = ft_strchrset(type, "dic")))
-	{
-//		ft_putstr("OK");
 		return (conv_i(tmp[0], va_arg(ap, int)));
-	}
 	if ((tmp = ft_strchrset(type, "uxXps")) && ft_strchrset(type, "lps"))
 		return (conv_u(tmp[0], va_arg(ap, unsigned long int)));
 	if ((tmp = ft_strchrset(type, "uxX")))

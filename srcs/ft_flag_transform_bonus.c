@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_flag_transform_bonus.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/12 22:30:50 by hulamy            #+#    #+#             */
+/*   Updated: 2020/03/12 22:30:57 by hulamy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
@@ -39,8 +50,9 @@ char	*ft_sharp_again(char *s, char *print, char *type)
 
 char	*ft_space(char *s, char *print, char *type, int *size)
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	if (print[0] == ' ' || !ft_strchr(s, ' ') || !ft_strchrset(type, "diuxX"))
 		return (print);
 	while (print[i] == ' ')
