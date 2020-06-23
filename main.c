@@ -129,7 +129,7 @@ int		ft_compare(int fd1, int fd2, int *error, int output)
 		ft_putstr("\033[91mHO HO..\033[0m");
 		return (0);
 	}
-	ft_putstr("JACKPOT");
+	ft_putstr("\033[92mJACKPOT\033[0m");
 	return (1);
 }
 

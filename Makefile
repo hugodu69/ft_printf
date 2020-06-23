@@ -46,9 +46,11 @@ $(ODIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
+	make clean -C $(LDIR)
 	/bin/rm -rf $(ODIR)
 
 fclean: clean
+	make fclean -C $(LDIR)
 	/bin/rm -f $(NAME)
 
 re: fclean all
@@ -61,8 +63,6 @@ re: fclean all
 
 lib:
 	make -C $(LDIR)
-cleanlib: lib
-	make fclean -C $(LDIR)
 main: $(ODIR) $(OBJS) $(DEPS)
 	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) main.c
 fsanitize: $(ODIR) $(OBJS) $(DEPS)
