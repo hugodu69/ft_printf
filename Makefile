@@ -52,7 +52,7 @@ clean:
 fclean: clean
 	make fclean -C $(LDIR)
 	/bin/rm -f $(NAME)
-	/bin/rm -f out*.txt a.out a.out.dSYM temoin.txt exemple.txt
+	/bin/rm -rf out*.txt a.out a.out.dSYM temoin.txt exemple.txt
 
 re: fclean all
 
