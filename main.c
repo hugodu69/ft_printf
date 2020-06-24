@@ -88,97 +88,6 @@
 		close(outft);
 
 /*
-** this fucntion look into the two files outf.txt and outft.txt in which
-** the return values of printf and ft_printf are saved for one call
-** (the content is emptied each time there are reopened by the macro)
-** and it read them and compare them
-*/
-
-int		ft_compare(int fd1, int fd2, int *error, int output)
-{
-	int		ret1 = 1;
-	int		ret2 = 1;
-	char	*line = NULL;
-	char	*tmp = NULL;
-
-	if (!output)
-	{
-  			(*error)++;
-  			ft_putstr("\033[91mHO HO..\033[0m");
-			return (0);
-	}
-	while (ret1 > 0 && ret2 > 0)
-	{
-		ret1 = get_next_line(fd1, &line);
-		tmp = line;
-		ret2 = get_next_line(fd2, &line);
-  		if (ft_strcmp(tmp, line) != 0)
-  		{
-			free(line);
-			free(tmp);
-  			(*error)++;
-  			ft_putstr("\033[91mHO HO..\033[0m");
-			return (0);
-  		}
-		free(line);
-		free(tmp);
-	}
-	if (ret1 != ret2)
-	{
-		(*error)++;
-		ft_putstr("\033[91mHO HO..\033[0m");
-		return (0);
-	}
-	ft_putstr("\033[92mJACKPOT\033[0m");
-	return (1);
-}
-
-/*
-** this function was usefull at the very beginning to understand how va_arg
-** works, it's an extension of the exemple code found in the man page
-*/
-
-int		ft_printf_test(char *string, ...)
-{
-	va_list	ap;
-
-	va_start(ap, string);
-	printf("%s", string);
-	while (*string != '\0')
-	{
-		printf(" : ");
-		if (*string == 'd')
-			printf("%d", (int)va_arg(ap, long int));
-		if (*string == 'i')
-			printf("%i", (int)va_arg(ap, long int));
-		if (*string == 'u')
-			printf("%u", (unsigned int)va_arg(ap, int));
-		if (*string == 'x')
-			printf("%x", (unsigned int)va_arg(ap, long int));
-		if (*string == 'X')
-			printf("%X", (unsigned int)va_arg(ap, long int));
-		if (*string == 'c')
-			printf("%c", (char)va_arg(ap, long int));			// var_arg promote char into int
-		if (*string == 's')
-			printf("%s", (char *)va_arg(ap, long int));
-		if (*string == 'e')
-			printf("%e", va_arg(ap, double));					// va_arg promote float into double
-		if (*string == 'f')
-			printf("%f", va_arg(ap, double));					// va_arg promote float into double
-		if (*string == 'g')
-			printf("%g", va_arg(ap, double));					// va_arg promote float into double
-		if (*string == 'I')
-			printf("%li", (long int)va_arg(ap, long int));
-		if (*string == 'U')
-			printf("%lu", (unsigned long int)va_arg(ap, long int));
-		string++;
-	}
-	printf("\n");
-	va_end(ap);
-	return (0);
-}
-
-/*
 ** this is the main function of tests, with a loooooot of tests, enjoy ;)
 ** if you call the executable without arguments, it will print the usage
 ** otherwise you can add one of three keywords :
@@ -208,81 +117,47 @@ int		main(int ac, char **av)
 	int pout;
 	int ftpout;
 
-
 	/* ////////////////////////////////////////////////////////////////// */
-	/* PREMISES TESTS WITH AV_ARG BASED ON MAN EXEMPLE                    */
+	/* PRINT USAGE OF THIS FUNCTION                                       */
 	/* ////////////////////////////////////////////////////////////////// */
 
 	if (ac == 1)
 	{
-		printf("USAGE:\n");
+		printf("USAGE:\n");	//124G
 		printf("call ./ft_printf with arguments to launch tests :\n");
-		printf("./ft_printf  'man'                \n");
-		printf("...........  'test'               \n");
-		printf("...........  'all'                \n");
-		printf("...........   ...     'noflag'    \n");
-		printf("...........   ...     '0'         \n");
-		printf("...........   ...     '-'         \n");
-		printf("...........   ...     'width'     \n");
-		printf("...........   ...     'precision' \n");
-		printf("...........   ...     '*'         \n");
-		printf("...........   ...     'd'         \n");
-		printf("...........   ...     'i'         \n");
-		printf("...........   ...     'u'         \n");
-		printf("...........   ...     'x'         \n");
-		printf("...........   ...     'X'         \n");
-		printf("...........   ...     'c'         \n");
-		printf("...........   ...     's'         \n");
-		printf("...........   ...     'p'         \n");
-		printf("...........   ...     '%%'        \n");
-		printf("...........   ...     'repetition'\n");
-		printf("...........  'bonus'              \n");
-		printf("...........   .....   '#'         \n");
-		printf("...........   .....   '''         \n");
-		printf("...........   .....   ' '         \n");
-		printf("...........   .....   '+'         \n");
-		printf("...........   .....   'e'         \n");
-		printf("...........   .....   'f'         \n");
-		printf("...........   .....   'g'         \n");
-		printf("...........   .....   'n'         \n");
-		printf("...........   .....   'h'         \n");
-		printf("...........   .....   'hh'        \n");
-		printf("...........   .....   'l'         \n");
-		printf("...........   .....   'll'        \n");
-		printf("...........   .....   'repetition'\n");
-		printf("...........  'error'              \n");
-	}
-
-	if (ac == 2 && !strcmp(av[1], "man"))
-	{
-		char			*str = "diuxXcsefg";
-		int				d = 123;
-		int				i = 456;
-		unsigned int	u = 345;
-		unsigned int	x = 456;
-		unsigned int	X = 567;
-		char			c = 'c';
-		char*			s = "string";
-		//				p = ;
-		float			e = 678;
-		float			f = 789;
-		float			g = 890;
-		//				n = ;
-		char				*str2 = "iiIIuU";
-		int					i1 = 2147483647;
-		int					i2 = -2147483648;
-		long int			i3 = 9223372036854775807;
-		long int			i4 = -9223372036854775807;
-		unsigned int		i5 = 4294967295;
-		//long unsigned int	i6 = 18446744073709551615;
-		long unsigned int	i6 = 8446744073709551615;
-	
-		// test one of each specifiers
-		printf("%s : %d : %i : %u : %x : %X : %c : %s : %e : %f : %g\n", str, d, i, u, x, X, c, s, e, f, g);
-		ft_printf_test(str, d, i, u, x, X, c, s, e, f, g);
-		// test all different size of int types
-		printf("%s : %i : %i : %li : %li : %u : %lu\n", str2, i1, i2, i3, i4, i5, i6);
-		ft_printf_test(str2, i1, i2, i3, i4, i5, i6);
+		printf("./ft_printf  'test'               \n");	//167G
+		printf("...........  'all'                \n");	//254G
+		printf("...........   ...     'noflag'    \n");	//256G
+		printf("...........   ...     '0'         \n");	//286G
+		printf("...........   ...     '-'         \n");	//300G
+		printf("...........   ...     'width'     \n");	//315G
+		printf("...........   ...     'precision' \n");	//335G
+		printf("...........   ...     '*'         \n");	//376G
+		printf("...........   ...     'd'         \n");	//414G
+		printf("...........   ...     'i'         \n");	//440G
+		printf("...........   ...     'u'         \n");	//465G
+		printf("...........   ...     'x'         \n");	//490G
+		printf("...........   ...     'X'         \n");	//500G
+		printf("...........   ...     'c'         \n");	//511G
+		printf("...........   ...     's'         \n");	//668G
+		printf("...........   ...     'p'         \n");	//685G
+		printf("...........   ...     '%%'        \n");	//795G
+		printf("...........   ...     'repetition'\n");	//716G
+		printf("...........  'bonus'              \n");	//738G
+		printf("...........   .....   '#'         \n");	//
+		printf("...........   .....   '''         \n");	//
+		printf("...........   .....   ' '         \n");	//
+		printf("...........   .....   '+'         \n");	//
+		printf("...........   .....   'e'         \n");	//
+		printf("...........   .....   'f'         \n");	//
+		printf("...........   .....   'g'         \n");	//
+		printf("...........   .....   'n'         \n");	//
+		printf("...........   .....   'h'         \n");	//
+		printf("...........   .....   'hh'        \n");	//
+		printf("...........   .....   'l'         \n");	//
+		printf("...........   .....   'll'        \n");	//
+		printf("...........   .....   'repetition'\n");	//
+		printf("...........  'error'              \n");	//
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -369,7 +244,6 @@ int		main(int ac, char **av)
 	//	PRINT("%.4d", -12);
 	//	PRINT("%+.4d", -12);
 	//	PRINT("%+4.4d", -12);
-
 	//	PRINT("%+10.7i % 010i %-#7.10x %7p %10c %7.10s", 122, -122, 122, "122", 122, "-122")
 	}
 
@@ -861,7 +735,7 @@ int		main(int ac, char **av)
 			PRINT("%----i", 33333);
 		}
 	}
-	
+
 	if (ac >= 2 && ac <= 3 && !strcmp(av[1], "bonus"))
 	{
 		printf("----------------------------------------------------------------\n");
@@ -1431,6 +1305,52 @@ int		main(int ac, char **av)
 	if (error != 0)
 		printf("\033[91m%i ERRORS\033[0m\n", error);
 	return (0);
+}
+
+/*
+** this fucntion look into the two files outf.txt and outft.txt in which
+** the return values of printf and ft_printf are saved for one call
+** (the content is emptied each time there are reopened by the macro)
+** and it read them and compare them
+*/
+
+int		ft_compare(int fd1, int fd2, int *error, int output)
+{
+	int		ret1 = 1;
+	int		ret2 = 1;
+	char	*line = NULL;
+	char	*tmp = NULL;
+
+	if (!output)
+	{
+  			(*error)++;
+  			ft_putstr("\033[91mHO HO..\033[0m");
+			return (0);
+	}
+	while (ret1 > 0 && ret2 > 0)
+	{
+		ret1 = get_next_line(fd1, &line);
+		tmp = line;
+		ret2 = get_next_line(fd2, &line);
+  		if (ft_strcmp(tmp, line) != 0)
+  		{
+			free(line);
+			free(tmp);
+  			(*error)++;
+  			ft_putstr("\033[91mHO HO..\033[0m");
+			return (0);
+  		}
+		free(line);
+		free(tmp);
+	}
+	if (ret1 != ret2)
+	{
+		(*error)++;
+		ft_putstr("\033[91mHO HO..\033[0m");
+		return (0);
+	}
+	ft_putstr("\033[92mJACKPOT\033[0m");
+	return (1);
 }
 
 /*
