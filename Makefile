@@ -52,24 +52,11 @@ clean:
 fclean: clean
 	make fclean -C $(LDIR)
 	/bin/rm -f $(NAME)
+	/bin/rm -f out*.txt a.out temoin.txt exemple.txt
 
 re: fclean all
 
-# - - - - - - - - - - - #
-#    rules to test      #
-#         with          #
-#    main and libft     #
-# - - - - - - - - - - - #
-
-lib:
-	make -C $(LDIR)
-main: $(ODIR) $(OBJS) $(DEPS)
-	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) main.c
-fsanitize: $(ODIR) $(OBJS) $(DEPS)
-	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) main.c -fsanitize=address
 gcc:
 	$(CC) $(CFLAGS) main.c -L. -lftprintf
-mainfclean: fclean
-	/bin/rm -f out*.txt a.out temoin.txt exemple.txt
 
-.PHONY: all clean fclean re lib cleanlib main fsanitize mainfclean gcc
+.PHONY: all clean fclean re gcc
