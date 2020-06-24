@@ -827,10 +827,6 @@ int		main(int ac, char **av)
 			PRINT("%up", u);
 			PRINT("%p", NULL);
 			PRINT("%5p", NULL);
-			PRINT("%05p", NULL);
-			PRINT("%0p", NULL);
-			PRINT("%5.p", NULL);
-			PRINT("%5.5p", NULL);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "%"))
