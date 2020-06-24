@@ -816,15 +816,21 @@ int		main(int ac, char **av)
 			printf("----------------------------------------------------------------\n\n");
 
 			char *s;
-			PRINT("%p", "test")
-			PRINT("%p", s)
+			PRINT("%p", "test");
+			PRINT("%p", s);
 			s = "truc";
-			PRINT("%p", s)
+			PRINT("%p", s);
 			unsigned int u = 4;
-			PRINT("%p", &u)
-			PRINT("%s-%p", s, s)
-			PRINT("%u-%p", u, &u)
-			PRINT("%up", u)
+			PRINT("%p", &u);
+			PRINT("%s-%p", s, s);
+			PRINT("%u-%p", u, &u);
+			PRINT("%up", u);
+			PRINT("%p", NULL);
+			PRINT("%5p", NULL);
+			PRINT("%05p", NULL);
+			PRINT("%0p", NULL);
+			PRINT("%5.p", NULL);
+			PRINT("%5.5p", NULL);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "%"))

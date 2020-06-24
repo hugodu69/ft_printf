@@ -188,13 +188,13 @@ char	*ft_flag_transform(char *s, char *print, char *type, int *size)
 	print = ft_precision(s, print, type);
 	print = ft_plus(s, print, type);
 	print = ft_sharp(s, print, type);
-	print = ft_width(s, print, size, type);
-	print = ft_sharp_again(s, print, type);
-	print = ft_space(s, print, type, size);
 	if (ft_strchr(type, 'p'))
 	{
 		print = ft_concat_free(ft_strdup("0x"), print);
 		*size += 2;
 	}
+	print = ft_width(s, print, size, type);
+	print = ft_sharp_again(s, print, type);
+	print = ft_space(s, print, type, size);
 	return (print);
 }
