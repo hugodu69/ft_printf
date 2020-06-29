@@ -1,3 +1,4 @@
+#include "ft_printf.h"
 #include <stdio.h> // for printf
 #include <locale.h>
 #include <fcntl.h> // for dup() and dup2()
@@ -26,7 +27,9 @@ int		ft_printf(char *string, ...);
 		/* redirect output to file outft, and write result of ft_printf inside it */\
 		/* also compare return of both printf and ft_printf, pout and ftpout */\
 		dup2(outft, 1); \
-		ftpout = ft_printf(string, ##args); \
+		printf("_x_%s_x_",##args);\
+	//	ftpout = ft_printf(string, ##args); \
+		write(1, "a", 1);\
 		if (ftpout == -1) printf("\033[91mERROR\033[0m"); \
 		fflush(stdout); \
 		printf("\n"); \
@@ -717,7 +720,7 @@ int		main(int ac, char **av)
 			PRINT("%%%%%i%%%%", 1);
 		}
 
-		if (ac == 2 || !strcmp(av[2], "repetition"))
+		if (ac == 2 || !strcmp(av[2], "null"))
 		{
 			printf("\n----------------------------------------------------------------\n");
 			printf("with char NULL\n");
