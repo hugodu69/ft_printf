@@ -1,8 +1,8 @@
-#include "ft_printf.h"
 #include <stdio.h> // for printf
 #include <locale.h>
 #include <fcntl.h> // for dup() and dup2()
 
+int		ft_printf(char *string, ...);
 
 // macro to print :
 // first the string,
@@ -87,6 +87,8 @@
 		close(outf); \
 		close(outft);
 
+int		ft_compare(int fd1, int fd2, int *error, int output);
+
 /*
 ** this is the main function of tests, with a loooooot of tests, enjoy ;)
 ** if you call the executable without arguments, it will print the usage
@@ -123,41 +125,42 @@ int		main(int ac, char **av)
 
 	if (ac == 1)
 	{
-		printf("USAGE:\n");	//124G
+		printf("USAGE:\n");
 		printf("call ./ft_printf with arguments to launch tests :\n");
-		printf("./ft_printf  'test'               \n");	//167G
-		printf("...........  'all'                \n");	//254G
-		printf("...........   ...     'noflag'    \n");	//256G
-		printf("...........   ...     '0'         \n");	//286G
-		printf("...........   ...     '-'         \n");	//300G
-		printf("...........   ...     'width'     \n");	//315G
-		printf("...........   ...     'precision' \n");	//335G
-		printf("...........   ...     '*'         \n");	//376G
-		printf("...........   ...     'd'         \n");	//414G
-		printf("...........   ...     'i'         \n");	//440G
-		printf("...........   ...     'u'         \n");	//465G
-		printf("...........   ...     'x'         \n");	//490G
-		printf("...........   ...     'X'         \n");	//500G
-		printf("...........   ...     'c'         \n");	//511G
-		printf("...........   ...     's'         \n");	//668G
-		printf("...........   ...     'p'         \n");	//685G
-		printf("...........   ...     '%%'        \n");	//795G
-		printf("...........   ...     'repetition'\n");	//716G
-		printf("...........  'bonus'              \n");	//738G
-		printf("...........   .....   '#'         \n");	//
-		printf("...........   .....   '''         \n");	//
-		printf("...........   .....   ' '         \n");	//
-		printf("...........   .....   '+'         \n");	//
-		printf("...........   .....   'e'         \n");	//
-		printf("...........   .....   'f'         \n");	//
-		printf("...........   .....   'g'         \n");	//
-		printf("...........   .....   'n'         \n");	//
-		printf("...........   .....   'h'         \n");	//
-		printf("...........   .....   'hh'        \n");	//
-		printf("...........   .....   'l'         \n");	//
-		printf("...........   .....   'll'        \n");	//
-		printf("...........   .....   'repetition'\n");	//
-		printf("...........  'error'              \n");	//
+		printf("./ft_printf  'test'               \n");
+		printf("...........  'all'                \n");
+		printf("...........   ...     'noflag'    \n");
+		printf("...........   ...     '0'         \n");
+		printf("...........   ...     '-'         \n");
+		printf("...........   ...     'width'     \n");
+		printf("...........   ...     'precision' \n");
+		printf("...........   ...     '*'         \n");
+		printf("...........   ...     'd'         \n");
+		printf("...........   ...     'i'         \n");
+		printf("...........   ...     'u'         \n");
+		printf("...........   ...     'x'         \n");
+		printf("...........   ...     'X'         \n");
+		printf("...........   ...     'c'         \n");
+		printf("...........   ...     's'         \n");
+		printf("...........   ...     'p'         \n");
+		printf("...........   ...     '%%'        \n");
+		printf("...........   ...     'NULL'      \n");
+		printf("...........   ...     'repetition'\n");
+		printf("...........  'bonus'              \n");
+		printf("...........   .....   '#'         \n");
+		printf("...........   .....   '''         \n");
+		printf("...........   .....   ' '         \n");
+		printf("...........   .....   '+'         \n");
+		printf("...........   .....   'e'         \n");
+		printf("...........   .....   'f'         \n");
+		printf("...........   .....   'g'         \n");
+		printf("...........   .....   'n'         \n");
+		printf("...........   .....   'h'         \n");
+		printf("...........   .....   'hh'        \n");
+		printf("...........   .....   'l'         \n");
+		printf("...........   .....   'll'        \n");
+		printf("...........   .....   'repetition'\n");
+		printf("...........  'error'              \n");
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -243,8 +246,8 @@ int		main(int ac, char **av)
 	//	PRINT("%+4.4d", 12);
 	//	PRINT("%.4d", -12);
 	//	PRINT("%+.4d", -12);
-	//	PRINT("%+4.4d", -12);
 	//	PRINT("%+10.7i % 010i %-#7.10x %7p %10c %7.10s", 122, -122, 122, "122", 122, "-122")
+	printf("%s\n", NULL);
 	}
 
 	/* ////////////////////////////////////////////////////////////////// */
@@ -712,6 +715,15 @@ int		main(int ac, char **av)
 			PRINT("%%%%");
 			PRINT("%%%%%i", 1);
 			PRINT("%%%%%i%%%%", 1);
+		}
+
+		if (ac == 2 || !strcmp(av[2], "repetition"))
+		{
+			printf("\n----------------------------------------------------------------\n");
+			printf("with char NULL\n");
+			printf("----------------------------------------------------------------\n\n");
+
+			PRINT("%s", NULL);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "repetition"))
