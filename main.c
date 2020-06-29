@@ -27,9 +27,7 @@ int		ft_printf(char *string, ...);
 		/* redirect output to file outft, and write result of ft_printf inside it */\
 		/* also compare return of both printf and ft_printf, pout and ftpout */\
 		dup2(outft, 1); \
-		printf("_x_%s_x_",##args);\
 		ftpout = ft_printf(string, ##args); \
-		write(1, "a", 1);\
 		if (ftpout == -1) printf("\033[91mERROR\033[0m"); \
 		fflush(stdout); \
 		printf("\n"); \

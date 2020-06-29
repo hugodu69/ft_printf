@@ -6,7 +6,7 @@
 /*   By: hulamy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 22:30:05 by hulamy            #+#    #+#             */
-/*   Updated: 2020/03/12 22:30:20 by hulamy           ###   ########.fr       */
+/*   Updated: 2020/06/30 00:40:49 by hulamy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*conv_u(char c, unsigned long int i)
 	char	*s;
 
 	if (c == 's')
-		return (strdup((char *)i));
+		return (i == 0 ? ft_strdup("(null)") : ft_strdup((char *)i));
 	s = ft_utoa(i);
 	if (c == 'u')
 		return (s);
