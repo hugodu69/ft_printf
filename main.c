@@ -703,8 +703,6 @@ int		main(int ac, char **av)
 			PRINT("%s-%p", s, s);
 			PRINT("%u-%p", u, &u);
 			PRINT("%up", u);
-			PRINT("%p", NULL);
-			PRINT("%5p", NULL);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "%"))
@@ -725,6 +723,18 @@ int		main(int ac, char **av)
 			printf("----------------------------------------------------------------\n\n");
 
 			PRINT("%s", NULL);
+			PRINT("%4s", NULL);
+			PRINT("%8s", NULL);
+			PRINT("%.4s", NULL);
+			PRINT("%.8s", NULL);
+			PRINT("%4.s", NULL);
+			PRINT("%8.s", NULL);
+			PRINT("%4.8s", NULL);
+			PRINT("%8.8s", NULL);
+			PRINT("%-8s", NULL);
+			PRINT("%p", NULL);
+			PRINT("%5p", NULL);
+			PRINT("%5.p", NULL);
 		}
 
 		if (ac == 2 || !strcmp(av[2], "repetition"))
