@@ -61,7 +61,7 @@ int		ft_printf(char *string, ...);
 		fflush(stdout); \
 		/* compare the results saved in the two files before */\
 		/* also save if there was a difference in int 'onk' */\
-		onk = ft_compare(outf, outft, &error, (ftpout == pout)); \
+		onk = ft_compare(outf, outft, &error, &success, (ftpout == pout)); \
 		fflush(stdout); \
 		/* if no diff */\
 		if (onk == 1) \
@@ -88,7 +88,7 @@ int		ft_printf(char *string, ...);
 		close(outf); \
 		close(outft);
 
-int		ft_compare(int fd1, int fd2, int *error, int output);
+int		ft_compare(int fd1, int fd2, int *error, int *success, int output);
 
 /*
 ** this is the main function of tests, with a loooooot of tests, enjoy ;)
@@ -114,6 +114,8 @@ int		main(int ac, char **av)
 	open("outft.txt", O_CREAT, 0644);
 	// error is used to count the total nbr of error
 	static int error = 0;
+	// success is used to count the total nbr of success
+	static int success = 0;
 	// to catch an error for one call of ft_printf
 	int	onk = 1;
 	// those two ints saves the return value of printf and ft_printf
@@ -1325,6 +1327,7 @@ int		main(int ac, char **av)
 	printf("----------------------------------------------------------------\n\n");
 
 	close(save);
+	printf("\033[92m%i TESTS SUCCESSFUL\033[0m\n", success);
 	if (error != 0)
 		printf("\033[91m%i ERRORS\033[0m\n", error);
 	return (0);
@@ -1337,7 +1340,7 @@ int		main(int ac, char **av)
 ** and it read them and compare them
 */
 
-int		ft_compare(int fd1, int fd2, int *error, int output)
+int		ft_compare(int fd1, int fd2, int *error, int *success, int output)
 {
 	int		ret1 = 1;
 	int		ret2 = 1;
@@ -1373,6 +1376,7 @@ int		ft_compare(int fd1, int fd2, int *error, int output)
 		return (0);
 	}
 	ft_putstr("\033[92mJACKPOT\033[0m");
+	(*success)++;
 	return (1);
 }
 
